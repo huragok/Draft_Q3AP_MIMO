@@ -481,13 +481,43 @@
 \section{Introduction}
 \label{sec:intro}
 
-% Motivation and literature review for Two-way relay-HARQ. HARQ first,
-% then two-way relay
-
+In wireless data communication systems, high rate transmission under poor
+channel conditions often lead to reception errors. To recover lost packets,
+Automatic Repeat reQuest (ARQ) or Hybrid ARQ (HARQ) are important mechanisms for
+improving reliability at both network layer~\cite{TS36.331} and PHY
+layer~\cite{TS36.213}. HARQ in corporation with MIMO technique has been
+extensively studied in recent years~\cite{hosseini2015fast, shen2011hybrid,
+sun2006progressive}
 
 % Literature review on MoDiv for HARQ-CC
+Constellation Rearrangement (CoRe) is a pragmatic technique that provides
+additional robustness via Modulation Diversity (MoDiv) to HARQ
+system~\cite{benelli1992new}.
+As linear modulations of $Q$-ary constellations such as PSK, QAM are usually
+adopted in practical wireless communications systems, the same string of
+$\log_2Q$ bits can be maapped to different symbols across the multiple HARQ
+(re)transmissions. This technique has been studied for point-to-point
+HARQ~\cite{harvind2005symbol}, relay
+networks~\cite{seddik2008trans, khormuji2008rate} and
+relay-HARQ~\cite{kim2009design, ryu2011ber, wu2016modulation} and is shown to
+greatly improve the BER performance and throughput.
 
-% What we are studying
+When applied to MIMO-HARQ system, CoRe faces great opportunities and challenges
+at the same time which has not been fully
+understood~\cite{bahadori2014performance, zhao2009harq}. On the one hand, it is
+possible to adopt different constellation remapping schemes across different input to the precoders, which could potentially provide larger
+diversity gain. On the other hand, the optimization of so many constellation
+mappings is non-trivial, especially when perfect channel state information (CSI)
+is not available for the MIMO channel.
+In this work, we propose a MoDiv design scheme for spatially correlated MIMO
+channel with two input branches. The CoRe is designwd to minimized the expected
+bit error rate (BER) under statistical CSI assumption after each
+(re)transmission. The resulting optimization problem has a successive Quadratic
+3-D Assignment Problem (Q3AP) formulation~\cite{hahn2008quadratic}. Although
+Q3AP is generally NP-hard and cannot be solved exactly except for the trivially small constellation, an
+efficient modified Iterated Local Search (ILS) approach is adopted. Our numerical
+results demonstrate significant gains achieved by the MoDiv technique in many
+performance measurements.
 
 
 % Structure of the manuscript
