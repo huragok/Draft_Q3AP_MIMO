@@ -447,12 +447,21 @@
 % As a general rule, do not put math, special symbols or citations
 % in the abstract or keywords.
 \begin{abstract}
-% (what we do)
-  
+  %\boldmath
+  % (what we do)
+  Modulation diversity (MoDiv) is a simple and practical transmission
+  enhancement technique that utilizes different modulation mappings to reduce
+  packet loss rate and achieve higher link throughput. MoDiv is particularly
+  meaningful and effective in hybrid-ARQ (HARQ) systems. We study the deployment
+  and optimization of MoDiv for HARQ in a MIMO scenario under Rician fading
+  channel to mitigate packet loss.
     % (how they do)
-  % (how we do)
-  
-  % (main results)
+    % (how we do)
+  We formulate the design optimization of MoDiv into a quadratic
+  three-dimensional assignment problem (Q3AP), then solve it using a modified
+  iterated local search (ILS) method. Numerical results demonstrate clear
+  performance gain over simple retransmissions and over a heuristic design
+  under fading channels.
   
 \end{abstract}
 
@@ -510,13 +519,15 @@ diversity gain. On the other hand, the optimization of so many constellation
 mappings is non-trivial, especially when perfect channel state information (CSI)
 is not available for the MIMO channel.
 In this work, we propose a MoDiv design scheme for spatially correlated MIMO
-channel with two input branches. The CoRe is designwd to minimized the expected
+channel with two input branches. The CoRe is designed to minimize the expected
 bit error rate (BER) under statistical CSI assumption after each
 (re)transmission. The resulting optimization problem has a successive Quadratic
 3-D Assignment Problem (Q3AP) formulation~\cite{hahn2008quadratic}. Although
 Q3AP is generally NP-hard and cannot be solved exactly except for the trivially small constellation, an
-efficient modified Iterated Local Search (ILS) approach is adopted. Our numerical
-results demonstrate significant gains achieved by the MoDiv technique in many
+efficient modified Iterated Local Search (ILS) approach is adopted. To
+overcome the complexity, we also propose a simplified MoDiv scheme with a 
+Quadratic Assignment Problem (Q3AP) formulation. Our numerical results
+demonstrate significant gains achieved by the MoDiv techniques in many
 performance measurements.
 
 
@@ -544,15 +555,16 @@ every consecutive $\log_2Q$ bits are mapped to a $N_T$ constellation points via
 a vector mapping function $\bm{\psi}_m[p], p = 0, \ldots, Q - 1$. Then the
 received signal at the $m$-th (re)transmission of index $p$ is:
 \begin{align}
-    \mathbf{y}^{(m)} = \mathbf{H}^{(m)}\bm{\psi}_m[p] + \mathbf{n}^{(m)}
+    \mathbf{y}^{(m)} = \mathbf{H}^{(m)}\mathbf{P} \bm{\psi}_m[p] +
+    \mathbf{n}^{(m)},
 \end{align}
-We assume that the additive noise
-$\mathbf{n}^{(m)}\sim\mathcal{CN}(\mathbf{0}, \sigma^2\mathbf{I})$. Moreover,
+where $\mathbf{P}$ is a $N_T$-by-$N_T$ linear precoder. We assume that the
+additive noise $\mathbf{n}^{(m)}\sim\mathcal{CN}(\mathbf{0}, \sigma^2\mathbf{I})$. Moreover,
 the elements of $\mathbf{H}^{(m)}$ follow correlated Rician distributed channel
 independently~\cite{taricco2007optimum}. Specifically,
 \begin{align}
-    \mathbf{H}^{(n)} = \mathbf{M} +
-    \mathbf{R}^{1/2}\mathbf{H}_w^{(n)}\mathbf{T}^{1/2}
+    \mathbf{H}^{(n)} = \sqrt{\frac{K}{K+1}}\mathbf{H}_0 +
+    \sqrt{\frac{1}{K+1}} \mathbf{R}^{1/2}\mathbf{H}_w^{(n)}\mathbf{T}^{1/2}
 \end{align}
 where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_T$-by-$N_T$ matrix
 $\mathbf{T}$ are the receive and transmit covariance matrices, respectively, and
@@ -564,7 +576,7 @@ We also assume that the channel and noise are independent over different
 demodulate $p$ with the ML detection:
 \begin{align}
     p^* = \arg\min_p\sum_{n = 0}^{m}\|\mathbf{y}^{(n)} -
-    \mathbf{H}^{(n)}\bm{\psi}_n[p]\|^2,
+    \mathbf{H}^{(n)}\mathbf{P}\bm{\psi}_n[p]\|^2,
 \end{align}
 where $\|\cdot\|$ denotes 2-norm.
 
@@ -592,8 +604,8 @@ error probability (PEP) of mistakenly decoding $p$ into $q$, generally follows
 the procedure in~\cite{han2009performance}:
 \begin{align}
     P_{PEP}^{(m)}(q|p) & = \mathbb{E}
-    \left[Q\left(\sqrt{\sum_{n=0}^m\frac{\|\mathbf{H}^{(n)}\mathbf{e}_n[p,q]\|^2}
-    {2\sigma^2}}\right)\right]
+    \left[Q\left(\sqrt{\sum_{n=0}^m\frac{\|\mathbf{H}^{(n)}
+    \mathbf{P}\mathbf{e}_n[p,q]\|^2} {2\sigma^2}}\right)\right]
     \label{eq:PEP_M}
 \end{align}
 where $\mathbf{e}_n[p,q] = \bm{\psi}_n[p] - \bm{\psi}_n[q]$. Since the
@@ -603,7 +615,7 @@ the PEP in~(\ref{eq:PEP_M}) can be upper bounded by
     \tilde{P}_{PEP}^{(m)}(q|p) &\leq
     \frac{1}{2} \prod_{n=0}^{m}
     \mathbb{E}\left[\exp\left(-\frac{\|\mathbf{H}^{(n)}
-    \mathbf{e}_n[p,q]\|^2}{4\sigma^2}\right)\right]
+    \mathbf{P}\mathbf{e}_n[p,q]\|^2}{4\sigma^2}\right)\right]
     \label{eq:PEP_M_1}
 \end{align}
 Denote $E_n[p,q]$ as the expectation in Eq.~(\ref{eq:PEP_M_1}), which can be
@@ -614,10 +626,17 @@ evaluated as follows:
         \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_n[p,q])}
         \exp\left(-\bm{\mu}_n^H[p,q]\mathbf{S}_n^{-1}[p,q]\bm{\mu}_n[p,q]\right)
     \end{align}
-    where $\bm{\mu}_n[p,q] = \mathbf{M}\mathbf{e}_n[p,q]$, $\mathbf{S}_n[p,q] =
-    4\sigma^2\mathbf{I} +
-    (\mathbf{e}_n^H[p,q]\mathbf{T}\mathbf{e}_n[p,q])\mathbf{R}$.
-    
+    where 
+    \begin{subequations}
+      \begin{align}
+        \bm{\mu}_n[p,q] & = \sqrt{K/(K+1)}\mathbf{H}_0\mathbf{P}
+        \mathbf{e}_n[p,q] \\
+        \mathbf{S}_n[p,q] & =
+        4\sigma^2\mathbf{I} +
+        (\mathbf{e}_n^H[p,q]\mathbf{P}^H\mathbf{T}\mathbf{P}\mathbf{e}_n[p,q])
+        \mathbf{R} / (K+1).
+      \end{align}
+    \end{subequations}
     \label{prop:en}
 \end{proposition}
 \begin{proof}
@@ -627,36 +646,18 @@ evaluated as follows:
         \sim\mathcal{CN}(\bm{\mu}_n[p,q],
         \mathbf{C}_n[p,q]), \label{eq:dstrhn}
     \end{align}
-    where $\bm{\mu}_n[p,q] = \mathbf{M}\mathbf{e}_n[p,q]$, $\mathbf{C}_n[p,q] =
-    (\mathbf{e}_n^H[p,q]\mathbf{T}\mathbf{e}_n[p,q])\mathbf{R})$. Consider
-    $\mathbf{v}\sim\mathcal{CN}(\bm{\mu}, \mathbf{C})$. We have
+    where $\mathbf{C}_n[p,q] =
+    (\mathbf{e}_n^H[p,q]\mathbf{P}^H\mathbf{T}\mathbf{P}\mathbf{e}_n[p,q])\mathbf{R}/
+    (K+1)$. For multi-variate Gaussian variable $\mathbf{v}\sim\mathcal{CN}(\bm{\mu},
+    \mathbf{C})$, using the technique of completing the square~\cite[Sec.
+    2.3.1]{bishop2006pattern}, it is easy to show
     \begin{align}
-        & \mathbb{E}\left[\exp(-\lambda\|\mathbf{v}\|^2)\right] \notag \\
-        & =
-        \frac{1}{(\pi)^N\det(\mathbf{C})}\int_{\mathbf{v}}
-        \exp(-\lambda\|\mathbf{v}\|^2)
-        \exp\left(-(\mathbf{v} - \bm{\mu})^H\mathbf{C}^{-1}(\mathbf{v} -
-        \bm{\mu})\right)d\mathbf{v} \notag \\
-        & = \frac{1}{(\pi)^N\det(\mathbf{C})}\int_{\mathbf{v}}
-        \exp\left(-[\mathbf{v} -
-        \tilde{\bm{\mu}}]^H\tilde{\mathbf{C}}^{-1}(\mathbf{v} -
-        \tilde{\bm{\mu}}) +
-        \tilde{\bm{\mu}}^H\tilde{\mathbf{C}}^{-1}\tilde{\bm{\mu}}
-        -\bm{\mu}^H\bm{\mu}\right)d\mathbf{v}
-    \end{align}
-    where $\tilde{\bm{\mu}} = (\mathbf{I} + \lambda\mathbf{C})^{-1}\bm{\mu}$,
-    $\tilde{\mathbf{C}} = (\mathbf{C}^{-1} + \lambda\mathbf{I})^{-1}$,
-    consequently,
-    \begin{align}
-        & \mathbb{E}\left[\exp(-\lambda\|\mathbf{v}\|^2)\right] \notag \\
-        & = \frac{\det(\tilde{\mathbf{C}})}{\det(\mathbf{C})}
-        \exp\left(\tilde{\bm{\mu}}^H\tilde{\mathbf{C}}^{-1}\tilde{\bm{\mu}}
-        -\bm{\mu}^H\bm{\mu}\right) \notag \\
-        & = \frac{1}{\det(\mathbf{I} +
+        \mathbb{E}\left[\exp(-\lambda\|\mathbf{v}\|^2)\right] =
+        \frac{1}{\det(\mathbf{I} +
         \lambda\mathbf{C})}\exp\left(-\bm{\mu}^H(\lambda^{-1}\mathbf{I} +
         \mathbf{C})^{-1}\bm{\mu}\right) \label{eq:elv2}
     \end{align}
-    Then Proposition~\ref{prop:en} is proven by combining
+    Then Proposition~\ref{prop:en} is proven by simply combining
     Eq.(\ref{eq:dstrhn})(\ref{eq:elv2}).
 \end{proof}
 
@@ -665,7 +666,7 @@ evaluated as follows:
 Our MoDiv design on the approximated BER minimization criterion,
 i.e.
 \begin{align}
-    \min_{\bm{\psi}^{(m)}|\bm{\psi}^n,
+    \min_{\bm{\psi}^{(m)}|\bm{\psi}^{(n)},
     n=0,\ldots,m-1}\tilde{P}_{BER}^{(m)},m=1,\ldots,M,\label{eq:minber}
 \end{align}
 where $\tilde{P}_{BER}^{(m)}$ is the approximated version of
@@ -677,53 +678,109 @@ focus on a Q3AP formulation where $N_T = 2$. Denote $\mathbf{x}^{(m)} =
 \{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ which represents $\bm{\psi}_m$, where
 $x_{pij}^{(m)} = 1(\bm{\psi}_m[p] =
 (\psi_0[i], \psi_0[j])^T)$ and $1(\cdot)$ is the indicator function, $\psi_0$
-represents Gray mapping. Denote the constraint sets
+represents Gray mapping. Denote the constraint set
 \begin{subequations}
   \begin{align}
-    \mathcal{P} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij} = 1,
-    x_{pij}\in\{0, 1\}\right\}, \\
-    \mathcal{I} & = \left\{\mathbf{x}:\,\sum_{i=0}^{Q-1}x_{pij} = 1,
-    x_{pij}\in\{0, 1\}\right\}, \\
-    \mathcal{J} & = \left\{\mathbf{x}:\,\sum_{i=0}^{Q-1}x_{pij} = 1,
-    x_{pij}\in\{0, 1\}\right\}. 
+    \mathcal{S} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij} = 1,
+    \sum_{i=0}^{Q-1}x_{pij} = 1, \sum_{i=0}^{Q-1}x_{pij} = 1, x_{pij}\in\{0,
+    1\}\right\}.
     \label{eq:constraint}
   \end{align}
 \end{subequations}
 Then Eq.~(\ref{eq:minber}) can be formulated into a S-Q3AP as follows:
 \begin{align}
-  \min_{\mathbf{x}^{(m)}\in \mathcal{P}\cap\mathcal{I}\cap\mathcal{J}}
+  \min_{\mathbf{x}^{(m)}\in \mathcal{S}}
   \sum_{p=0}^{Q-1}\sum_{i=0}^{Q-1}\sum_{j=0}^{Q-1}
   \sum_{q=0}^{Q-1}\sum_{k=0}^{Q-1}\sum_{l=0}^{Q-1}
   f_{pq}^{(m)}d_{ikjl}x_{pij}^{(m)}x_{qkl}^{(m)},
   \label{eq:SQ3AP}
 \end{align}
 where the ``flow'' matrix $f_{pq}^{(m)}$ and the ``distance'' matrix $d_{ikjl}$
-are defined as 
-\begin{align}
+are defined as
+\begin{subequations}
+  \begin{align}
     f_{pq}^{(m)} & = \frac{B[p,q]}{Q}\tilde{P}_{PEP}^{(m-1)}(q|p) \\
     d_{ikjl} & = \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_{ikjl})}
         \exp\left(-\bm{\mu}_{ikjl}^H\mathbf{S}_{ikjl}^{-1}\bm{\mu}_{ikjl}\right)
-\end{align}
-where $\bm{\mu}_{ikjl} = \mathbf{M}\mathbf{e}_{ikjl}$, $\mathbf{S}_{ikjl} = 4\sigma^2\mathbf{I} +
-    (\mathbf{e}_{ikjl}^H\mathbf{T}\mathbf{e}_{ikjl})\mathbf{R}$, and
-    $\mathbf{e}_{ikjl} = (\psi_0[i] - \psi_0[k], \psi_0[j] - \psi_0[l])^T$.
-    $f_{pq}^{(m)}$ can be updated recursively while solving the S-Q3AP, since:
-
-\begin{align}
+  \end{align}
+\end{subequations}
+where 
+\begin{subequations}
+  \begin{align}
+    \bm{\mu}_{ikjl} & = \sqrt{K/(K+1)}\mathbf{H}_0\mathbf{P}\mathbf{e}_{ikjl} \\
+    \mathbf{S}_{ikjl} & = 4\sigma^2\mathbf{I} +
+    (\mathbf{e}_{ikjl}^H\mathbf{P}^H \mathbf{T}
+    \mathbf{P}\mathbf{e}_{ikjl})\mathbf{R} / (K+1).
+  \end{align}
+\end{subequations}
+and $\mathbf{e}_{ikjl} =
+(\psi_0[i] - \psi_0[k], \psi_0[j] - \psi_0[l])^T$.
+$f_{pq}^{(m)}$ can be updated recursively while solving the S-Q3AP, since:
+\begin{subequations}
+  \begin{align}
     \tilde{P}_{PEP}^{(m)}(q|p) & =
     \sum_{i=0}^{Q-1}\sum_{k=0}^{Q-1}\sum_{j=0}^{Q-1}
     \sum_{l=0}^{Q-1}\tilde{P}_{PEP}^{(m-1)}(q|p)d_{ikjl}
     \hat{x}_{pij}^{(m)}\hat{x}_{qkl}^{(m)}
     \\
     \tilde{P}_{PEP}^{(-1)}(q|p) & = \frac{1}{2}
-\end{align}
+  \end{align}
+  \label{eq:pep_update}
+\end{subequations}
+
 Due to the reqularized shape of the QAM constellation, the evaluation of
 $d_{ikjl}$ is actually $\mathcal{O}(Q^2)$ instead of $\mathcal{O}(Q^4)$, and
 this only need to be evaluated once. Consequently, the main computational
 complexity lies in solving the Q3AP problems instead of evaluating their
 coefficients.
 
-\subsection{Comments}
+For typical constellations used in modern wireless communication systems such as
+16-QAM and 64-QAM, it is impractical to apply the exact branch-and-bound
+algorithm~\cite{hahn2008quadratic}. Also, our tests show that they do not have
+enough symmetry to exploit for faster solution as does the 16-PSK
+constellation~\cite{mittelmann2015solving}.
+Consequently, the MoDiv problem is solved with the ILS
+method~\cite{hahn2008quadratic} extended from its QAP
+version~\cite{stutzle2006iterated}. Starting from two random initial mappings
+$\psi_1^{(0)}, \psi_2^{(0)}$, the algorithm executes a local search by
+exchanging the mappings of exactly 2 indices whenever a reduction in the
+objective function is made. This approach can lower the objective function and
+update the mapping locally. When the process hits a local minimum, it executes a
+perturbation step by exchanging the mappings of $k_p$ indices, where integer
+$k_p$ is adaptively adjusted within a range $[k_{p,min}, k_{p,max}]$. The
+perturbation is accepted with a probability defined as in simulated annealing,
+after which the local search is restarted from the new mappings until the
+stopping criterion is satisfied.
+
+\subsection{A Special Case: MoDiv with QAP}
+A simplified MoDiv scheme is to allow different constellations only between
+different retransmissions, but the same symbols must be transmitted across the
+$N_T$ input to the MIMO channel , i.e.
+\begin{align}
+  \mathbf{y}^{(m)} = \mathbf{H}^{(m)}\mathbf{p} \psi_m[p] +
+  \mathbf{n}^{(m)},
+\end{align}
+where $\mathbf{p}$ is a $N_T$-by-1 beamformer. In this way, the BER-minimizing
+MoDiv design problem can be formulated into a QAP problem as
+in~\cite{wu2016modulation} regardless of $N_T$:
+\begin{align}
+  \min_{\mathbf{x}^{(m)}\in \tilde{\mathcal{S}}}
+  \sum_{p=0}^{Q-1}\sum_{i=0}^{Q-1}\sum_{q=0}^{Q-1}
+  \sum_{j=0}^{Q-1}
+  f_{pq}^{(m)}d_{ij}x_{pi}^{(m)}x_{qj}^{(m)},
+  \label{eq:SQAP}
+\end{align}
+where the ``distance'' matrix $d_{ikjl}$ is re-defined as
+\begin{align}
+  d_{ij} & = \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_{ij})}
+      \exp\left(-\bm{\mu}_{ij}^H\mathbf{S}_{ij}^{-1}\bm{\mu}_{ij}\right)
+\end{align}
+where $\bm{\mu}_{ij} = \sqrt{K/(K+1)}\mathbf{H}_0\mathbf{p}e_{ij}$,
+$\mathbf{S}_{ij} = 4\sigma^2\mathbf{I} + (e_{ij}^H\mathbf{p}^H \mathbf{T}
+\mathbf{p}\mathbf{e}_{ij})\mathbf{R} / (K+1)$
+and $e_{ij} = \psi_0[i] - \psi_0[j]$. The approximated PEP is updated
+in a similar way as~\eqref{eq:pep_update}. This problem can then be solved with
+meta-heuristic approaches such as tabu search~\cite{taillard1991robust}.
 
 \section{Numerical Results}
 \label{sec:numerical}
@@ -733,17 +790,30 @@ Beamformer (MSNRB)}
 In order to facilitate a comparison between the proposed Q3AP
 MoDiv design with other schemes, we incorporate the simple maximum SNR
 beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel).
-Specifically, for our Rician channel model, the MSNRB $\mathbf{v}^*$ is designed
-as $\sqrt{N_T}$ times the dorminant eigenvector of $\mathbf{M}^H\mathbf{M} +
-|\alpha|^2\mbox{tr}(\mathbf{R})\mathbf{T}$. In the following, we will compare
-four MoDiv schemes, namely Non-MoDiv with MSNRB, Heuristic
-MoDiv~\cite{panasonic2001enhanced} with MSNRB, QAP design with MSNRB (where
-CoRe is performed over different retransmissions but not across different
+Specifically, for our Rician channel model, the MSNRB $\mathbf{p}^*$ is designed
+as $\sqrt{N_T}$ times the dorminant eigenvector of the
+square of the channel $\mathbf{C}$, where
+\begin{align}
+  \mathbf{C} = \frac{K}{K+1}\mathbf{H}_0^H\mathbf{H}_0+
+  \frac{1}{K+1} \mbox{tr}(\mathbf{R})\mathbf{T}.
+\end{align}
+and in the Q3AP design we simply set $\mathbf{P} = \mbox{diag}(\mathbf{p})$. In
+the following, we will compare four MoDiv schemes, namely Non-MoDiv with MSNRB,
+Heuristic MoDiv~\cite{panasonic2001enhanced} with MSNRB, QAP design with MSNRB
+(where CoRe is performed over different retransmissions but not across different
 transmitting antennas), and our Q3AP MoDiv scheme.
 
 \section{Conclusion}
 \label{sec:conclusion}
-
+In this work, we investigated the modulation diversity (MoDiv) design problem in
+a MIMO-HARQ system. Aiming to minimize the bit error rate (BER)
+upper bound, we formulated the MoDiv design into a quadratic three-dimensional
+assignment problem (Q3AP), and presented an efficient modified iterative local
+search (ILS) solution. To reduce the complexity of the Q3AP MoDiv design, we
+also proposed a simplified scheme based on quadratic assignment problem
+(QAP). Our numerical tests demonstrate the performance advantage and robustness
+of the both MoDiv design over simply repeated use of Gray mapping and an
+existing heuristic scheme.
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
