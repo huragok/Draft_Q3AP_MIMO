@@ -546,44 +546,52 @@ performance measurements.
 \section{System Model}
 \label{sec:model}
 % MoDiv as an enhancement of beamforming, 
-Consider the constellation rearrangement (CoRe) in a $N_R$-by-$N_T$ MIMO
-channel. In order to maximize the signal space diversity as an enhancement of
-beamforming, we allow different mapping of the same sequence of information bits
-at the $N_T$ different inputs to the channel. We assume that a HARQ-CC protocol
-and a maximum number of $M$ retransmissions. For the $m$-th (re)transmission,
-every consecutive $\log_2Q$ bits are mapped to a $N_T$ constellation points via
-a vector mapping function $\bm{\psi}_m[p], p = 0, \ldots, Q - 1$. Then the
-received signal at the $m$-th (re)transmission of index $p$ is:
+Consider the constellation rearrangement (CoRe) in a MIMO-CoMP
+downlink channel composed of two Remote Antenna Units (RAUs) and one user
+equipment (UE). In order to maximize the signal space diversity as an
+enhancement of beamforming, we allow different mapping of the same sequence of
+information bits at the 2 RAUs during HARQ process. We assume a HARQ-CC
+protocol~\cite{} and a maximum number of $M$ retransmissions. For the $m$-th
+(re)transmission, every consecutive $\log_2Q$ bits are mapped to two
+constellation points corresponding to the two RAUs via a vector mapping function
+$\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T, p = 0, \ldots, Q -
+1$ Then the received signal at the $m$-th (re)transmission of index $p$ is:
 \begin{align}
-    \mathbf{y}^{(m)} = \mathbf{H}^{(m)}\mathbf{P} \bm{\psi}_m[p] +
-    \mathbf{n}^{(m)},
+  \mathbf{y}^{(m)} & =  \mathbf{H}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
+  \notag \\
+  & =\mathbf{H}_1^{(m)}\mathbf{p}_1 \psi_1^{(m)}[p] +
+  \mathbf{H}_2^{(m)}\mathbf{p}_2 \psi_2^{(m)}[p] + \mathbf{n}^{(m)},
 \end{align}
-where $\mathbf{P}$ is a $N_T$-by-$N_T$ linear precoder. We assume that the
-additive noise $\mathbf{n}^{(m)}\sim\mathcal{CN}(\mathbf{0}, \sigma^2\mathbf{I})$. Moreover,
-the elements of $\mathbf{H}^{(m)}$ follow correlated Rician distributed channel
-independently~\cite{taricco2007optimum}. Specifically,
+where $\mathbf{H}_i^{(m)}$ is a $N_R$-by-$N_{T,i}$ MIMO channel between the
+$i$-th RAU and the UE, $\mathbf{p}_i$ is a $N_T$-by-1 linear beamformer
+for the $i$-th RAU, $i=1, 2$, and the additive noise
+$\mathbf{n}^{(m)}\sim\mathcal{CN}(\mathbf{0}, \sigma^2\mathbf{I})$. We
+assume the elements of $\mathbf{H}_i^{(m)}$ follow correlated Rician
+distributed channel~\cite{taricco2007optimum} but are independent across retransmissions
+and between the two RAUs.
+Specifically,
 \begin{align}
-    \mathbf{H}^{(n)} = \sqrt{\frac{K}{K+1}}\mathbf{H}_0 +
-    \sqrt{\frac{1}{K+1}} \mathbf{R}^{1/2}\mathbf{H}_w^{(n)}\mathbf{T}^{1/2}
+    \mathbf{H}_i^{(m)} = \sqrt{\frac{K_i}{K_i+1}}\bar{\mathbf{H}}_{i} +
+    \sqrt{\frac{1}{K_i+1}}
+    \mathbf{R}^{1/2}\mathbf{H}_{w,i}^{(m)}\mathbf{T}_i^{1/2},\; i=1,2,
 \end{align}
-where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_T$-by-$N_T$ matrix
-$\mathbf{T}$ are the receive and transmit covariance matrices, respectively, and
-$\mathbf{H}_w^{(n)}$ is a random matrix composed of independent CSCG Gaussian
-entries with zero means and unit variances.
+where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_{T, i}$-by-$N_{T,i}$
+matrix $\mathbf{T}_i$ are the receive and transmit covariance matrices,
+respectively, and $\mathbf{H}_{w,i}^{(m)}$ is a random matrix composed of
+independent CSCG Gaussian entries with zero means and unit variances. Here we
+denote $\mathbf{H}^{(m)} = [\mathbf{H}_1^{(m)}\mathbf{p}_1,
+\mathbf{H}_2^{(m)}\mathbf{p}_2]$ as the equivalent MIMO channel from the two
+RAUs to the UE during the $m$-th retransmission.
 
-We also assume that the channel and noise are independent over different
-(re)transmissions. After the $m$-th retransmission, the receiver attempt to
-demodulate $p$ with the ML detection:
+After the $m$-th retransmission, the receiver attempt to
+demodulate $p$ by combining all the symbols received so far with the ML
+detection:
 \begin{align}
     p^* = \arg\min_p\sum_{n = 0}^{m}\|\mathbf{y}^{(n)} -
-    \mathbf{H}^{(n)}\mathbf{P}\bm{\psi}_n[p]\|^2,
+    \mathbf{H}_1^{(n)}\mathbf{p}_1\psi_1^{(n)}[p] -
+    \mathbf{H}_2^{(n)}\mathbf{p}_2\psi_2^{(n)}[p]\|^2,
 \end{align}
 where $\|\cdot\|$ denotes 2-norm.
-
-% kronecker Rician Channel Model
-
-% 
-
 
 \section{Successive Constellation Mapping Design For Modulation Diversity}
 \label{sec:modiv}
@@ -594,8 +602,8 @@ where $\|\cdot\|$ denotes 2-norm.
 The BER of the ML demodulator after the $m$-th (re)transmission can be
 upperbounded and approximated using the PEP as
 \begin{align}
-    P_{BER}^{(m)} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
-    q]}{Q}P_{PEP}^{(m)}(q|p) \label{eq:P_BER}
+  P_{BER}^{(m)} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
+  q]}{Q}P_{PEP}^{(m)}(q|p) \label{eq:P_BER}
 \end{align}
 where $B[p, q]$ is the Hamming distance between the binary
 representation of $p$ and $q$ divided by $\log_2Q$ as
@@ -605,17 +613,17 @@ the procedure in~\cite{han2009performance}:
 \begin{align}
     P_{PEP}^{(m)}(q|p) & = \mathbb{E}
     \left[Q\left(\sqrt{\sum_{n=0}^m\frac{\|\mathbf{H}^{(n)}
-    \mathbf{P}\mathbf{e}_n[p,q]\|^2} {2\sigma^2}}\right)\right]
+    \mathbf{e}^{(n)}[p,q]\|^2} {2\sigma^2}}\right)\right]
     \label{eq:PEP_M}
 \end{align}
-where $\mathbf{e}_n[p,q] = \bm{\psi}_n[p] - \bm{\psi}_n[q]$. Since the
+where $\mathbf{e}^{(n)}[p,q] = \bm{\psi}^{(n)}[p] - \bm{\psi}^{(n)}[q]$. Since the
 $Q$-function can be bounded as $Q(x)\leq e^{-x^2/2}/2$~\cite{proakisdigital},
 the PEP in~(\ref{eq:PEP_M}) can be upper bounded by
 \begin{align}
     \tilde{P}_{PEP}^{(m)}(q|p) &\leq
     \frac{1}{2} \prod_{n=0}^{m}
     \mathbb{E}\left[\exp\left(-\frac{\|\mathbf{H}^{(n)}
-    \mathbf{P}\mathbf{e}_n[p,q]\|^2}{4\sigma^2}\right)\right]
+    \mathbf{e}^{(n)}[p,q]\|^2}{4\sigma^2}\right)\right]
     \label{eq:PEP_M_1}
 \end{align}
 Denote $E_n[p,q]$ as the expectation in Eq.~(\ref{eq:PEP_M_1}), which can be
@@ -629,8 +637,11 @@ evaluated as follows:
     where 
     \begin{subequations}
       \begin{align}
-        \bm{\mu}_n[p,q] & = \sqrt{K/(K+1)}\mathbf{H}_0\mathbf{P}
-        \mathbf{e}_n[p,q] \\
+        \bm{\mu}_n[p,q] & =
+        \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
+        ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
+        \right]\mathbf{e}^{(n)}[p,q]
+        \\
         \mathbf{S}_n[p,q] & =
         4\sigma^2\mathbf{I} +
         (\mathbf{e}_n^H[p,q]\mathbf{P}^H\mathbf{T}\mathbf{P}\mathbf{e}_n[p,q])
@@ -646,9 +657,14 @@ evaluated as follows:
         \sim\mathcal{CN}(\bm{\mu}_n[p,q],
         \mathbf{C}_n[p,q]), \label{eq:dstrhn}
     \end{align}
-    where $\mathbf{C}_n[p,q] =
-    (\mathbf{e}_n^H[p,q]\mathbf{P}^H\mathbf{T}\mathbf{P}\mathbf{e}_n[p,q])\mathbf{R}/
-    (K+1)$. For multi-variate Gaussian variable $\mathbf{v}\sim\mathcal{CN}(\bm{\mu},
+    where 
+  \begin{align}
+    \mathbf{C}_n[p,q] = \sum_{i=1,2} \frac{1}{K_i+1}
+    \left(|e_i^{(n)}[p,q]|^2\mathbf{p}_i^H\mathbf{T}_i
+    \mathbf{p}_i\right) \mathbf{R}.
+    % To verify
+  \end{align}
+  For multi-variate Gaussian variable $\mathbf{v}\sim\mathcal{CN}(\bm{\mu},
     \mathbf{C})$, using the technique of completing the square~\cite[Sec.
     2.3.1]{bishop2006pattern}, it is easy to show
     \begin{align}
