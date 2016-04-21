@@ -453,8 +453,8 @@
   enhancement technique that utilizes different modulation mappings to reduce
   packet loss rate and achieve higher link throughput. MoDiv is particularly
   meaningful and effective in hybrid-ARQ (HARQ) systems. We study the deployment
-  and optimization of MoDiv for HARQ in a MIMO scenario under Rician fading
-  channel to mitigate packet loss.
+  and optimization of MoDiv for HARQ in a MIMO-coordinated multi-point
+  (MIMO-CoMP) scenario under Rician fading channel to mitigate packet loss.
     % (how they do)
     % (how we do)
   We formulate the design optimization of MoDiv into a quadratic
@@ -467,7 +467,7 @@
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-  Modulation diversity, MIMO, HARQ, Q3AP.
+  Modulation diversity, MIMO, CoMP, HARQ, Q3AP.
 \end{IEEEkeywords}
 
 
@@ -494,14 +494,9 @@ In wireless data communication systems, high rate transmission under poor
 channel conditions often lead to reception errors. To recover lost packets,
 Automatic Repeat reQuest (ARQ) or Hybrid ARQ (HARQ) are important mechanisms for
 improving reliability at both network layer~\cite{TS36.331} and PHY
-layer~\cite{TS36.213}. HARQ in corporation with MIMO technique has been
-extensively studied in recent years~\cite{hosseini2015fast, shen2011hybrid,
-sun2006progressive}
-
-% Literature review on MoDiv for HARQ-CC
-Constellation Rearrangement (CoRe) is a pragmatic technique that provides
-additional robustness via Modulation Diversity (MoDiv) to HARQ
-system~\cite{benelli1992new}.
+layer~\cite{TS36.213}. Constellation Rearrangement (CoRe) is a pragmatic
+technique that provides additional robustness via Modulation Diversity (MoDiv)
+to HARQ system~\cite{benelli1992new}.
 As linear modulations of $Q$-ary constellations such as PSK, QAM are usually
 adopted in practical wireless communications systems, the same string of
 $\log_2Q$ bits can be maapped to different symbols across the multiple HARQ
@@ -511,24 +506,33 @@ networks~\cite{seddik2008trans, khormuji2008rate} and
 relay-HARQ~\cite{kim2009design, ryu2011ber, wu2016modulation} and is shown to
 greatly improve the BER performance and throughput.
 
-When applied to MIMO-HARQ system, CoRe faces great opportunities and challenges
-at the same time which has not been fully
-understood~\cite{bahadori2014performance, zhao2009harq}. On the one hand, it is
-possible to adopt different constellation remapping schemes across different input to the precoders, which could potentially provide larger
-diversity gain. On the other hand, the optimization of so many constellation
-mappings is non-trivial, especially when perfect channel state information (CSI)
-is not available for the MIMO channel.
-In this work, we propose a MoDiv design scheme for spatially correlated MIMO
-channel with two input branches. The CoRe is designed to minimize the expected
-bit error rate (BER) under statistical CSI assumption after each
-(re)transmission. The resulting optimization problem has a successive Quadratic
-3-D Assignment Problem (Q3AP) formulation~\cite{hahn2008quadratic}. Although
-Q3AP is generally NP-hard and cannot be solved exactly except for the trivially small constellation, an
-efficient modified Iterated Local Search (ILS) approach is adopted. To
-overcome the complexity, we also propose a simplified MoDiv scheme with a 
-Quadratic Assignment Problem (Q3AP) formulation. Our numerical results
-demonstrate significant gains achieved by the MoDiv techniques in many
-performance measurements.
+Also, in recent years, coordinated multipoint (CoMP) transmission has become a
+promising technique which has been supported by
+LTE-Advanced~\cite{sawahashi2010coordinated}. By coordinating multiple base
+stations or sectors, CoMP can effectively improve cell edge user data rate and
+spectral efficiency~\cite{irmer2011coordinated}. When applied to CoMP, MoDiv
+faces great opportunities and challenges at the same time which has not been fully
+understood. On the one hand,
+it is possible to adopt different constellation remapping schemes at different
+transmitters, which could potentially provide larger diversity gain. On the
+other hand, the optimization of more than one constellation mappings for each
+round of retransmission is non-trivial, especially when perfect channel state
+information (CSI) is not available.
+In this work, we propose a MoDiv design scheme for a CoMP system composed of one
+user equipment (UE) and two remote radio heads (RRHs) connected to the same
+base station (BS). We assume independent Rician fading MIMO
+channel between the RRHs and the UE, which is more general and practical than
+existing works on MIMO-CoRe~\cite{bahadori2014performance, zhao2009harq}.
+The CoRe is designed to minimize the expected bit error rate (BER) under
+statistical CSI assumption after each (re)transmission. The resulting
+optimization problem has a successive Quadratic 3-D Assignment Problem (Q3AP)
+formulation~\cite{hahn2008quadratic}. Although Q3AP is generally NP-hard and
+cannot be solved exactly except for the trivially small constellation, an
+efficient modified Iterated Local Search (ILS) approach is adopted. To overcome
+the complexity, we also propose a simplified MoDiv scheme with a Quadratic
+Assignment Problem (Q3AP) formulation. Our numerical results demonstrate
+significant gains achieved by the MoDiv techniques in many performance
+measurements.
 
 
 % Structure of the manuscript
@@ -547,41 +551,41 @@ performance measurements.
 \label{sec:model}
 % MoDiv as an enhancement of beamforming, 
 Consider the constellation rearrangement (CoRe) in a MIMO-CoMP
-downlink channel composed of two Remote Antenna Units (RAUs) and one user
+downlink channel composed of two Remote Antenna Units (RRHs) and one user
 equipment (UE). In order to maximize the signal space diversity as an
 enhancement of beamforming, we allow different mapping of the same sequence of
-information bits at the 2 RAUs during HARQ process. We assume a HARQ-CC
+information bits at the 2 RRHs during HARQ process. We assume a HARQ-CC
 protocol~\cite{} and a maximum number of $M$ retransmissions. For the $m$-th
 (re)transmission, every consecutive $\log_2Q$ bits are mapped to two
-constellation points corresponding to the two RAUs via a vector mapping function
+constellation points corresponding to the two RRHs via a vector mapping function
 $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T, p = 0, \ldots, Q -
 1$ Then the received signal at the $m$-th (re)transmission of index $p$ is:
 \begin{align}
-  \mathbf{y}^{(m)} & =  \mathbf{H}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
+  \mathbf{y}^{(m)} & =  \mathbf{A}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
   \notag \\
   & =\mathbf{H}_1^{(m)}\mathbf{p}_1 \psi_1^{(m)}[p] +
   \mathbf{H}_2^{(m)}\mathbf{p}_2 \psi_2^{(m)}[p] + \mathbf{n}^{(m)},
 \end{align}
-where $\mathbf{H}_i^{(m)}$ is a $N_R$-by-$N_{T,i}$ MIMO channel between the
-$i$-th RAU and the UE, $\mathbf{p}_i$ is a $N_T$-by-1 linear beamformer
-for the $i$-th RAU, $i=1, 2$, and the additive noise
+where $\mathbf{H}_a^{(m)}$ is a $N_R$-by-$N_{T,a}$ MIMO channel between the
+$a$-th RRH and the UE, $\mathbf{p}_a$ is a $N_T$-by-1 linear beamformer
+for the $a$-th RRH, $a=1, 2$, and the additive noise
 $\mathbf{n}^{(m)}\sim\mathcal{CN}(\mathbf{0}, \sigma^2\mathbf{I})$. We
-assume the elements of $\mathbf{H}_i^{(m)}$ follow correlated Rician
+assume the elements of $\mathbf{H}_a^{(m)}$ follow correlated Rician
 distributed channel~\cite{taricco2007optimum} but are independent across retransmissions
-and between the two RAUs.
+and between the two RRHs.
 Specifically,
 \begin{align}
-    \mathbf{H}_i^{(m)} = \sqrt{\frac{K_i}{K_i+1}}\bar{\mathbf{H}}_{i} +
-    \sqrt{\frac{1}{K_i+1}}
-    \mathbf{R}^{1/2}\mathbf{H}_{w,i}^{(m)}\mathbf{T}_i^{1/2},\; i=1,2,
+    \mathbf{H}_a^{(m)} = \sqrt{\frac{K_a}{K_a+1}}\bar{\mathbf{H}}_{a} +
+    \sqrt{\frac{1}{K_a+1}}
+    \mathbf{R}^{1/2}\mathbf{H}_{w,a}^{(m)}\mathbf{T}_a^{1/2},\; a=1,2,
 \end{align}
-where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_{T, i}$-by-$N_{T,i}$
-matrix $\mathbf{T}_i$ are the receive and transmit covariance matrices,
-respectively, and $\mathbf{H}_{w,i}^{(m)}$ is a random matrix composed of
+where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_{T, a}$-by-$N_{T,a}$
+matrix $\mathbf{T}_a$ are the receive and transmit covariance matrices,
+respectively, and $\mathbf{H}_{w,a}^{(m)}$ is a random matrix composed of
 independent CSCG Gaussian entries with zero means and unit variances. Here we
-denote $\mathbf{H}^{(m)} = [\mathbf{H}_1^{(m)}\mathbf{p}_1,
+denote $\mathbf{A}^{(m)} = [\mathbf{H}_1^{(m)}\mathbf{p}_1,
 \mathbf{H}_2^{(m)}\mathbf{p}_2]$ as the equivalent MIMO channel from the two
-RAUs to the UE during the $m$-th retransmission.
+RRHs to the UE during the $m$-th retransmission.
 
 After the $m$-th retransmission, the receiver attempt to
 demodulate $p$ by combining all the symbols received so far with the ML
@@ -612,7 +616,7 @@ error probability (PEP) of mistakenly decoding $p$ into $q$, generally follows
 the procedure in~\cite{han2009performance}:
 \begin{align}
     P_{PEP}^{(m)}(q|p) & = \mathbb{E}
-    \left[Q\left(\sqrt{\sum_{n=0}^m\frac{\|\mathbf{H}^{(n)}
+    \left[Q\left(\sqrt{\sum_{n=0}^m\frac{\|\mathbf{A}^{(n)}
     \mathbf{e}^{(n)}[p,q]\|^2} {2\sigma^2}}\right)\right]
     \label{eq:PEP_M}
 \end{align}
@@ -622,47 +626,46 @@ the PEP in~(\ref{eq:PEP_M}) can be upper bounded by
 \begin{align}
     \tilde{P}_{PEP}^{(m)}(q|p) &\leq
     \frac{1}{2} \prod_{n=0}^{m}
-    \mathbb{E}\left[\exp\left(-\frac{\|\mathbf{H}^{(n)}
+    \mathbb{E}\left[\exp\left(-\frac{\|\mathbf{A}^{(n)}
     \mathbf{e}^{(n)}[p,q]\|^2}{4\sigma^2}\right)\right]
     \label{eq:PEP_M_1}
 \end{align}
 Denote $E_n[p,q]$ as the expectation in Eq.~(\ref{eq:PEP_M_1}), which can be
 evaluated as follows:
 \begin{proposition}
+  \begin{align}
+      E_n[p,q] =
+      \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_n[p,q])}
+      \exp\left(-\bm{\mu}_n^H[p,q]\mathbf{S}_n^{-1}[p,q]\bm{\mu}_n[p,q]\right)
+  \end{align}
+  where 
+  \begin{subequations}
     \begin{align}
-        E_n[p,q] =
-        \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_n[p,q])}
-        \exp\left(-\bm{\mu}_n^H[p,q]\mathbf{S}_n^{-1}[p,q]\bm{\mu}_n[p,q]\right)
+      \bm{\mu}_n[p,q] & =
+      \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
+      ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
+      \right]\mathbf{e}^{(n)}[p,q]
+      \\
+      \mathbf{S}_n[p,q] & =
+      4\sigma^2\mathbf{I} +
+      \sum_{a=1,2} \frac{|e_a^{(n)}[p,q]|^2 \mathbf{p}_a^H\mathbf{T}_a
+      \mathbf{p}_a}{K_a+1} \mathbf{R}.
     \end{align}
-    where 
-    \begin{subequations}
-      \begin{align}
-        \bm{\mu}_n[p,q] & =
-        \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
-        ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
-        \right]\mathbf{e}^{(n)}[p,q]
-        \\
-        \mathbf{S}_n[p,q] & =
-        4\sigma^2\mathbf{I} +
-        (\mathbf{e}_n^H[p,q]\mathbf{P}^H\mathbf{T}\mathbf{P}\mathbf{e}_n[p,q])
-        \mathbf{R} / (K+1).
-      \end{align}
-    \end{subequations}
-    \label{prop:en}
+  \end{subequations}
+  \label{prop:en}
 \end{proposition}
 \begin{proof}
-    Firslty, we have
-    \begin{align}
-        \mathbf{H}^{(n)}\mathbf{e}_n[p,q]
-        \sim\mathcal{CN}(\bm{\mu}_n[p,q],
-        \mathbf{C}_n[p,q]), \label{eq:dstrhn}
-    \end{align}
-    where 
+  Firslty, we have
   \begin{align}
-    \mathbf{C}_n[p,q] = \sum_{i=1,2} \frac{1}{K_i+1}
-    \left(|e_i^{(n)}[p,q]|^2\mathbf{p}_i^H\mathbf{T}_i
-    \mathbf{p}_i\right) \mathbf{R}.
-    % To verify
+      \mathbf{A}^{(n)}\mathbf{e}_n[p,q]
+      \sim\mathcal{CN}(\bm{\mu}_n[p,q],
+      \mathbf{C}_n[p,q]), \label{eq:dstrhn}
+  \end{align}
+  where 
+  \begin{align}
+    \mathbf{C}_n[p,q] = \sum_{a=1,2}
+    \frac{|e_a^{(n)}[p,q]|^2\mathbf{p}_a^H\mathbf{T}_a
+    \mathbf{p}_a}{K_a+1}\mathbf{R}.
   \end{align}
   For multi-variate Gaussian variable $\mathbf{v}\sim\mathcal{CN}(\bm{\mu},
     \mathbf{C})$, using the technique of completing the square~\cite[Sec.
@@ -723,14 +726,14 @@ are defined as
 where 
 \begin{subequations}
   \begin{align}
-    \bm{\mu}_{ikjl} & = \sqrt{K/(K+1)}\mathbf{H}_0\mathbf{P}\mathbf{e}_{ikjl} \\
-    \mathbf{S}_{ikjl} & = 4\sigma^2\mathbf{I} +
-    (\mathbf{e}_{ikjl}^H\mathbf{P}^H \mathbf{T}
-    \mathbf{P}\mathbf{e}_{ikjl})\mathbf{R} / (K+1).
+    \bm{\mu}_{ikjl} & = \sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
+    e_{ik} + \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2e_{jl} \\
+    \mathbf{S}_{ikjl} & = \left(\frac{|e_{ik}|^2
+    \mathbf{p}_1^H\mathbf{T}_1 \mathbf{p}_1}{K_1+1} + \frac{|e_{jl}|^2
+    \mathbf{p}_2^H\mathbf{T}_2 \mathbf{p}_2}{K_2+1}\right) \mathbf{R}.
   \end{align}
 \end{subequations}
-and $\mathbf{e}_{ikjl} =
-(\psi_0[i] - \psi_0[k], \psi_0[j] - \psi_0[l])^T$.
+and $e_{ik} = \psi_0[i] - \psi_0[k]$, $e_{jl} = \psi_0[j] - \psi_0[l]$.
 $f_{pq}^{(m)}$ can be updated recursively while solving the S-Q3AP, since:
 \begin{subequations}
   \begin{align}
@@ -773,10 +776,10 @@ A simplified MoDiv scheme is to allow different constellations only between
 different retransmissions, but the same symbols must be transmitted across the
 $N_T$ input to the MIMO channel , i.e.
 \begin{align}
-  \mathbf{y}^{(m)} = \mathbf{H}^{(m)}\mathbf{p} \psi_m[p] +
-  \mathbf{n}^{(m)},
+  \mathbf{y}^{(m)} & = \left(\mathbf{H}_1^{(m)}\mathbf{p}_1  +
+  \mathbf{H}_2^{(m)}\mathbf{p}_2\right) \psi^{(m)}[p] + \mathbf{n}^{(m)}.
 \end{align}
-where $\mathbf{p}$ is a $N_T$-by-1 beamformer. In this way, the BER-minimizing
+In this way, the BER-minimizing
 MoDiv design problem can be formulated into a QAP problem as
 in~\cite{wu2016modulation} regardless of $N_T$:
 \begin{align}
@@ -786,14 +789,22 @@ in~\cite{wu2016modulation} regardless of $N_T$:
   f_{pq}^{(m)}d_{ij}x_{pi}^{(m)}x_{qj}^{(m)},
   \label{eq:SQAP}
 \end{align}
-where the ``distance'' matrix $d_{ikjl}$ is re-defined as
+where the ``distance'' matrix $d_{ij}$ is re-defined as
 \begin{align}
   d_{ij} & = \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_{ij})}
       \exp\left(-\bm{\mu}_{ij}^H\mathbf{S}_{ij}^{-1}\bm{\mu}_{ij}\right)
 \end{align}
-where $\bm{\mu}_{ij} = \sqrt{K/(K+1)}\mathbf{H}_0\mathbf{p}e_{ij}$,
-$\mathbf{S}_{ij} = 4\sigma^2\mathbf{I} + (e_{ij}^H\mathbf{p}^H \mathbf{T}
-\mathbf{p}\mathbf{e}_{ij})\mathbf{R} / (K+1)$
+in which 
+\begin{subequations}
+  \begin{align}
+    \bm{\mu}_{ij} & = e_{ij} \left( \sqrt{\frac{K_1}{K_1+1}}
+    \bar{\mathbf{H}}_1\mathbf{p}_1 +
+    \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2\right)  \\
+    \mathbf{S}_{ij} & = |e_{ij}|^2\left(\frac{
+    \mathbf{p}_1^H\mathbf{T}_1 \mathbf{p}_1}{K_1+1} + \frac{
+    \mathbf{p}_2^H\mathbf{T}_2 \mathbf{p}_2}{K_2+1}\right) \mathbf{R}.
+  \end{align}
+\end{subequations}
 and $e_{ij} = \psi_0[i] - \psi_0[j]$. The approximated PEP is updated
 in a similar way as~\eqref{eq:pep_update}. This problem can then be solved with
 meta-heuristic approaches such as tabu search~\cite{taillard1991robust}.
@@ -805,15 +816,30 @@ meta-heuristic approaches such as tabu search~\cite{taillard1991robust}.
 Beamformer (MSNRB)}
 In order to facilitate a comparison between the proposed Q3AP
 MoDiv design with other schemes, we incorporate the simple maximum SNR
-beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel).
-Specifically, for our Rician channel model, the MSNRB $\mathbf{p}^*$ is designed
-as $\sqrt{N_T}$ times the dorminant eigenvector of the
-square of the channel $\mathbf{C}$, where
+beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel) under
+a total power constraint.
+Specifically, for our Rician channel model, the MSNRB $\mathbf{p}^* =
+[\mathbf{p}_1^T, \mathbf{p}_2^T]^T$ is designed as $\sqrt{N_T}$ times the
+dorminant eigenvector of the matrix $\mathbf{C}$, where
 \begin{align}
-  \mathbf{C} = \frac{K}{K+1}\mathbf{H}_0^H\mathbf{H}_0+
-  \frac{1}{K+1} \mbox{tr}(\mathbf{R})\mathbf{T}.
+  \mathbf{C} & = \mathbb{E}\left[
+    (\mathbf{H}^{(m)})^H \mathbf{H}^{(m)}
+  \right] \notag \\
+  & = \left[
+    \begin{array}{cc}
+      \frac{K_1}{K_1+1}\bar{\mathbf{H}}_1^H\bar{\mathbf{H}}_1 + \frac{1}{K_1+1}
+      \mbox{tr}(\mathbf{R})\mathbf{T}_1 &
+      \sqrt{\frac{K_1K_2}{(K_1+1)(K_2+1)}} \bar{\mathbf{H}}_1^H
+      \bar{\mathbf{H}}_2
+      \\
+      \sqrt{\frac{K_1K_2}{(K_1+1)(K_2+1)}} \bar{\mathbf{H}}_2^H
+      \bar{\mathbf{H}}_1 &
+      \frac{K_2}{K_2+1}\bar{\mathbf{H}}_2^H\bar{\mathbf{H}}_2 + \frac{1}{K_2+1}
+      \mbox{tr}(\mathbf{R})\mathbf{T}_2
+    \end{array}
+  \right],
 \end{align}
-and in the Q3AP design we simply set $\mathbf{P} = \mbox{diag}(\mathbf{p})$. In
+in which $\mathbf{H}^{(m)} = [\mathbf{H}_1^{(m)}, \mathbf{H}_2^{(m)}]$. In
 the following, we will compare four MoDiv schemes, namely Non-MoDiv with MSNRB,
 Heuristic MoDiv~\cite{panasonic2001enhanced} with MSNRB, QAP design with MSNRB
 (where CoRe is performed over different retransmissions but not across different
@@ -821,8 +847,8 @@ transmitting antennas), and our Q3AP MoDiv scheme.
 
 \section{Conclusion}
 \label{sec:conclusion}
-In this work, we investigated the modulation diversity (MoDiv) design problem in
-a MIMO-HARQ system. Aiming to minimize the bit error rate (BER)
+In this work, we investigated the modulation diversity (MoDiv) design problem
+for HARQ in a CoMP-MIMO system. Aiming to minimize the bit error rate (BER)
 upper bound, we formulated the MoDiv design into a quadratic three-dimensional
 assignment problem (Q3AP), and presented an efficient modified iterative local
 search (ILS) solution. To reduce the complexity of the Q3AP MoDiv design, we
