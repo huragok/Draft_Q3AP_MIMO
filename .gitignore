@@ -12,4 +12,4 @@ tmp
 simulation
 simulation_HARQ_posterior
 *.synctex.gz
-
+manuscript/figs/*.pdf
