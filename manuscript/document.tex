@@ -819,14 +819,14 @@ And the line-of-sight (LOS) component of the Rician channel is set to
 \begin{align}
   \bar{\mathbf{H}}_{1} = \left[
     \begin{array}{c}
-      0  \\
-      0
+      0.2540  \\
+      0.2457
     \end{array}
   \right],\;
   \bar{\mathbf{H}}_{2} = \left[
     \begin{array}{c}
-      0  \\
-      0
+      -0.1027  \\
+      -0.2320
     \end{array}
   \right]
 \end{align}
@@ -934,7 +934,9 @@ cases of a smaller number of retransmissions.
 Specifically, the waterfall curve of coded BER for 1 retransmission of Q3AP
 almost overlaps with that of 2 retransmissons without MoDiv, and 2
 retransmisssions of Q3AP outperforms the other 2 schemes by around 1.7dB and
-4dB, respectively.
+4dB, respectively. The average HARQ throughput of the same LDPC coded system is
+also shown in Fig.~\ref{fig:coded_throughput}, which further verifies the
+performance gain of the Q3AP-based MoDiv design approach. 
 
 \begin{figure}[!t]
   \centering
@@ -953,6 +955,12 @@ retransmisssions of Q3AP outperforms the other 2 schemes by around 1.7dB and
   \label{fig:coded}
 \end{figure}
 
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=0.45\columnwidth]{./figs/throughput.eps}
+  \caption{Average throughput.}
+  \label{fig:coded_throughput}
+\end{figure}
 
 \section{Conclusion}
 \label{sec:conclusion}
