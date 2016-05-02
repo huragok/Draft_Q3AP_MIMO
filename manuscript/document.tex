@@ -382,15 +382,14 @@
 %
 
 \author{
-  % Wenhao Wu,~\IEEEmembership{Student Member,~IEEE,}
-  % Hans Mittelmann,
-  % Zhi Ding,~\IEEEmembership{Fellow,~IEEE}
-  % \thanks{
-  %  This work was supported in part by the National Science Foundation
-  %  under Grants CNS-1443870, ECCS-1307820, and CCF-1321143. The work of the
-  %  second author was supported in part by AFOSR under grant FA 9550-12-1-0153
-  %  and FA 9550-15-1-0351.
-  %}% <-this % stops a space
+  Wenhao Wu,
+  Hans Mittelmann,
+  Zhi Ding,
+  \thanks{
+    This work was supported in part by the National Science Foundation
+    under Grants CNS-1443870, ECCS-1307820, and CCF-1321143. The work of the
+    second author was supported in part by AFOSR under grant FA 9550-15-1-0351.
+  }% <-this % stops a space
 }
 
 % note the % following the last \IEEEmembership and also \thanks - 
@@ -485,8 +484,6 @@
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-
-
 \section{Introduction}
 \label{sec:intro}
 
@@ -499,9 +496,9 @@ technique that provides additional robustness via Modulation Diversity (MoDiv)
 to HARQ system~\cite{benelli1992new}.
 As linear modulations of $Q$-ary constellations such as PSK, QAM are usually
 adopted in practical wireless communications systems, the same string of
-$\log_2Q$ bits can be maapped to different symbols across the multiple HARQ
+$\log_2Q$ bits can be mapped to different symbols across the multiple HARQ
 (re)transmissions. This technique has been studied for point-to-point
-HARQ~\cite{harvind2005symbol}, relay
+HARQ~\cite{samra2005symbol}, relay
 networks~\cite{seddik2008trans, khormuji2008rate} and
 relay-HARQ~\cite{kim2009design, ryu2011ber, wu2016modulation} and is shown to
 greatly improve the BER performance and throughput.
@@ -515,7 +512,7 @@ faces great opportunities and challenges at the same time which has not been ful
 understood. On the one hand,
 it is possible to adopt different constellation remapping schemes at different
 transmitters, which could potentially provide larger diversity gain. On the
-other hand, the optimization of more than one constellation mappings for each
+other hand, the optimization of more than one constellation mapping for each
 round of retransmission is non-trivial, especially when perfect channel state
 information (CSI) is not available.
 In this work, we propose a MoDiv design scheme for a CoMP system composed of one
@@ -525,9 +522,9 @@ channel between the RRHs and the UE, which is more general and practical than
 existing works on MIMO-CoRe~\cite{bahadori2014performance, zhao2009harq}.
 The CoRe is designed to minimize the expected bit error rate (BER) under
 statistical CSI assumption after each (re)transmission. The resulting
-optimization problem has a successive Quadratic 3-D Assignment Problem (Q3AP)
-formulation~\cite{hahn2008quadratic}. Although Q3AP is generally NP-hard and
-cannot be solved exactly except for the trivially small constellation, an
+optimization problem has a Successive Quadratic 3 Dimensional Assignment Problem
+(Q3AP) formulation~\cite{hahn2008quadratic}. Although Q3AP is generally NP-hard and
+cannot be solved exactly except for trivially small constellations, an
 efficient modified Iterated Local Search (ILS) approach is adopted. Our
 numerical results demonstrate significant gains achieved by the MoDiv techniques
 in various simulation settings and performance measurements.
@@ -551,10 +548,11 @@ in various simulation settings and performance measurements.
 Consider the constellation rearrangement (CoRe) in a MIMO-CoMP
 downlink channel composed of two Remote Antenna Units (RRHs) and one user
 equipment (UE). In order to maximize the signal space diversity as an
-enhancement of beamforming, we allow different mapping of the same sequence of
-information bits at the 2 RRHs during HARQ process. We assume a HARQ-CC
-protocol~\cite{} and a maximum number of $M$ retransmissions. For the $m$-th
-(re)transmission, every consecutive $\log_2Q$ bits are mapped to two
+enhancement of beamforming, we allow different mappings of the same sequence of
+information bits at the 2 RRHs during HARQ process. We assume a HARQ protocol
+based on Chase Combining (CC) and a maximum number of $M$
+retransmissions.
+For the $m$-th (re)transmission, every consecutive $\log_2Q$ bits are mapped to two
 constellation points corresponding to the two RRHs via a vector mapping function
 $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T, p = 0, \ldots, Q -
 1$ Then the received signal at the $m$-th (re)transmission of index $p$ is:
@@ -585,7 +583,7 @@ denote $\mathbf{A}^{(m)} = [\mathbf{H}_1^{(m)}\mathbf{p}_1,
 \mathbf{H}_2^{(m)}\mathbf{p}_2]$ as the equivalent MIMO channel from the two
 RRHs to the UE during the $m$-th retransmission.
 
-After the $m$-th retransmission, the receiver attempt to
+After the $m$-th retransmission, the receiver attempts to
 demodulate $p$ by combining all the symbols received so far with the ML
 detection:
 \begin{align}
@@ -653,7 +651,7 @@ evaluated as follows:
   \label{prop:en}
 \end{proposition}
 \begin{proof}
-  Firslty, we have
+  Firstly, we have
   \begin{align}
       \mathbf{A}^{(n)}\mathbf{e}_n[p,q]
       \sim\mathcal{CN}(\bm{\mu}_n[p,q],
@@ -747,7 +745,7 @@ $f_{pq}^{(m)}$ can be updated recursively while solving the S-Q3AP, since:
 
 Due to the reqularized shape of the QAM constellation, the evaluation of
 $d_{ikjl}$ is actually $\mathcal{O}(Q^2)$ instead of $\mathcal{O}(Q^4)$, and
-this only need to be evaluated once. Consequently, the main computational
+it only needs to be evaluated once. Consequently, the main computational
 complexity lies in solving the Q3AP problems instead of evaluating their
 coefficients.
 
@@ -779,7 +777,7 @@ beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel) under
 a total power constraint.
 Specifically, for our Rician channel model, the MSNRB $\mathbf{p}^* =
 [\mathbf{p}_1^T, \mathbf{p}_2^T]^T$ is designed as $\sqrt{N_T}$ times the
-dorminant eigenvector of the matrix $\mathbf{C}$, where
+dominant eigenvector of the matrix $\mathbf{C}$, where
 \begin{align}
   \mathbf{C} & = \mathbb{E}\left[
     (\mathbf{H}^{(m)})^H \mathbf{H}^{(m)}
@@ -831,13 +829,13 @@ And the line-of-sight (LOS) component of the Rician channel is set to
   \right]
 \end{align}
 and the Rician coefficient is $K_1 = K_2 = 4$ by default.
-For the HARQ retransmission, the maximum number of retransmission is set to
+For the HARQ retransmission, the maximum number of retransmissions is set to
 $M=4$. Three MoDiv schemes are compared, namely the simple retransmission with
-no MoDiv, a heurisitic CoRe scheme proposed for HSDPA~\cite{} generalized to our
-CoMP scenario by fixing $\psi_1 = \psi_2$ and our Q3AP-based MoDiv design. In
-the following, the three schemes after the $m$-th retransmission are denoted
+no MoDiv, a heurisitic CoRe scheme proposed for
+HSDPA~\cite{panasonic2001enhanced} generalized to our CoMP scenario by fixing
+$\psi_1 = \psi_2$ and our Q3AP-based MoDiv design. In the following, the three schemes after the $m$-th retransmission are denoted
 as NM$m$, CR$m$ and Q3AP$m$, respectively. 64-QAM is considered in our
-simulatio, for which each Q3AP is solved with 5 random initialization and
+simulations, for which each Q3AP is solved with 5 random initializations and
 several minutes of ILS iterations.
 
 \subsection{Uncoded BER}
@@ -845,15 +843,15 @@ First we compare the upperbound and Monte-Carlo average of the uncoded BER for
 different $\sigma_2$ in Fig.~\ref{fig:uncoded_noisepower_approx} and 
 Fig.~\ref{fig:uncoded_noisepower_mc}).
 Apparently, the BER upperbound in~\eqref{eq:P_BER} appears to be a descent
-indicator of the actual BER in relative, and the Q3AP solution offers a
-substantial performance gain over non-MoDiv and the heuristic CoRe. For
+indicator of the actual BER when comparing different MoDiv schemes, and the Q3AP
+solution offers a substantial performance gain over non-MoDiv and the heuristic CoRe. For
 instance, at low SNR regime 1 retransmission of Q3AP MoDiv achieves almost the
 same uncoded BER as does the simple retransmission without MoDiv, and 3 MoDiv
-retransmissions is comparable 4 retransmissions with heuristic CoRe.
+retransmissions are comparable 4 retransmissions with heuristic CoRe.
 
 In Fig.~\ref{fig:uncoded_K_approx} and Fig.~\ref{fig:uncoded_K_mc}, the uncoded
 BER is plotted against varying $K$ under fixed $sigma^2 = 18$dB for $m=1,2$ and 
-$sigma^2 = 8$dB for $m=3,4$. A significant performance gain of our MoDiv scheme
+$\sigma^2 = 8$dB for $m=3,4$. A significant performance gain of our MoDiv scheme
 is observed for all channel conditions ranging from heavily Rayleigh fading
 (small $K$) to very light fading (large $K$).
 
