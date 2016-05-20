@@ -54,7 +54,7 @@
 
 
 
-\documentclass[journal,draftcls,onecolumn,12pt,twoside]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 %
 % If IEEEtran.cls has not been installed into the LaTeX system files,
 % manually specify the path to it like:
@@ -369,7 +369,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Modulation Design for MIMO HARQ Channel}
+\title{Modulation Design for MIMO-CoMP HARQ}
 %
 %
 % author names and IEEE memberships
@@ -382,14 +382,14 @@
 %
 
 \author{
-  Wenhao Wu,
-  Hans Mittelmann,
-  Zhi Ding,
-  \thanks{
-    This work was supported in part by the National Science Foundation
-    under Grants CNS-1443870, ECCS-1307820, and CCF-1321143. The work of the
-    second author was supported in part by AFOSR under grant FA 9550-15-1-0351.
-  }% <-this % stops a space
+  Author 1,
+  Author 2,
+  Author 3,
+  %\thanks{
+  %  This work was supported in part by the National Science Foundation
+  %  under Grants CNS-1443870, ECCS-1307820, and CCF-1321143. The work of the
+  %  second author was supported in part by AFOSR under grant FA 9550-15-1-0351.
+  %}% <-this % stops a space
 }
 
 % note the % following the last \IEEEmembership and also \thanks - 
@@ -466,7 +466,7 @@
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-  Modulation diversity, MIMO, CoMP, HARQ, Q3AP.
+  MoDiv, MIMO, CoMP, HARQ, Q3AP.
 \end{IEEEkeywords}
 
 
@@ -488,7 +488,7 @@
 \label{sec:intro}
 
 In wireless data communication systems, high rate transmission under poor
-channel conditions often lead to reception errors. To recover lost packets,
+channel conditions often leads to reception errors. To recover lost packets,
 Automatic Repeat reQuest (ARQ) or Hybrid ARQ (HARQ) are important mechanisms for
 improving reliability at both network layer~\cite{TS36.331} and PHY
 layer~\cite{TS36.213}. Constellation Rearrangement (CoRe) is a pragmatic
@@ -549,13 +549,13 @@ Consider the constellation rearrangement (CoRe) in a MIMO-CoMP
 downlink channel composed of two Remote Antenna Units (RRHs) and one user
 equipment (UE). In order to maximize the signal space diversity as an
 enhancement of beamforming, we allow different mappings of the same sequence of
-information bits at the 2 RRHs during HARQ process. We assume a HARQ protocol
-based on Chase Combining (CC) and a maximum number of $M$
+information bits at the 2 RRHs during the HARQ process. We assume a HARQ
+protocol based on Chase Combining (CC) and a maximum number of $M$
 retransmissions.
 For the $m$-th (re)transmission, every consecutive $\log_2Q$ bits are mapped to two
 constellation points corresponding to the two RRHs via a vector mapping function
 $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T, p = 0, \ldots, Q -
-1$ Then the received signal at the $m$-th (re)transmission of index $p$ is:
+1$. Then the received signal at the $m$-th (re)transmission of index $p$ is:
 \begin{align}
   \mathbf{y}^{(m)} & =  \mathbf{A}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
   \notag \\
@@ -563,20 +563,20 @@ $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T, p = 0, \ldots, Q -
   \mathbf{H}_2^{(m)}\mathbf{p}_2 \psi_2^{(m)}[p] + \mathbf{n}^{(m)},
 \end{align}
 where $\mathbf{H}_a^{(m)}$ is a $N_R$-by-$N_{T,a}$ MIMO channel between the
-$a$-th RRH and the UE, $\mathbf{p}_a$ is a $N_T$-by-1 linear beamformer
+$a$-th RRH and the UE, $\mathbf{p}_a$ is a $N_{T,a}$-by-1 linear beamformer
 for the $a$-th RRH, $a=1, 2$, and the additive noise
 $\mathbf{n}^{(m)}\sim\mathcal{CN}(\mathbf{0}, \sigma^2\mathbf{I})$. We
 assume the elements of $\mathbf{H}_a^{(m)}$ follow correlated Rician
-distributed channel~\cite{taricco2007optimum} but are independent across retransmissions
+distributed channel~\cite{taricco2007optimum} independent across retransmissions
 and between the two RRHs.
 Specifically,
 \begin{align}
     \mathbf{H}_a^{(m)} = \sqrt{\frac{K_a}{K_a+1}}\bar{\mathbf{H}}_{a} +
     \sqrt{\frac{1}{K_a+1}}
-    \mathbf{R}^{1/2}\mathbf{H}_{w,a}^{(m)}\mathbf{T}_a^{1/2},\; a=1,2,
+    \mathbf{R}^{1/2}\mathbf{H}_{w,a}^{(m)}\mathbf{T}_a^{1/2},\; 
 \end{align}
-where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_{T, a}$-by-$N_{T,a}$
-matrix $\mathbf{T}_a$ are the receive and transmit covariance matrices,
+for $a=1,2$ where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_{T,
+a}$-by-$N_{T,a}$ matrix $\mathbf{T}_a$ are the receive and transmit covariance matrices,
 respectively, and $\mathbf{H}_{w,a}^{(m)}$ is a random matrix composed of
 independent CSCG Gaussian entries with zero means and unit variances. Here we
 denote $\mathbf{A}^{(m)} = [\mathbf{H}_1^{(m)}\mathbf{p}_1,
@@ -587,11 +587,9 @@ After the $m$-th retransmission, the receiver attempts to
 demodulate $p$ by combining all the symbols received so far with the ML
 detection:
 \begin{align}
-    p^* = \arg\min_p\sum_{n = 0}^{m}\|\mathbf{y}^{(n)} -
-    \mathbf{H}_1^{(n)}\mathbf{p}_1\psi_1^{(n)}[p] -
-    \mathbf{H}_2^{(n)}\mathbf{p}_2\psi_2^{(n)}[p]\|^2,
+    p^* = \arg\min_p\sum_{n = 0}^{m}\left\|\mathbf{y}^{(n)} -
+    \sum_{a=1,2}\mathbf{H}_a^{(n)}\mathbf{p}_a\psi_a^{(n)}[p]\right\|^2.
 \end{align}
-where $\|\cdot\|$ denotes 2-norm.
 
 \section{Successive Constellation Mapping Design For Modulation Diversity}
 \label{sec:modiv}
@@ -600,7 +598,7 @@ where $\|\cdot\|$ denotes 2-norm.
 \subsection{A BER Upperbound}
 \label{ssec:ber}
 The BER of the ML demodulator after the $m$-th (re)transmission can be
-upperbounded and approximated using the PEP as
+upperbounded and approximated by
 \begin{align}
   P_{BER}^{(m)} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
   q]}{Q}P_{PEP}^{(m)}(q|p) \label{eq:P_BER}
@@ -630,78 +628,60 @@ Denote $E_n[p,q]$ as the expectation in Eq.~(\ref{eq:PEP_M_1}), which can be
 evaluated as follows:
 \begin{proposition}
   \begin{align}
-      E_n[p,q] =
-      \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_n[p,q])}
-      \exp\left(-\bm{\mu}_n^H[p,q]\mathbf{S}_n^{-1}[p,q]\bm{\mu}_n[p,q]\right)
+    E_n[p,q] & =
+    \frac{(4\sigma^2)^{N_R}\exp\left(-\bm{\mu}_n^H[p,q]\mathbf{S}_n^{-1}[p,q]\bm{\mu}_n[p,q]\right)}
+    {\det(\mathbf{S}_n[p,q])} \\
+    \bm{\mu}_n[p,q] & =
+    \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
+    ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
+    \right]\mathbf{e}^{(n)}[p,q],\notag
+    \\
+    \mathbf{S}_n[p,q] & =
+    4\sigma^2\mathbf{I} +
+    \sum_{a=1,2} \frac{|e_a^{(n)}[p,q]|^2 \mathbf{p}_a^H\mathbf{T}_a
+    \mathbf{p}_a}{K_a+1} \mathbf{R}.
   \end{align}
-  where 
-  \begin{subequations}
-    \begin{align}
-      \bm{\mu}_n[p,q] & =
-      \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
-      ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
-      \right]\mathbf{e}^{(n)}[p,q]
-      \\
-      \mathbf{S}_n[p,q] & =
-      4\sigma^2\mathbf{I} +
-      \sum_{a=1,2} \frac{|e_a^{(n)}[p,q]|^2 \mathbf{p}_a^H\mathbf{T}_a
-      \mathbf{p}_a}{K_a+1} \mathbf{R}.
-    \end{align}
-  \end{subequations}
   \label{prop:en}
 \end{proposition}
 \begin{proof}
-  Firstly, we have
-  \begin{align}
-      \mathbf{A}^{(n)}\mathbf{e}_n[p,q]
-      \sim\mathcal{CN}(\bm{\mu}_n[p,q],
-      \mathbf{C}_n[p,q]), \label{eq:dstrhn}
-  \end{align}
+  We have $\mathbf{A}^{(n)}\mathbf{e}_n[p,q]
+  \sim\mathcal{CN}(\bm{\mu}_n[p,q], \mathbf{C}_n[p,q])$
   where 
   \begin{align}
     \mathbf{C}_n[p,q] = \sum_{a=1,2}
     \frac{|e_a^{(n)}[p,q]|^2\mathbf{p}_a^H\mathbf{T}_a
     \mathbf{p}_a}{K_a+1}\mathbf{R}.
   \end{align}
-  For multi-variate Gaussian variable $\mathbf{v}\sim\mathcal{CN}(\bm{\mu},
-    \mathbf{C})$, using the technique of completing the square~\cite[Sec.
-    2.3.1]{bishop2006pattern}, it is easy to show
-    \begin{align}
-        \mathbb{E}\left[\exp(-\lambda\|\mathbf{v}\|^2)\right] =
-        \frac{1}{\det(\mathbf{I} +
-        \lambda\mathbf{C})}\exp\left(-\bm{\mu}^H(\lambda^{-1}\mathbf{I} +
-        \mathbf{C})^{-1}\bm{\mu}\right) \label{eq:elv2}
-    \end{align}
-    Then Proposition~\ref{prop:en} is proven by simply combining
-    Eq.(\ref{eq:dstrhn})(\ref{eq:elv2}).
+  For $\mathbf{v}\sim\mathcal{CN}(\bm{\mu}, \mathbf{C})$, using the technique of
+  completing the square~\cite[Sec. 2.3.1]{bishop2006pattern}, it is easy to show
+  \begin{align}
+    \mathbb{E}\left[\exp(-\lambda\|\mathbf{v}\|^2)\right] =
+    \frac{\exp\left(-\bm{\mu}^H(\lambda^{-1}\mathbf{I} +
+    \mathbf{C})^{-1}\bm{\mu}\right)}{\det(\mathbf{I} +
+    \lambda\mathbf{C})} \label{eq:elv2}
+  \end{align}
+  which in turn leads to Proposition~\ref{prop:en}.
 \end{proof}
 
-\subsection{Successive Quadratic 3 Dimension Assignment Problem (S-Q3AP)}
+\subsection{Successive Quadratic 3-D Assignment Problem (S-Q3AP)}
 \label{ssec:q3ap}
-Our MoDiv design on the approximated BER minimization criterion,
-i.e.
+Our MoDiv design aims to solve
 \begin{align}
-    \min_{\bm{\psi}^{(m)}|\bm{\psi}^{(n)},
-    n=0,\ldots,m-1}\tilde{P}_{BER}^{(m)},m=1,\ldots,M,\label{eq:minber}
+  \min_{\bm{\psi}^{(m)}|\bm{\psi}^{(n)},
+  n=0,\ldots,m-1}\tilde{P}_{BER}^{(m)},m=1,\ldots,M,\label{eq:minber}
 \end{align}
 where $\tilde{P}_{BER}^{(m)}$ is the approximated version of
 $P_{BER}^{(m)}$ by substituting $P_{PEP}^{(m)}(q|p)$ with
-$\tilde{P}_{PEP}^{(m)}(q|p)$. In fact, this problem can be formulated into a
-successive quadratic $N_T + 1$-dimensional assignment problem. For instance, for
-$N_T=1$, this is the same QAP problem as in~\cite{samra2005symbol}. In the following, we
-focus on a Q3AP formulation where $N_T = 2$. Denote $\mathbf{x}^{(m)} =
+$\tilde{P}_{PEP}^{(m)}(q|p)$. Denote $\mathbf{x}^{(m)} =
 \{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ which represents $\bm{\psi}_m$, where
 $x_{pij}^{(m)} = 1(\bm{\psi}_m[p] =
 (\psi_0[i], \psi_0[j])^T)$ and $1(\cdot)$ is the indicator function, $\psi_0$
 represents Gray mapping. Denote the constraint set
-\begin{subequations}
-  \begin{align}
-    \mathcal{S} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij} = 1,
-    \sum_{i=0}^{Q-1}x_{pij} = 1, \sum_{i=0}^{Q-1}x_{pij} = 1, x_{pij}\in\{0,
-    1\}\right\}.
-    \label{eq:constraint}
-  \end{align}
-\end{subequations}
+\begin{align}
+  \mathcal{S} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij}=
+  \sum_{i=0}^{Q-1}x_{pij} =\sum_{j=0}^{Q-1}x_{pij} =1\right\}.
+  \label{eq:constraint}
+\end{align}
 Then Eq.~(\ref{eq:minber}) can be formulated into a S-Q3AP as follows:
 \begin{align}
   \min_{\mathbf{x}^{(m)}\in \mathcal{S}}
@@ -720,31 +700,23 @@ are defined as
   \end{align}
 \end{subequations}
 where 
-\begin{subequations}
-  \begin{align}
-    \bm{\mu}_{ikjl} & = \sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
-    e_{ik} + \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2e_{jl} \\
-    \mathbf{S}_{ikjl} & = 4\sigma^2\mathbf{I} + \left(\frac{|e_{ik}|^2
-    \mathbf{p}_1^H\mathbf{T}_1 \mathbf{p}_1}{K_1+1} + \frac{|e_{jl}|^2
-    \mathbf{p}_2^H\mathbf{T}_2 \mathbf{p}_2}{K_2+1}\right) \mathbf{R}.
-  \end{align}
-\end{subequations}
+\begin{align}
+  \mathbf{S}_{ikjl} & = 4\sigma^2\mathbf{I} + \left(\frac{|e_{ik}|^2
+  \mathbf{p}_1^H\mathbf{T}_1 \mathbf{p}_1}{K_1+1} + \frac{|e_{jl}|^2
+  \mathbf{p}_2^H\mathbf{T}_2 \mathbf{p}_2}{K_2+1}\right) \mathbf{R},\notag\\
+  \bm{\mu}_{ikjl} & = \sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
+  e_{ik} + \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2e_{jl}.
+\end{align}
 and $e_{ik} = \psi_0[i] - \psi_0[k]$, $e_{jl} = \psi_0[j] - \psi_0[l]$.
 $f_{pq}^{(m)}$ can be updated recursively while solving the S-Q3AP, since:
-\begin{subequations}
-  \begin{align}
-    \tilde{P}_{PEP}^{(m)}(q|p) & =
-    \sum_{i=0}^{Q-1}\sum_{k=0}^{Q-1}\sum_{j=0}^{Q-1}
-    \sum_{l=0}^{Q-1}\tilde{P}_{PEP}^{(m-1)}(q|p)d_{ikjl}
-    \hat{x}_{pij}^{(m)}\hat{x}_{qkl}^{(m)}
-    \\
-    \tilde{P}_{PEP}^{(-1)}(q|p) & = \frac{1}{2}
-  \end{align}
+\begin{align}
+  \tilde{P}_{PEP}^{(m)}(q|p) & =
+  \sum_{i,k,j,l=0}^{Q-1}\tilde{P}_{PEP}^{(m-1)}(q|p)d_{ikjl}
+  \hat{x}_{pij}^{(m)}\hat{x}_{qkl}^{(m)}
   \label{eq:pep_update}
-\end{subequations}
-
-Due to the reqularized shape of the QAM constellation, the evaluation of
-$d_{ikjl}$ is actually $\mathcal{O}(Q^2)$ instead of $\mathcal{O}(Q^4)$, and
+\end{align}
+and $ \tilde{P}_{PEP}^{(-1)}(q|p) = 1/2$. Due to the geometry
+of the QAM constellation, the evaluation of $d_{ikjl}$ is actually $\mathcal{O}(Q^2)$ instead of $\mathcal{O}(Q^4)$, and
 it only needs to be evaluated once. Consequently, the main computational
 complexity lies in solving the Q3AP problems instead of evaluating their
 coefficients.
@@ -769,91 +741,38 @@ stopping criterion is satisfied.
 
 \section{Numerical Results}
 \label{sec:numerical}
-
-\subsection{Simulation Settings}
-In order to facilitate a comparison between the proposed Q3AP
-MoDiv design with other schemes, we incorporate the simple maximum SNR
+Unless otherwise noted, we adopt the following
+settings throughout our simulation. For the MIMO-CoMP channel, we have $N_R=1$
+and $N_{T, 1} = N_{T, 2} = 2$. The correlation matrices at both RRHs are
+$\mathbf{T}_1 = \mathbf{T}_2 =[1,0.7;0,7,1]$, while the line-of-sight (LOS)
+components of the Rician channel are set to $\bar{\mathbf{H}}_{1} = [0.2540;
+0.2457]$ and $\bar{\mathbf{H}}_{2} = [-0.1027; -0.2320]$, 
+The Rician coefficients are $K_1 = K_2 = 4$ by default. A simple maximum SNR
 beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel) under
-a total power constraint.
-Specifically, for our Rician channel model, the MSNRB $\mathbf{p}^* =
-[\mathbf{p}_1^T, \mathbf{p}_2^T]^T$ is designed as $\sqrt{N_T}$ times the
-dominant eigenvector of the matrix $\mathbf{C}$, where
-\begin{align}
-  \mathbf{C} & = \mathbb{E}\left[
-    (\mathbf{H}^{(m)})^H \mathbf{H}^{(m)}
-  \right] \notag \\
-  & = \left[
-    \begin{array}{cc}
-      \frac{K_1}{K_1+1}\bar{\mathbf{H}}_1^H\bar{\mathbf{H}}_1 + \frac{1}{K_1+1}
-      \mbox{tr}(\mathbf{R})\mathbf{T}_1 &
-      \sqrt{\frac{K_1K_2}{(K_1+1)(K_2+1)}} \bar{\mathbf{H}}_1^H
-      \bar{\mathbf{H}}_2
-      \\
-      \sqrt{\frac{K_1K_2}{(K_1+1)(K_2+1)}} \bar{\mathbf{H}}_2^H
-      \bar{\mathbf{H}}_1 &
-      \frac{K_2}{K_2+1}\bar{\mathbf{H}}_2^H\bar{\mathbf{H}}_2 + \frac{1}{K_2+1}
-      \mbox{tr}(\mathbf{R})\mathbf{T}_2
-    \end{array}
-  \right],
-\end{align}
-in which $\mathbf{H}^{(m)} = [\mathbf{H}_1^{(m)}, \mathbf{H}_2^{(m)}]$. In
-the following, we will compare four MoDiv schemes, namely Non-MoDiv with MSNRB,
-Heuristic MoDiv~\cite{panasonic2001enhanced} with MSNRB, QAP design with MSNRB
-(where CoRe is performed over different retransmissions but not across different
-transmitting antennas), and our Q3AP MoDiv scheme.
-
-Unless otherwise noted, we adopt the following settings througout our
-simulation. For the MIMO-CoMP channel, we have $N_R=1$ and $N_{T, 1} = N_{T, 2}
-= 2$. The correlation matrix at both RRHs is set to
-\begin{align}
-  \mathbf{T}_1 = \mathbf{T}_2 = \left[
-    \begin{array}{cc}
-      1 & 0.7 \\
-      0.7 & 1 
-    \end{array}
-  \right].
-\end{align}
-And the line-of-sight (LOS) component of the Rician channel is set to
-\begin{align}
-  \bar{\mathbf{H}}_{1} = \left[
-    \begin{array}{c}
-      0.2540  \\
-      0.2457
-    \end{array}
-  \right],\;
-  \bar{\mathbf{H}}_{2} = \left[
-    \begin{array}{c}
-      -0.1027  \\
-      -0.2320
-    \end{array}
-  \right]
-\end{align}
-and the Rician coefficient is $K_1 = K_2 = 4$ by default.
+a total power constraint is used at the two RRHs. 
 For the HARQ retransmission, the maximum number of retransmissions is set to
 $M=4$. Three MoDiv schemes are compared, namely the simple retransmission with
 no MoDiv, a heurisitic CoRe scheme proposed for
 HSDPA~\cite{panasonic2001enhanced} generalized to our CoMP scenario by fixing
-$\psi_1 = \psi_2$ and our Q3AP-based MoDiv design. In the following, the three schemes after the $m$-th retransmission are denoted
+$\psi_1 = \psi_2$ and our Q3AP-based MoDiv design. The three schemes after the $m$-th retransmission are denoted
 as NM$m$, CR$m$ and Q3AP$m$, respectively. 64-QAM is considered in our
 simulations, for which each Q3AP is solved with 5 random initializations and
 several minutes of ILS iterations.
 
-\subsection{Uncoded BER}
 First we compare the upperbound and Monte-Carlo average of the uncoded BER for
-different $\sigma_2$ in Fig.~\ref{fig:uncoded_noisepower_approx} and 
-Fig.~\ref{fig:uncoded_noisepower_mc}).
+different $\sigma^2$ in Fig.~\ref{fig:uncoded_noisepower_approx} and 
+Fig.~\ref{fig:uncoded_noisepower_mc}.
 Apparently, the BER upperbound in~\eqref{eq:P_BER} appears to be a descent
 indicator of the actual BER when comparing different MoDiv schemes, and the Q3AP
 solution offers a substantial performance gain over non-MoDiv and the heuristic CoRe. For
 instance, at low SNR regime 1 retransmission of Q3AP MoDiv achieves almost the
 same uncoded BER as does the simple retransmission without MoDiv, and 3 MoDiv
-retransmissions are comparable 4 retransmissions with heuristic CoRe.
+retransmissions are comparable to 4 retransmissions with heuristic CoRe.
 
 In Fig.~\ref{fig:uncoded_K_approx} and Fig.~\ref{fig:uncoded_K_mc}, the uncoded
-BER is plotted against varying $K$ under fixed $sigma^2 = 18$dB for $m=1,2$ and 
-$\sigma^2 = 8$dB for $m=3,4$. A significant performance gain of our MoDiv scheme
-is observed for all channel conditions ranging from heavily Rayleigh fading
-(small $K$) to very light fading (large $K$).
+BER is plotted against varying $K$ under fixed $\sigma^2 = 18$dB for $m=1,2$ and 
+$\sigma^2 = 8$dB for $m=3,4$. A significant performance gain is observed for all
+channel conditions ranging from heavily Rayleigh fading (small $K$) to very light fading (large $K$).
 
 \begin{figure}[!t]
   \begin{minipage}[b]{.48\linewidth}
@@ -919,9 +838,8 @@ is observed for all channel conditions ranging from heavily Rayleigh fading
   \label{fig:uncoded_K_mc}
 \end{figure}
 
-\subsection{Coded BER and Throughput}
 As another practical performance measurement, the coded BER performances of
-the three MoDiv schemes are compared in a LDPC-coded system based on~\cite{}. A
+the three MoDiv schemes are compared in a LDPC-coded system. A
 LDPC code of length $L=2400$ and code rate $r=3/4$ is used. To demonstrate the
 robustness of our Q3AP-based MoDiv scheme against design parameter mismatch, we
 optimize the remapping only for $\sigma^2 = 5$dB and test the coded BER for a
@@ -938,15 +856,15 @@ performance gain of the Q3AP-based MoDiv design approach.
 
 \begin{figure}[!t]
   \centering
-  \begin{minipage}[b]{0.9\columnwidth}
+  \begin{minipage}[b]{1\columnwidth}
     \centering
-    \centerline{\includegraphics[width=7.5cm]{./figs/waterfall_64QAM_12.eps}}
+    \centerline{\includegraphics[width=6.5cm]{./figs/waterfall_64QAM_12.eps}}
     %\centerline{(a) $m=1,2$}\medskip
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.9\columnwidth}
+  \begin{minipage}[b]{1\columnwidth}
     \centering
-    \centerline{\includegraphics[width=7.5cm]{./figs/waterfall_64QAM_34.eps}}
+    \centerline{\includegraphics[width=6.5cm]{./figs/waterfall_64QAM_34.eps}}
     %\centerline{(b) $m=3,4$}\medskip
   \end{minipage}
   \caption{Coded BER. $m=1, 2$ (top) and $m=3,4$ (bottom).}
@@ -955,7 +873,7 @@ performance gain of the Q3AP-based MoDiv design approach.
 
 \begin{figure}[!t]
   \centering
-  \includegraphics[width=0.45\columnwidth]{./figs/throughput.eps}
+  \includegraphics[width=0.75\columnwidth]{./figs/throughput.eps}
   \caption{Average throughput.}
   \label{fig:coded_throughput}
 \end{figure}
