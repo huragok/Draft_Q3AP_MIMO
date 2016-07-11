@@ -13,3 +13,4 @@ simulation
 simulation_HARQ_posterior
 *.synctex.gz
 manuscript/figs/*.pdf
+response/figs/*.pdf
