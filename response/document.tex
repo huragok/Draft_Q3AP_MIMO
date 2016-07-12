@@ -31,6 +31,8 @@ rules for citations and references:
   without prefix (e.g. [1]).
   \item Equations: equations in this response letter are referred to as
   ``Eq.~(R1)''  while those in the original manuscript as ``Eq.~(1)''.
+  \item Figures: figures in this response letter are referred to as
+  ``FIGURE~1''  while those in the original manuscript as ``Fig.~1''.
 \end{itemize}
 
 \begin{center}
@@ -43,25 +45,99 @@ rules for citations and references:
 %   \label{eq:test}
 % \end{align}
 % \eqref{eq:test}
+% \begin{figure}[!t]
+%   \centering
+%   \includegraphics[width=0.75\columnwidth]{./figs/test.eps}
+%   \caption{Average throughput.}
+%   \label{fig:test}
+% \end{figure}
+% Fig.~\ref{fig:test}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
-\emph{1. The signal model needs further work: p is reported as “index” before
+\emph{1. The signal model needs further work: $p$ is reported as “index” before
 (1) and something to be demodulated in (3); in (1), which is the transmit
 vector/symbol? }
 
 \noindent \textbf{Authors' response:}
-Thank you for the question. 
+Thank you for the comment. As mentioned in the first paragraph in Section
+II, the transmitted vector corresponding to two symbols are
+$\bm{\phi}^(m)[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$, where
+$p=0,\ldots,Q-1$ is the index/label corresponding to a bit sequence of length
+$\log_2Q$, and in Eq.~(1) the transmitted symbols at the two RRHs are
+$\psi_1^{(m)}[p]$ and $\psi_2^{(m)}[p]$, respectively. For instance, for 16-QAM where $Q=16$, in
+one round of (re)transmission every 4 bits can be mapped to 2 constellation
+symbols as in TABLE~\ref{table:mapping} and FIGURE~\ref{fig:mapping}.
 
+To demodulate the information bits is equivalent to figuring out label $p$ from
+the received signal $\mathbf{y}^{n}$ where $n=0,\ldots,m$ denote different
+rounds of (re)transmissions. Since the noise is Gaussian distributed and we
+assume perfect CSI at the receiver, the maximum-likelihood rule is in the form
+of Eq.~(3).
+
+To prevent possible confusion from our readers, we rephrase the description of
+our signal model in the first paragraph of Section II, using similar
+terminology as [4]. Most notebaly, we have renamed $p$ as ``label'' instead of
+``index'' throughout the manuscript.
+
+\begin{table}[!t]
+  \renewcommand{\arraystretch}{1.3}
+  \caption{Mapping from bits to constellation symbols.}
+  \label{table:mapping}
+  \centering
+  \begin{tabular}{c|c|c|c}
+    \hline
+     bits & $p$ & $\psi_1^{(m)}[p]$ & $\psi_2^{(m)}[p]$  \\
+    \hline
+    0000 & 0 & $-3+3j$ & $-1+1j$ \\
+    0001 & 1 & $-3+1j$ & $-1-3j$ \\
+    0010 & 2 & $-3-3j$ & $-1-1j$ \\
+    0011 & 3 & $-3-1j$ & $-1+3j$ \\
+    0100 & 4 & $-1+3j$ & $+3+1j$ \\
+    0101 & 5 & $-1+1j$ & $+3-3j$ \\
+    0110 & 6 & $-1-3j$ & $+3-1j$ \\
+    0111 & 7 & $-1-1j$ & $+3+3j$ \\
+    1000 & 8 & $+3+3j$ & $+1+1j$ \\
+    1001 & 9 & $+3+1j$ & $+1-3j$ \\
+    1010 & 10 & $+3-3j$ & $+1-1j$ \\
+    1011 & 11 & $+3-1j$ & $+1+3j$ \\
+    1100 & 12 & $+1+3j$ & $-3+1j$ \\
+    1101 & 13 & $+1+1j$ & $-3-3j$ \\
+    1110 & 14 & $+1-3j$ & $-3-1j$ \\
+    1111 & 15 & $+1-1j$ & $-3+3j$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htb]
+  \begin{minipage}[b]{0.48\linewidth}
+    \centering
+    \centerline{\includegraphics[width=4.0cm]{./figs/gray.eps}}
+    \centerline{(a) $\psi_1^{(m)}[p]$ (Gray mapping)}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.48\linewidth}
+    \centering
+    \centerline{\includegraphics[width=4.0cm]{./figs/karim.eps}}
+    \centerline{(b) $\psi_2^{(m)}[p]$ (trans-modulation design in [5])}\medskip
+  \end{minipage}
+  \caption{Constellation symbols. Label $p$ are marked next to each
+  constellation symbol and we assume that the horizontal and vertical
+  distances between two neighboring constallation symbols are both 2.}
+  \label{fig:mapping}
+\end{figure}
 \vspace{0.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
-\emph{2. Some more not defined expressions/symbols/variables: in (2), H\_a
-(first term); CSCG.}
+\emph{2. Some more not defined expressions/symbols/variables: in (2),
+$\bar{\mathbf{H}}_a$ (first term); CSCG.}
 
 \noindent \textbf{Authors' response:}
-Thank you.
+Thank you for pointing out this ambiguity. We have added descriptions on
+$\bar{\mathbf{H}}_a$ and used the common notation $\mathcal{CN}(0,1)$
+in place of standard Circularly Symmetric Complex Gaussin (GSCG) following
+Eq.~(2).
 
 \vspace{0.5cm}
 
@@ -71,7 +147,29 @@ Thank you.
 derivation of (9) is hard to understand.}
 
 \noindent \textbf{Authors' response:}
-Thank you for the comment.
+Thank you for the comment. Due to the page limit of the IEEE Communications
+Letters, we cannot provide a thorough proof in the original manuscript and we
+had to list only the key steps. A rigorous proof of Proposition 1 is as follows.
+From Eq.(2) with the index of (re)transmission $(n)$ dropped, we have
+\begin{align}
+  \mathbf{A}\mathbf{e}[p,q] &= \sum_{a=1,2}\mathbf{H}_a\mathbf{p}_ae_a[p,q]
+  \notag\\
+  &= \sum_{a=1,2}  \sqrt{\frac{K_a}{K_a+1}}
+  \bar{\mathbf{H}}_{a}\mathbf{p}_a e_a[p,q] + \sqrt{\frac{1}{K_a+1}}
+  \mathbf{R}^{1/2} \mathbf{H}_{w,a} \mathbf{T}_a^{1/2} \mathbf{p}_a
+  e_a[p,q]
+\end{align}
+where $e_a[p,q] = \psi_a[p]-\psi_a[q]$, $a=1,2$. Since the entris of
+$\mathbf{H}_{w,a}$ are i.i.d distributed in $\mathcal{CN}(0,1)$,
+$\mathbf{A}\mathbf{e}[p,q]$ also follows CSCG distribution. Its expectation is
+simply
+\begin{align}
+  \mathbb{E}[\mathbf{A}\mathbf{e}[p,q]] &= \sum_{a=1,2}  \sqrt{\frac{K_a}{K_a+1}}
+  \bar{\mathbf{H}}_{a}\mathbf{p}_a e_a[p,q] \notag \\
+  & =  \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
+  ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
+  \right]\mathbf{e}[p,q]
+\end{align}
 
 \vspace{0.5cm}
 

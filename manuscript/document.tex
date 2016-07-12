@@ -549,13 +549,16 @@ Consider the constellation rearrangement (CoRe) in a MIMO-CoMP
 downlink channel composed of two Remote Antenna Units (RRHs) and one user
 equipment (UE). In order to maximize the signal space diversity as an
 enhancement of beamforming, we allow different mappings of the same sequence of
-information bits at the 2 RRHs during the HARQ process. We assume a HARQ
+information bits at the two RRHs during the HARQ process. We assume a HARQ
 protocol based on Chase Combining (CC) and a maximum number of $M$
 retransmissions.
-For the $m$-th (re)transmission, every consecutive $\log_2Q$ bits are mapped to two
-constellation points corresponding to the two RRHs via a vector mapping function
-$\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T, p = 0, \ldots, Q -
-1$. Then the received signal at the $m$-th (re)transmission of index $p$ is:
+For the $m$-th (re)transmission, every consecutive $\log_2Q$ bits are encoded
+into a label $p=0,\ldots, Q-1$ and then mapped to two constellation symbols
+via a vector mapping function $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p],
+\psi_2^{(m)}[p]]^T$, where $\psi_a^{(m)}[p]\in \mathcal{C}$ and $\mathcal{C}$ is
+the set of constellation symbols (e.g. QAP, 16-QAM). The two symbols are  then
+transmitted at the two RRHs, respectively. The received signal at the
+$m$-th (re)transmission of the bit sequence corresponding to label $p$ is:
 \begin{align}
   \mathbf{y}^{(m)} & =  \mathbf{A}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
   \notag \\
@@ -577,11 +580,12 @@ Specifically,
 \end{align}
 for $a=1,2$ where the $N_R$-by-$N_R$ matrix $\mathbf{R}$ and the $N_{T,
 a}$-by-$N_{T,a}$ matrix $\mathbf{T}_a$ are the receive and transmit covariance matrices,
-respectively, and $\mathbf{H}_{w,a}^{(m)}$ is a random matrix composed of
-independent CSCG Gaussian entries with zero means and unit variances. Here we
-denote $\mathbf{A}^{(m)} = [\mathbf{H}_1^{(m)}\mathbf{p}_1,
-\mathbf{H}_2^{(m)}\mathbf{p}_2]$ as the equivalent MIMO channel from the two
-RRHs to the UE during the $m$-th retransmission.
+respectively, while $\bar{\mathbf{H}}_{a}$ represents the line-of-sight
+component and $\mathbf{H}_{w,a}^{(m)}$ is a random matrix composed of
+independent entries of $\mathcal{CN}(0,1)$. Here we denote $\mathbf{A}^{(m)} =
+[\mathbf{H}_1^{(m)}\mathbf{p}_1, \mathbf{H}_2^{(m)}\mathbf{p}_2]$ as the
+equivalent MIMO channel from the two RRHs to the UE during the $m$-th
+retransmission.
 
 After the $m$-th retransmission, the receiver attempts to
 demodulate $p$ by combining all the symbols received so far with the ML
@@ -730,10 +734,10 @@ Consequently, the MoDiv problem is solved with the ILS
 method~\cite{hahn2008quadratic} extended from its QAP
 version~\cite{stutzle2006iterated}. Starting from two random initial mappings
 $\psi_1^{(0)}, \psi_2^{(0)}$, the algorithm executes a local search by
-exchanging the mappings of exactly 2 indices whenever a reduction in the
+exchanging the mappings of exactly 2 labels whenever a reduction in the
 objective function is made. This approach can lower the objective function and
 update the mapping locally. When the process hits a local minimum, it executes a
-perturbation step by exchanging the mappings of $k_p$ indices, where integer
+perturbation step by exchanging the mappings of $k_p$ labels, where integer
 $k_p$ is adaptively adjusted within a range $[k_{p,min}, k_{p,max}]$. The
 perturbation is accepted with a probability defined as in simulated annealing,
 after which the local search is restarted from the new mappings until the
@@ -772,7 +776,8 @@ retransmissions are comparable to 4 retransmissions with heuristic CoRe.
 In Fig.~\ref{fig:uncoded_K_approx} and Fig.~\ref{fig:uncoded_K_mc}, the uncoded
 BER is plotted against varying $K$ under fixed $\sigma^2 = 18$dB for $m=1,2$ and 
 $\sigma^2 = 8$dB for $m=3,4$. A significant performance gain is observed for all
-channel conditions ranging from heavily Rayleigh fading (small $K$) to very light fading (large $K$).
+channel conditions ranging from heavily Rayleigh fading (small $K$) to very
+light fading (large $K$).
 
 \begin{figure}[!t]
   \begin{minipage}[b]{.48\linewidth}
