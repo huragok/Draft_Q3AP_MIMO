@@ -150,7 +150,7 @@ derivation of (9) is hard to understand.}
 Thank you for the comment. Due to the page limit of the IEEE Communications
 Letters, we cannot provide a thorough proof in the original manuscript and we
 had to list only the key steps. A rigorous proof of Proposition 1 is as follows.
-From Eq.(2) with the index of (re)transmission $(n)$ dropped, we have
+From Eq.~(2) with the index of (re)transmission $(n)$ dropped, we have
 \begin{align}
   \mathbf{A}\mathbf{e}[p,q] &= \sum_{a=1,2}\mathbf{H}_a\mathbf{p}_ae_a[p,q]
   \notag\\
@@ -168,9 +168,82 @@ simply
   \bar{\mathbf{H}}_{a}\mathbf{p}_a e_a[p,q] \notag \\
   & =  \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
   ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
-  \right]\mathbf{e}[p,q]
+  \right]\mathbf{e}[p,q].
 \end{align}
+To evaluate the covariance of $\mathbf{A}\mathbf{e}[p,q]$, we firstly note that
+\begin{align}
+  \mathbf{H}_{w,a} \left(\mathbf{T}_a^{1/2} \mathbf{p}_ae_a[p,q]\right) \sim
+  \mathcal{CN}\left(\mathbf{0}, \left\|\mathbf{T}_a^{1/2}
+  \mathbf{p}_ae_a[p,q]\right\|^2\mathbf{I}\right)
+\end{align}
+since each entry of $\mathbf{H}_{w,a}$ are independently distributed in
+$\mathcal{CN}(0,1)$. Consequently,
+\begin{align}
+  \mbox{Cov}(\mathbf{A}\mathbf{e}[p,q]) &= \sum_{a=1,2}\frac{1}{K_a+1}
+  \mathbf{R}^{1/2} \mbox{Cov}\left(\mathbf{H}_{w,a} \mathbf{T}_a^{1/2} \mathbf{p}_ae_a[p,q]
+  \right)(\mathbf{R}^{1/2})^H \notag \\
+  &=
+  \sum_{a=1,2}
+  \frac{|e_a[p,q]|^2\mathbf{p}_a^H\mathbf{T}_a　\mathbf{p}_a}{K_a+1}\mathbf{R}
+\end{align}
+thus we have $\mathbf{A}^{(n)}\mathbf{e}_n[p,q]
+\sim\mathcal{CN}(\bm{\mu}_n[p,q], \mathbf{C}_n[p,q])$ where $\bm{\mu}_n[p,q]$
+is defined in Eq.~(7) and $\mathbf{C}_n[p,q]$ is defined in Eq.~(9).
 
+To derive Eq.~(10), as mentioned in our original manuscript, we adopt the
+technique of ``completing the square'' as in [18, Sec. 2.3.1]. Specifically,
+\begin{align}
+  \mathbb{E}\left[\exp(-\lambda\|\mathbf{v}\|^2)\right] & =
+  \frac{1}{\pi^k\mbox{det}(\mathbf{C})}\int \exp\left(-\lambda\|\mathbf{v}\|^2 -
+  (\mathbf{v} -
+  \bm{\mu})^H\mathbf{C}^{-1} (\mathbf{v} - \bm{\mu})\right)d\mathbf{v}
+\end{align}
+where $k$ is the dimension of $\mathbf{v}$, since
+\begin{align}
+  & \lambda\|\mathbf{v}\|^2 + (\mathbf{v} - \bm{\mu})^H\mathbf{C}^{-1}
+  (\mathbf{v} - \bm{\mu}) \notag \\
+  =& \mathbf{v}^H
+  (\lambda\mathbf{I} + \mathbf{C}^{-1})\mathbf{v} -
+  \bm{\mu}^H\mathbf{C}^{-1}\mathbf{v} - \mathbf{v}^H\mathbf{C}^{-1}\bm{\mu} +
+  \bm{\mu}^H\mathbf{C}^{-1}\bm{\mu} \notag\\
+  =& \left(\mathbf{v} - \mathbf{\Lambda}^{-1}\mathbf{C}^{-1}\bm{\mu}\right)^H
+  \mathbf{\Lambda} \left(\mathbf{v} -
+  \mathbf{\Lambda}^{-1}\mathbf{C}^{-1}\bm{\mu}\right) +
+  \bm{\mu}^H\left(\mathbf{C}^{-1} - \mathbf{C}^{-1} \mathbf{\Lambda}^{-1}
+  \mathbf{C}^{-1} \right) \bm{\mu}
+\end{align}
+where $\mathbf{\Lambda} = \lambda\mathbf{I} + \mathbf{C}^{-1}$. Consequently,
+\begin{align}
+  \mathbb{E}\left[\exp(-\lambda\|\mathbf{v}\|^2)\right] = &
+  \frac{\mbox{det}(\mathbf{\Lambda}^{-1})}{\mbox{det}(\mathbf{C})}
+  \exp\left(-\bm{\mu}^H\left(\mathbf{C}^{-1} - \mathbf{C}^{-1} \mathbf{\Lambda}^{-1}
+  \mathbf{C}^{-1} \right) \bm{\mu} \right) \cdot
+  \notag \\
+  & \frac{1}{\pi^k\mbox{det}(\mathbf{\Lambda}^{-1})} \int
+  \exp\left(-\left(\mathbf{v} -
+  \mathbf{\Lambda}^{-1}\mathbf{C}^{-1}\bm{\mu}\right)^H \mathbf{\Lambda}
+  \left(\mathbf{v} - \mathbf{\Lambda}^{-1}\mathbf{C}^{-1}\bm{\mu}\right) \right)
+  d\mathbf{v} \notag \\
+  = & \frac{\mbox{det}(\mathbf{\Lambda}^{-1})}{\mbox{det}(\mathbf{C})}
+  \exp\left(-\bm{\mu}^H\left(\mathbf{C}^{-1} - \mathbf{C}^{-1} \mathbf{\Lambda}^{-1}
+  \mathbf{C}^{-1} \right) \bm{\mu} \right) 
+\end{align}
+as the integration of $\mathbf{v}$ over the density function
+$\mathcal{CN}(\mathbf{\Lambda}^{-1}\mathbf{C}^{-1}\bm{\mu},
+\mathbf{\Lambda}^{-1})$ equals to 1. Since 
+\begin{align}
+  \frac{\mbox{det}(\mathbf{\Lambda}^{-1})}{\mbox{det}(\mathbf{C})} =
+  \frac{1}{\mbox{det}(\mathbf{C\Lambda})} =
+  \frac{1}{\mbox{det}(\mathbf{I} + \lambda \mathbf{C})}
+\end{align}
+and according to Woodbury matrix identity,
+\begin{align}
+  \mathbf{C}^{-1} - \mathbf{C}^{-1} \mathbf{\Lambda}^{-1}
+  \mathbf{C}^{-1} = \left(\mathbf{C} + \lambda^{-1}\mathbf{I}\right)^{-1},
+\end{align}
+therefore Eq.~(10) has been proved. As a result, Eq.~(7) is readily available by
+substituting $\bm{\mu}$ and $\mathbf{C}$ with the results in Eq.~(8),(9),
+respectively and $\lambda=1/(4\sigma^2)$.
 \vspace{0.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -180,6 +253,8 @@ detail. Why do you introduce x variables? What is the role of “flow” and
 “distance” matrices? How do you derive (13)?}
 
 \noindent \textbf{Authors' response:}
+Thank you for the question.
+
 
 \vspace{0.5cm}
 
