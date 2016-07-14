@@ -618,32 +618,33 @@ the procedure in~\cite{han2009performance}:
     \mathbf{e}^{(n)}[p,q]\|^2} {2\sigma^2}}\right)\right]
     \label{eq:PEP_M}
 \end{align}
-where $\mathbf{e}^{(n)}[p,q] = \bm{\psi}^{(n)}[p] - \bm{\psi}^{(n)}[q]$. Since the
-$Q$-function can be bounded as $Q(x)\leq e^{-x^2/2}/2$~\cite{proakisdigital},
+where $\mathbf{e}^{(n)}[p,q] = [e_1^{(n)}[p,q], e_2^{(n)}[p,q]]^T =
+\bm{\psi}^{(n)}[p] - \bm{\psi}^{(n)}[q]$.
+Since the $Q$-function can be bounded as $Q(x)\leq e^{-x^2/2}/2$~\cite{proakisdigital},
 the PEP in~(\ref{eq:PEP_M}) can be upper bounded by
 \begin{align}
-    \tilde{P}_{PEP}^{(m)}(q|p) &\leq
+    \tilde{P}_{PEP}^{(m)}(q|p) & =
     \frac{1}{2} \prod_{n=0}^{m}
     \mathbb{E}\left[\exp\left(-\frac{\|\mathbf{A}^{(n)}
     \mathbf{e}^{(n)}[p,q]\|^2}{4\sigma^2}\right)\right]
     \label{eq:PEP_M_1}
 \end{align}
-Denote $E_n[p,q]$ as the expectation in Eq.~(\ref{eq:PEP_M_1}), which can be
-evaluated as follows:
+Denote $E_n[p,q]$ as the expectation in Eq.~(\ref{eq:PEP_M_1}), which
+facilitates the recursion $\tilde{P}_{PEP}^{(m)}(q|p) =
+\tilde{P}_{PEP}^{(m-1)}(q|p)E_m[p,q]$, $\tilde{P}_{PEP}^{(-1)}(q|p)=1/2$.
+$E_n[p,q]$ can be evaluated as follows:
 \begin{proposition}
   \begin{align}
     E_n[p,q] & =
     \frac{(4\sigma^2)^{N_R}\exp\left(-\bm{\mu}_n^H[p,q]\mathbf{S}_n^{-1}[p,q]\bm{\mu}_n[p,q]\right)}
-    {\det(\mathbf{S}_n[p,q])} \\
-    \bm{\mu}_n[p,q] & =
-    \left[\sqrt{\frac{K_1}{K_1+1}}\bar{\mathbf{H}}_1\mathbf{p}_1
-    ,\, \sqrt{\frac{K_2}{K_2+1}}\bar{\mathbf{H}}_2\mathbf{p}_2
-    \right]\mathbf{e}^{(n)}[p,q],\notag
-    \\
-    \mathbf{S}_n[p,q] & =
+    {\det(\mathbf{S}_n[p,q])} \label{eq:E}\\
+     \mathbf{S}_n[p,q] & =
     4\sigma^2\mathbf{I} +
     \sum_{a=1,2} \frac{|e_a^{(n)}[p,q]|^2 \mathbf{p}_a^H\mathbf{T}_a
-    \mathbf{p}_a}{K_a+1} \mathbf{R}.
+    \mathbf{p}_a}{K_a+1} \mathbf{R},\notag\\
+    \bm{\mu}_n[p,q] & = \sum_{a=1,2}
+    \sqrt{\frac{K_a}{K_a+1}}\bar{\mathbf{H}}_a\mathbf{p}_ae_a^{(n)}[p,q].
+    \label{eq:S_mu}
   \end{align}
   \label{prop:en}
 \end{proposition}
@@ -676,11 +677,11 @@ Our MoDiv design aims to solve
 \end{align}
 where $\tilde{P}_{BER}^{(m)}$ is the approximated version of
 $P_{BER}^{(m)}$ by substituting $P_{PEP}^{(m)}(q|p)$ with
-$\tilde{P}_{PEP}^{(m)}(q|p)$. Denote $\mathbf{x}^{(m)} =
-\{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ which represents $\bm{\psi}_m$, where
-$x_{pij}^{(m)} = 1(\bm{\psi}_m[p] =
-(\psi_0[i], \psi_0[j])^T)$ and $1(\cdot)$ is the indicator function, $\psi_0$
-represents Gray mapping. Denote the constraint set
+$\tilde{P}_{PEP}^{(m)}(q|p)$. Denote the 3-D permutation matrix
+$\mathbf{x}^{(m)} = \{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ as an equivalent
+representation of $\bm{\psi}^{(m)}$ by $x_{pij}^{(m)} =
+\delta(\bm{\psi}^{(m)}[p], [\psi_0[i], \psi_0[j]]^T)$ and $\delta(x,y)$ is the
+Kronecker delta function, $\psi_0$ represents Gray mapping, which must satisfy
 \begin{align}
   \mathcal{S} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij}=
   \sum_{i=0}^{Q-1}x_{pij} =\sum_{j=0}^{Q-1}x_{pij} =1\right\}.
@@ -694,16 +695,16 @@ Then Eq.~(\ref{eq:minber}) can be formulated into a S-Q3AP as follows:
   f_{pq}^{(m)}d_{ikjl}x_{pij}^{(m)}x_{qkl}^{(m)},
   \label{eq:SQ3AP}
 \end{align}
-where the ``flow'' matrix $f_{pq}^{(m)}$ and the ``distance'' matrix $d_{ikjl}$
-are defined as
+where
 \begin{subequations}
   \begin{align}
     f_{pq}^{(m)} & = \frac{B[p,q]}{Q}\tilde{P}_{PEP}^{(m-1)}(q|p) \\
-    d_{ikjl} & = \frac{(4\sigma^2)^{N_R}}{\det(\mathbf{S}_{ikjl})}
-        \exp\left(-\bm{\mu}_{ikjl}^H\mathbf{S}_{ikjl}^{-1}\bm{\mu}_{ikjl}\right)
+    d_{ikjl} & =
+    \frac{(4\sigma^2)^{N_R}
+    \exp(-\bm{\mu}_{ikjl}^H\mathbf{S}_{ikjl}^{-1}\bm{\mu}_{ikjl})} {\det(\mathbf{S}_{ikjl})}
   \end{align}
 \end{subequations}
-where 
+Here $d_{ikjl}$ is derived from Eq.~\eqref{eq:E}\eqref{eq:S_mu} with
 \begin{align}
   \mathbf{S}_{ikjl} & = 4\sigma^2\mathbf{I} + \left(\frac{|e_{ik}|^2
   \mathbf{p}_1^H\mathbf{T}_1 \mathbf{p}_1}{K_1+1} + \frac{|e_{jl}|^2

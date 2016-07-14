@@ -249,12 +249,89 @@ respectively and $\lambda=1/(4\sigma^2)$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
 \emph{4. In Section III.B, the method has not been presented with sufficient
-detail. Why do you introduce x variables? What is the role of “flow” and
-“distance” matrices? How do you derive (13)?}
+detail. Why do you introduce $x$ variables? What is the role of ``flow'' and
+``distance'' matrices? How do you derive (13)?}
 
 \noindent \textbf{Authors' response:}
-Thank you for the question.
+Thank you for the question. The introduction of the variable $\mathbf{x}^{(m)}$
+is to facilitate a standard representation of Q3AP formulation
+[14]\citep[R][]{frieze1974bilinear}\citep[R][]{balas1991algorithm}\citep[R][]{burkard1999linear}\citep[R][]{5587019}.
+In our problem, their is a one-to-one mapping between the 3-D permutation matrix
+$\mathbf{x}^{(m)}\in\mathcal{S}$ (Eq.~(12)) and the vector mapping function
+$\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]$. 
 
+The ``flow'' and ``distance'' matrices are terminologies borrowed from the
+Koopmans-Beckmann form Quadratic Assignment Problem
+(QAP)~\citep[R][]{koopmans1957assignment}\citep[R][]{806935}:
+\begin{align}
+  & \min_{\mathbf{x}}
+  \sum_{p=0}^{Q-1}\sum_{i=1}^{n}
+  \sum_{q=0}^{Q-1}\sum_{j=1}^{n}
+  f_{pq}d_{ij}x_{pi}x_{qj},\notag\\
+  \mbox{s.t. } & \sum_{p=1}^{n}x_{pi} =
+  1,\sum_{i=1}^{n}x_{pi} = 1, x_{pi}\in\{0, 1\}
+\end{align}
+which is formulated from the following problem. Consider the problem of
+assignining $n$ industrial plants to $n$ locations. The distance between the $i$
+and $j$-th location is $d_{ij}$ and the transportation flow between the $p$ and
+$q$-th plant is $f_{pq}$. The plant-location assignment is so designed as to
+minimize the total transportation cost, defined as the sum-of-products of the
+distance and flow between each pair of plants. In our MoDiv design problem, the
+``flow'' and ``distance'' do not have a concrete meaning and does not affect
+the Q3AP formulation.
+
+Once again because of the page limit, we cannot include a step-by-step
+derivation from Eq.~(11) to Eq.~(13) into our original manuscript. A detailed
+deduction is as follows. Given the a vector mapping function
+$\bm{\psi}^{(m)}[\cdot]$, assuming that $\bm{\psi}^{(m)}[p] = [\psi_0[i_p],
+\psi_0[j_p]]^T$ and $\bm{\psi}^{(m)}[q] = [\psi_0[k_q], \psi_0[l_q]]^T$,
+where $p\rightarrow i_p$ and $p\rightarrow j_p$ are one-to-one mappings, we
+have
+\begin{subequations}
+  \begin{align}
+    e_1^{(m)}[p,q] & = \psi_1^{(m)}[p] - \psi_1^{(m)}[p] =\psi_0[i_p] -
+    \psi_0[k_q] = e_{i_pk_q} \\
+    e_2^{(m)}[p,q] & = \psi_2^{(m)}[p] - \psi_2^{(m)}[p] =\psi_0[j_p] -
+    \psi_0[l_q] = e_{j_pl_q}. 
+  \end{align}
+\end{subequations}
+By comparing Eq.~(8) and Eq.~(14), it is easy to see that $\bm{\mu}_m[p,q] =
+\bm{\mu}_{i_pk_qj_pl_q}$ and $\mathbf{S}_m[p,q] = \mathbf{S}_{i_pk_qj_pl_q}$.
+Consequently, by examining Eq.~(7) and Eq.~(15), we have $E_m[p,q] =
+d_{{i_pk_qj_pl_q}}$, therefore
+\begin{align}
+  \min_{\bm{\psi}^{(m)}\bm{\psi}^{(n)},n=0,\ldots,m-1}\tilde{P}_{BER}^{(m)}
+  & = \min \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
+  q]}{Q}\tilde{P}_{PEP}^{(m)}(q|p) \notag \\
+  & = \min \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
+  q]}{Q}\tilde{P}_{PEP}^{(m - 1)}(q|p) E_m[p, q] \notag \\
+  & = \min \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1} f_{pq}^{(m)} d_{{i_pk_qj_pl_q}}
+  \notag \\
+  & = \min \sum_{p=0}^{Q - 1} \sum_{q=0}^{Q - 1} \sum_{i=0}^{Q - 1}
+  \sum_{j=0}^{Q - 1} \sum_{k=0}^{Q - 1} \sum_{l=0}^{Q - 1}f_{pq}^{(m)}
+  d_{ikjl}\delta(i_p,i)\delta(j_p,j)\delta(k_q,k)\delta(l_q,l) \notag
+  \\
+  &= \min_{\mathbf{x}\in\mathcal{S}} \sum_{p=0}^{Q - 1} \sum_{q=0}^{Q - 1}
+  \sum_{i=0}^{Q - 1}
+  \sum_{j=0}^{Q - 1} \sum_{k=0}^{Q - 1} \sum_{l=0}^{Q - 1}f_{pq}^{(m)}
+  d_{ikjl} x_{pij}^{(m)}x_{qkl}^{(m)}
+\end{align}
+
+In order to make the derivation of the Q3AP formulation more clear, we have made
+the following changes to the original manuscript:
+\begin{enumerate}
+  \item Corrected a typo in Eq.~(6): change ``$\leq$'' into ``=''.
+  \item In the first paragraph of Section III.A present the recursive definition
+  of $\tilde{P}_{PEP}^{(m)}(q|p)$ using $E_m[p,q]$.
+  \item In the first paragraph of Section III.B, we explicitly state that
+  $\mathbf{x}^{(m)}$ is a 3-D permutaion matrix which is an equivalent
+  representation of $\bm{\psi}^{(m)}$.
+  \item Remove the terminology of ``flow'' and ``distance'' matrices, which are
+  mostly meaningless in our context and could cause potential confusion.
+  Instead, we add a explicit statement to draw connections between Eq.~(14b)(15)
+  and Eq.~(7)(8). We have also re-written Eq.~(8) and Eq.~(14b) so that the
+  above equations are in a more similar form.
+\end{enumerate}
 
 \vspace{0.5cm}
 
