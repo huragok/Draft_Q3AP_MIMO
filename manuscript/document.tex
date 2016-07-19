@@ -545,20 +545,22 @@ in various simulation settings and performance measurements.
 \section{System Model}
 \label{sec:model}
 % MoDiv as an enhancement of beamforming, 
-Consider the constellation rearrangement (CoRe) in a MIMO-CoMP
-downlink channel composed of two Remote Antenna Units (RRHs) and one user
-equipment (UE). In order to maximize the signal space diversity as an
-enhancement of beamforming, we allow different mappings of the same sequence of
-information bits at the two RRHs during the HARQ process. We assume a HARQ
-protocol based on Chase Combining (CC) and a maximum number of $M$
-retransmissions.
-For the $m$-th (re)transmission, every consecutive $\log_2Q$ bits are encoded
-into a label $p=0,\ldots, Q-1$ and then mapped to two constellation symbols
-via a vector mapping function $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p],
-\psi_2^{(m)}[p]]^T$, where $\psi_a^{(m)}[p]\in \mathcal{C}$ and $\mathcal{C}$ is
-the set of constellation symbols (e.g. QAP, 16-QAM). The two symbols are  then
-transmitted at the two RRHs, respectively. The received signal at the
-$m$-th (re)transmission of the bit sequence corresponding to label $p$ is:
+Consider the constellation rearrangement (CoRe) in a HARQ-enabled MIMO-CoMP
+downlink channel composed of two Remote Radio Head (RRHs) and one user
+equipment (UE). For the original transmission, bits are mapped to constellation
+symbols using conventional Gray mapping for both RRHs. However, in order to
+maximize the signal space diversity as an enhancement of beamforming, we allow
+different mappings of the same sequence of information bits at the two RRHs
+during the HARQ process. We assume a HARQ protocol based on Chase Combining (CC)
+and a maximum number of $M$ retransmissions.
+For the $m$-th (re)transmission, $m=0,1,\ldots,M$ where $m=0$ represents the
+original transmission, every consecutive $\log_2Q$ bits are encoded into a label
+$p=0,\ldots, Q-1$ and then mapped to two constellation symbols via a vector
+mapping function $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$,
+where $\psi_a^{(m)}[p]\in \mathcal{C}$ and $\mathcal{C}$ is the set of
+constellation symbols (e.g. QAM, 16-QAM). The two symbols are then transmitted
+at the two RRHs, respectively. The received signal at the $m$-th
+(re)transmission of the bit sequence corresponding to label $p$ is:
 \begin{align}
   \mathbf{y}^{(m)} & =  \mathbf{A}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
   \notag \\
@@ -732,17 +734,23 @@ algorithm~\cite{hahn2008quadratic}. Also, our tests show that they do not have
 enough symmetry to exploit for faster solution as does the 16-PSK
 constellation~\cite{mittelmann2015solving}.
 Consequently, the MoDiv problem is solved with the ILS
-method~\cite{hahn2008quadratic} extended from its QAP
-version~\cite{stutzle2006iterated}. Starting from two random initial mappings
-$\psi_1^{(0)}, \psi_2^{(0)}$, the algorithm executes a local search by
-exchanging the mappings of exactly 2 labels whenever a reduction in the
-objective function is made. This approach can lower the objective function and
-update the mapping locally. When the process hits a local minimum, it executes a
-perturbation step by exchanging the mappings of $k_p$ labels, where integer
-$k_p$ is adaptively adjusted within a range $[k_{p,min}, k_{p,max}]$. The
-perturbation is accepted with a probability defined as in simulated annealing,
-after which the local search is restarted from the new mappings until the
-stopping criterion is satisfied.
+method~\cite[Sec. 5.5]{hahn2008quadratic} extended from its QAP
+version~\cite{stutzle2006iterated}. The only difference of our
+implementation from the one in these references is that, as in
+Eq.~(\ref{eq:SQ3AP}) a Q3AP is defined with a 4-D matrix and a 2-D matrix
+instead of the general Q3AP defined with a 6-D
+matrix~\cite[Eq.(2)]{hahn2008quadratic}. The outline of ILS-Q3AP is as
+follows: starting from a random initial mappings $\bm{\psi}=[\psi_1,
+\psi_2]$, the algorithm repeatedly executes a local search by exchanging the
+mappings of 2 labels whenever the objective function is reduced so as to lower
+the objective function and update the mapping locally. When the process hits a
+local minimum, it executes a perturbation step to break from it and explore new
+solutions by exchanging the mappings of $k_p$ labels, where integer $k_p$ is
+adaptively adjusted within a range $[k_{p,min}, k_{p,max}]$. The perturbation is
+accepted with a probability defined as in simulated annealing, after which the
+local search is restarted from the new mappings until the stopping criterion is
+satisfied. The algorithm is meant to be executed in a centralized manner in the
+base transceiver station (BTS) connected to the two RRHs.
 
 \section{Numerical Results}
 \label{sec:numerical}
@@ -755,12 +763,13 @@ components of the Rician channel are set to $\bar{\mathbf{H}}_{1} = [0.2540;
 The Rician coefficients are $K_1 = K_2 = 4$ by default. A simple maximum SNR
 beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel) under
 a total power constraint is used at the two RRHs. 
-For the HARQ retransmission, the maximum number of retransmissions is set to
-$M=4$. Three MoDiv schemes are compared, namely the simple retransmission with
+The maximum number of HARQ retransmissions is set
+to $M=4$. Three MoDiv schemes are compared, namely the simple retransmission with
 no MoDiv, a heurisitic CoRe scheme proposed for
 HSDPA~\cite{panasonic2001enhanced} generalized to our CoMP scenario by fixing
-$\psi_1 = \psi_2$ and our Q3AP-based MoDiv design. The three schemes after the $m$-th retransmission are denoted
-as NM$m$, CR$m$ and Q3AP$m$, respectively. 64-QAM is considered in our
+$\psi_1 = \psi_2$ and our Q3AP-based MoDiv design, denoted
+as NM$m$, CR$m$ and Q3AP$m$, respectively for $m$ retransmissions. The original
+transmission using Gray mapping is labeld as TR0. 64-QAM is considered in our
 simulations, for which each Q3AP is solved with 5 random initializations and
 several minutes of ILS iterations.
 
@@ -769,17 +778,15 @@ different $\sigma^2$ in Fig.~\ref{fig:uncoded_noisepower_approx} and
 Fig.~\ref{fig:uncoded_noisepower_mc}.
 Apparently, the BER upperbound in~\eqref{eq:P_BER} appears to be a descent
 indicator of the actual BER when comparing different MoDiv schemes, and the Q3AP
-solution offers a substantial performance gain over non-MoDiv and the heuristic CoRe. For
-instance, at low SNR regime 1 retransmission of Q3AP MoDiv achieves almost the
-same uncoded BER as does the simple retransmission without MoDiv, and 3 MoDiv
-retransmissions are comparable to 4 retransmissions with heuristic CoRe.
+solution offers a substantial performance gain over the other 2 schemes. For
+instance, at low SNR regime Q3AP1 achieves almost the same uncoded BER as NM2,
+and Q3AP3 is comparable to CR4.
 
 In Fig.~\ref{fig:uncoded_K_approx} and Fig.~\ref{fig:uncoded_K_mc}, the uncoded
 BER is plotted against varying $K$ under fixed $\sigma^2 = 18$dB for $m=1,2$ and 
 $\sigma^2 = 8$dB for $m=3,4$. A significant performance gain is observed for all
 channel conditions ranging from heavily Rayleigh fading (small $K$) to very
 light fading (large $K$).
-
 \begin{figure}[!t]
   \begin{minipage}[b]{.48\linewidth}
     \centering
@@ -792,10 +799,10 @@ light fading (large $K$).
     \centerline{\includegraphics[width=4.5cm]{./figs/BER_noise_power_upperbound_64QAM_34.eps}}
     \centerline{(b) $m=3,4$}\medskip
   \end{minipage}
+  \vspace{-10pt}
   \caption{Analytical approximation results of uncoded BER.}
   \label{fig:uncoded_noisepower_approx}
 \end{figure}
-
 \begin{figure}[!t]
   \begin{minipage}[b]{.48\linewidth}
     \centering
@@ -808,10 +815,10 @@ light fading (large $K$).
     \centerline{\includegraphics[width=4.5cm]{./figs/BER_noise_power_MonteCarlo_64QAM_34.eps}}
     \centerline{(b) $m=3,4$}\medskip
   \end{minipage}
+  \vspace{-10pt}
   \caption{Monte-Carlo simulation results of uncoded BER.}
   \label{fig:uncoded_noisepower_mc}
 \end{figure}
-
 \begin{figure}[!t]
   \begin{minipage}[b]{.48\linewidth}
     \centering
@@ -824,10 +831,10 @@ light fading (large $K$).
     \centerline{\includegraphics[width=4.5cm]{./figs/BER_K_upperbound_64QAM_34.eps}}
     \centerline{(b) $m=3,4$}\medskip
   \end{minipage}
+  \vspace{-10pt}
   \caption{Analytical approximation results of uncoded BER.}
   \label{fig:uncoded_K_approx}
 \end{figure}
-
 \begin{figure}[!t]
   \begin{minipage}[b]{.48\linewidth}
     \centering
@@ -840,6 +847,7 @@ light fading (large $K$).
     \centerline{\includegraphics[width=4.5cm]{./figs/BER_K_MonteCarlo_64QAM_34.eps}}
     \centerline{(b) $m=3,4$}\medskip
   \end{minipage}
+  \vspace{-10pt}
   \caption{Monte-Carlo simulation results of uncoded BER.}
   \label{fig:uncoded_K_mc}
 \end{figure}
@@ -853,13 +861,12 @@ wide range of $\sigma^2$. As shown in Fig.~\ref{fig:coded}, despite of the
 mismatch in the design parameter $\sigma^2$, our Q3AP-based MoDiv is still able
 to outmatches the other two MoDiv schemes, especially in the more likely
 cases of a smaller number of retransmissions. 
-Specifically, the waterfall curve of coded BER for 1 retransmission of Q3AP
-almost overlaps with that of 2 retransmissons without MoDiv, and 2
-retransmisssions of Q3AP outperforms the other 2 schemes by around 1.7dB and
-4dB, respectively. The average HARQ throughput of the same LDPC coded system is
-also shown in Fig.~\ref{fig:coded_throughput}, which further verifies the
-performance gain of the Q3AP-based MoDiv design approach. 
-
+Specifically, the waterfall curve of coded BER for  Q3AP1
+almost overlaps with that of NM2, and Q3AP2 outperforms the other 2 schemes by
+around 1.7dB and 4dB, respectively. The average HARQ
+throughput defined in~\cite{panasonic2001enhanced} for the same LDPC coded
+system is also shown in Fig.~\ref{fig:coded_throughput}, which further verifies
+the performance gain of the Q3AP-based MoDiv design approach.
 \begin{figure}[!t]
   \centering
   \begin{minipage}[b]{1\columnwidth}
@@ -873,13 +880,14 @@ performance gain of the Q3AP-based MoDiv design approach.
     \centerline{\includegraphics[width=6.5cm]{./figs/waterfall_64QAM_34.eps}}
     %\centerline{(b) $m=3,4$}\medskip
   \end{minipage}
+  \vspace{-10pt}
   \caption{Coded BER. $m=1, 2$ (top) and $m=3,4$ (bottom).}
   \label{fig:coded}
 \end{figure}
-
 \begin{figure}[!t]
   \centering
   \includegraphics[width=0.75\columnwidth]{./figs/throughput.eps}
+  \vspace{-10pt}
   \caption{Average throughput.}
   \label{fig:coded_throughput}
 \end{figure}

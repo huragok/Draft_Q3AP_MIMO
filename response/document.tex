@@ -53,9 +53,35 @@ rules for citations and references:
 % \end{figure}
 % Fig.~\ref{fig:test}
 
+ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
-\emph{1. The signal model needs further work: $p$ is reported as “index” before
+\emph{1. The novelty of this work may be limited by the simplicity of the model,
+as it seems the method can only be applied when two RRHs cooperate. }
+
+\noindent \textbf{Authors' response:} 
+Thank you for the comment. Indeed we assume that the two RRHs are fully
+cooperative. More precisely, our coordinated multipoint (CoMP) model arises
+naturally from a novel mobile network architecture named Cloud Radio Access
+Network (C-RAN)~\citep[R][]{6897914}\citep[R][]{6923535} which have
+become more and more popular in recent years. In this architecture, a
+centralized baseband unit (BBU) pool is connected to multiple remote radio heads
+(RRHs) covering neighboring areas via low latency, high bandwidth optical fiber
+links. All the baseband processing is carried out in the BBU while RRHs are
+mostly ``numb'' RF units. Such a network structure has the potential to enable
+joint transmission, the most advanced form of CoMP. Other network achitecture
+for which CoMP has been proposed and studied include heterogeneous networks,
+which has also attracted great research interest
+recently~\citep[R][]{6928420}\citep[R][]{6146489}. Consequently, in our opinion
+cooperative RRHs is a simple yet practical and meaningful assumption, and
+to the best of our knowledge MoDiv design has not been studied under this
+scenario previously.
+
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{2. The signal model needs further work: $p$ is reported as “index” before
 (1) and something to be demodulated in (3); in (1), which is the transmit
 vector/symbol? }
 
@@ -130,7 +156,7 @@ terminology as [4]. Most notebaly, we have renamed $p$ as ``label'' instead of
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
-\emph{2. Some more not defined expressions/symbols/variables: in (2),
+\emph{3. Some more not defined expressions/symbols/variables: in (2),
 $\bar{\mathbf{H}}_a$ (first term); CSCG.}
 
 \noindent \textbf{Authors' response:}
@@ -143,7 +169,7 @@ Eq.~(2).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
-\emph{3. Proposition 1: the proof is abridged in excess. For instance, the
+\emph{4. Proposition 1: the proof is abridged in excess. For instance, the
 derivation of (9) is hard to understand.}
 
 \noindent \textbf{Authors' response:}
@@ -248,7 +274,7 @@ respectively and $\lambda=1/(4\sigma^2)$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
-\emph{4. In Section III.B, the method has not been presented with sufficient
+\emph{5. In Section III.B, the method has not been presented with sufficient
 detail. Why do you introduce $x$ variables? What is the role of ``flow'' and
 ``distance'' matrices? How do you derive (13)?}
 
@@ -337,22 +363,92 @@ the following changes to the original manuscript:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent
-\emph{5. The proposed solving method based on ILS has not been sufficiently
+\emph{6. The proposed solving method based on ILS has not been sufficiently
 explained. Among others, the method is apparently distributed but in (11) the
 authors have a global function.}
 
 \noindent \textbf{Authors' response:}
+Thank you for the comment. Throughout our original manuscript, we neither claim
+nor imply that the iterated local search (ILS) is necessarily a distributed
+algorithm, and in fact our implementation is not distributed. Also it is noted
+that an algorithm being distributed does not suggest that it is
+designed to solve a multi-objective optimization problem therefore does not
+contradict with a global objective function.
+
+More specifically, in our work, the ILS algorithm is intended to provide a
+sub-optimal solution that locally minimizes the global objective function in
+Eq.~(11). As explained more clearly in the revised manuscript and our response
+to Comment 4, this problem is formulated into a Q3AP in Eq.~(13) which is a
+special case of [14, Eq.~(2)] and an extension from [20, Eq.~(1)]. Even though
+there are two RRHs in our system design, as it uses only the statistical CSI
+which just need to be collected once, the ILS algorithm is meant to be
+implemented in a centralized manner in the base transceiver station (BTS) which
+are connected to the two RRHs, which is in compliance with the Cloud Radio
+Access Network (C-RAN), a novel yet popular mobile network
+architecture~\citep[R][]{6897914}.
+
+In the original manuscript, due to the page limit only a brief description on
+the ILS algorithm is provided and interested readers are refered to [20] for
+more details, which describes the ILS for quadrtic assignment problem (QAP)
+thoroughly. More details on the ILS for QAP and the extended ILS for Q3AP can be
+found in [20][14, Sec. 5.5].
+
+In response to the reviewer's comment we have made the following changes to the
+original manuscript in the last paragraph of Sec.III.B:
+\begin{enumerate}
+  \item We direct the readers more specifically to Sec. 5.5 of [14] for more
+  details about ILS-Q3AP together with [20].
+  \item We highlight that our Q3AP is specified with a 4-D matrix and a
+  2-D matrix and draw a connection with the general Q3AP defined with a 6-D
+  matrix in [14].
+  \item To avoid possible misunderstanding, it is emphasized that the ILS is to
+  be implemented in a centralized manner.
+\end{enumerate}
 
 \vspace{0.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{7. With respect to simulations, the results of Fig.6 are not coherent with
+the results form previous figures, as for high SNR all the methods exhibit the
+same performance.}
 
-As per the other concerns, the assumption of two cooperative RRHs
+\noindent \textbf{Authors' response:}
+Thank you for the comment. This question probably arises as we forgot to
+explicitly state that all 3 CoRe methods always uses Gray-mapping for the
+original transmission ($m=0$), which is a common setting for all CoRe schemes
+[3]-[9],[12],[13],[22]. As a result, in high SNR regime all 3 CoRe schemes
+result in 0 BER from the original transmission and no retransmission is needed,
+leading to exactly the same performance. In fact, in Fig.1a, Fig.2a, Fig.3a and
+Fig.4a, we have plotted the uncoded BER in black solid curve labled ``TR0''
+which is the same for the 3 CoRe schemes.
 
-The reviewer also questioned the consistency of our simulation result.
+To see how Fig.6 is consistent with the waterfall curve for coded BER in Fig.5,
+we note that the throughput is evaluated as
+\begin{align}
+  r=\mbox(Avg)\left( \frac{\log_2Q \mbox{(coding rate)}}{\mbox{(total number of
+  transmissions)}} \right)
+\end{align}
+which is the same as [20]. For instance, for Q3AP, when
+$1/\sigma^2=6$dB, as shown in Fig.5a, 1 retransmission results in coded BER of
+$10^{-2}-10^{-1}$, which will almost certainly result in a packet error, while 2
+retransmissions (namely 3 transmissions including the original transmission) is
+usually enough for a successful retransmission, therefore the throughput is
+\begin{align}
+  r\approx \frac{\log_264\cdot 3/4}{3} = 1.5
+\end{align}
+in this way it is easy to verify that Fig.6 is consistent with Fig.5.
+
+In order to prevent similar confusion, in the revised manuscript we clarify the
+assumption of Gray mapping for $m=0$ in the first paragraph of Section II. We
+have also added references with regard to how throughput is evaluated in the
+last paragraph of Section IV.
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Once again, we thank the reviewer for the review and suggestions that helped to
-significantly improve our revised manuscript.
+significantly improve our revised manuscript. 
 
 
 
