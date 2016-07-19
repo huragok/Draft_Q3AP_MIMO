@@ -69,7 +69,7 @@ centralized baseband unit (BBU) pool is connected to multiple remote radio heads
 (RRHs) covering neighboring areas via low latency, high bandwidth optical fiber
 links. All the baseband processing is carried out in the BBU while RRHs are
 mostly ``numb'' RF units. Such a network structure has the potential to enable
-joint transmission, the most advanced form of CoMP. Other network achitecture
+joint transmission, the most advanced form of CoMP. Other network architecture
 for which CoMP has been proposed and studied include heterogeneous networks,
 which has also attracted great research interest
 recently~\citep[R][]{6928420}\citep[R][]{6146489}. Consequently, in our opinion
@@ -88,7 +88,7 @@ vector/symbol? }
 \noindent \textbf{Authors' response:}
 Thank you for the comment. As mentioned in the first paragraph in Section
 II, the transmitted vector corresponding to two symbols are
-$\bm{\phi}^(m)[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$, where
+$\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$, where
 $p=0,\ldots,Q-1$ is the index/label corresponding to a bit sequence of length
 $\log_2Q$, and in Eq.~(1) the transmitted symbols at the two RRHs are
 $\psi_1^{(m)}[p]$ and $\psi_2^{(m)}[p]$, respectively. For instance, for 16-QAM where $Q=16$, in
@@ -103,7 +103,7 @@ of Eq.~(3).
 
 To prevent possible confusion from our readers, we rephrase the description of
 our signal model in the first paragraph of Section II, using similar
-terminology as [4]. Most notebaly, we have renamed $p$ as ``label'' instead of
+terminology as [4]. Most notably, we have renamed $p$ as ``label'' instead of
 ``index'' throughout the manuscript.
 
 \begin{table}[!t]
@@ -149,7 +149,7 @@ terminology as [4]. Most notebaly, we have renamed $p$ as ``label'' instead of
   \end{minipage}
   \caption{Constellation symbols. Label $p$ are marked next to each
   constellation symbol and we assume that the horizontal and vertical
-  distances between two neighboring constallation symbols are both 2.}
+  distances between two neighboring constellation symbols are both 2.}
   \label{fig:mapping}
 \end{figure}
 \vspace{0.5cm}
@@ -162,7 +162,7 @@ $\bar{\mathbf{H}}_a$ (first term); CSCG.}
 \noindent \textbf{Authors' response:}
 Thank you for pointing out this ambiguity. We have added descriptions on
 $\bar{\mathbf{H}}_a$ and used the common notation $\mathcal{CN}(0,1)$
-in place of standard Circularly Symmetric Complex Gaussin (GSCG) following
+in place of standard Circularly Symmetric Complex Gaussian (CSCG) following
 Eq.~(2).
 
 \vspace{0.5cm}
@@ -185,7 +185,7 @@ From Eq.~(2) with the index of (re)transmission $(n)$ dropped, we have
   \mathbf{R}^{1/2} \mathbf{H}_{w,a} \mathbf{T}_a^{1/2} \mathbf{p}_a
   e_a[p,q]
 \end{align}
-where $e_a[p,q] = \psi_a[p]-\psi_a[q]$, $a=1,2$. Since the entris of
+where $e_a[p,q] = \psi_a[p]-\psi_a[q]$, $a=1,2$. Since the entries of
 $\mathbf{H}_{w,a}$ are i.i.d distributed in $\mathcal{CN}(0,1)$,
 $\mathbf{A}\mathbf{e}[p,q]$ also follows CSCG distribution. Its expectation is
 simply
@@ -269,7 +269,9 @@ and according to Woodbury matrix identity,
 \end{align}
 therefore Eq.~(10) has been proved. As a result, Eq.~(7) is readily available by
 substituting $\bm{\mu}$ and $\mathbf{C}$ with the results in Eq.~(8),(9),
-respectively and $\lambda=1/(4\sigma^2)$.
+respectively and $\lambda=1/(4\sigma^2)$. If our manuscript is accepted and the
+reviewer feels it necessary, we can post this proof in our lab's website as a
+supplementary material.
 \vspace{0.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,7 +284,7 @@ detail. Why do you introduce $x$ variables? What is the role of ``flow'' and
 Thank you for the question. The introduction of the variable $\mathbf{x}^{(m)}$
 is to facilitate a standard representation of Q3AP formulation
 [14]\citep[R][]{frieze1974bilinear}\citep[R][]{balas1991algorithm}\citep[R][]{burkard1999linear}\citep[R][]{5587019}.
-In our problem, their is a one-to-one mapping between the 3-D permutation matrix
+In our problem, there is a one-to-one mapping between the 3-D permutation matrix
 $\mathbf{x}^{(m)}\in\mathcal{S}$ (Eq.~(12)) and the vector mapping function
 $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]$. 
 
@@ -291,14 +293,14 @@ Koopmans-Beckmann form Quadratic Assignment Problem
 (QAP)~\citep[R][]{koopmans1957assignment}\citep[R][]{806935}:
 \begin{align}
   & \min_{\mathbf{x}}
-  \sum_{p=0}^{Q-1}\sum_{i=1}^{n}
-  \sum_{q=0}^{Q-1}\sum_{j=1}^{n}
+  \sum_{p=1}^{n}\sum_{i=1}^{n}
+  \sum_{q=1}^{n}\sum_{j=1}^{n}
   f_{pq}d_{ij}x_{pi}x_{qj},\notag\\
   \mbox{s.t. } & \sum_{p=1}^{n}x_{pi} =
   1,\sum_{i=1}^{n}x_{pi} = 1, x_{pi}\in\{0, 1\}
 \end{align}
 which is formulated from the following problem. Consider the problem of
-assignining $n$ industrial plants to $n$ locations. The distance between the $i$
+assigning $n$ industrial plants to $n$ locations. The distance between the $i$
 and $j$-th location is $d_{ij}$ and the transportation flow between the $p$ and
 $q$-th plant is $f_{pq}$. The plant-location assignment is so designed as to
 minimize the total transportation cost, defined as the sum-of-products of the
@@ -350,7 +352,7 @@ the following changes to the original manuscript:
   \item In the first paragraph of Section III.A present the recursive definition
   of $\tilde{P}_{PEP}^{(m)}(q|p)$ using $E_m[p,q]$.
   \item In the first paragraph of Section III.B, we explicitly state that
-  $\mathbf{x}^{(m)}$ is a 3-D permutaion matrix which is an equivalent
+  $\mathbf{x}^{(m)}$ is a 3-D permutation matrix which is an equivalent
   representation of $\bm{\psi}^{(m)}$.
   \item Remove the terminology of ``flow'' and ``distance'' matrices, which are
   mostly meaningless in our context and could cause potential confusion.
@@ -388,8 +390,8 @@ Access Network (C-RAN), a novel yet popular mobile network
 architecture~\citep[R][]{6897914}.
 
 In the original manuscript, due to the page limit only a brief description on
-the ILS algorithm is provided and interested readers are refered to [20] for
-more details, which describes the ILS for quadrtic assignment problem (QAP)
+the ILS algorithm is provided and interested readers are referred to [20] for
+more details, which describes the ILS for quadratic assignment problem (QAP)
 thoroughly. More details on the ILS for QAP and the extended ILS for Q3AP can be
 found in [20][14, Sec. 5.5].
 
@@ -420,14 +422,14 @@ original transmission ($m=0$), which is a common setting for all CoRe schemes
 [3]-[9],[12],[13],[22]. As a result, in high SNR regime all 3 CoRe schemes
 result in 0 BER from the original transmission and no retransmission is needed,
 leading to exactly the same performance. In fact, in Fig.1a, Fig.2a, Fig.3a and
-Fig.4a, we have plotted the uncoded BER in black solid curve labled ``TR0''
+Fig.4a, we have plotted the uncoded BER in black solid curve labeled ``TR0''
 which is the same for the 3 CoRe schemes.
 
 To see how Fig.6 is consistent with the waterfall curve for coded BER in Fig.5,
 we note that the throughput is evaluated as
 \begin{align}
-  r=\mbox(Avg)\left( \frac{\log_2Q \mbox{(coding rate)}}{\mbox{(total number of
-  transmissions)}} \right)
+  r=\mbox{Avg}\left( \frac{\log_2Q \cdot\mbox{(coding rate)}}{\mbox{(total number
+  of transmissions)}} \right)
 \end{align}
 which is the same as [20]. For instance, for Q3AP, when
 $1/\sigma^2=6$dB, as shown in Fig.5a, 1 retransmission results in coded BER of

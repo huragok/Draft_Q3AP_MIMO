@@ -601,10 +601,10 @@ detection:
 \label{sec:modiv}
 % Outline
 
-\subsection{A BER Upperbound}
+\subsection{A BER Upper Bound}
 \label{ssec:ber}
 The BER of the ML demodulator after the $m$-th (re)transmission can be
-upperbounded and approximated by
+upper-bounded and approximated by
 \begin{align}
   P_{BER}^{(m)} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
   q]}{Q}P_{PEP}^{(m)}(q|p) \label{eq:P_BER}
@@ -765,18 +765,18 @@ beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel) under
 a total power constraint is used at the two RRHs. 
 The maximum number of HARQ retransmissions is set
 to $M=4$. Three MoDiv schemes are compared, namely the simple retransmission with
-no MoDiv, a heurisitic CoRe scheme proposed for
+no MoDiv, a heuristic CoRe scheme proposed for
 HSDPA~\cite{panasonic2001enhanced} generalized to our CoMP scenario by fixing
 $\psi_1 = \psi_2$ and our Q3AP-based MoDiv design, denoted
 as NM$m$, CR$m$ and Q3AP$m$, respectively for $m$ retransmissions. The original
-transmission using Gray mapping is labeld as TR0. 64-QAM is considered in our
+transmission using Gray mapping is labeled as TR0. 64-QAM is considered in our
 simulations, for which each Q3AP is solved with 5 random initializations and
 several minutes of ILS iterations.
 
-First we compare the upperbound and Monte-Carlo average of the uncoded BER for
+First we compare the upper bound and Monte-Carlo average of the uncoded BER for
 different $\sigma^2$ in Fig.~\ref{fig:uncoded_noisepower_approx} and 
 Fig.~\ref{fig:uncoded_noisepower_mc}.
-Apparently, the BER upperbound in~\eqref{eq:P_BER} appears to be a descent
+Apparently, the BER upper bound in~\eqref{eq:P_BER} appears to be a descent
 indicator of the actual BER when comparing different MoDiv schemes, and the Q3AP
 solution offers a substantial performance gain over the other 2 schemes. For
 instance, at low SNR regime Q3AP1 achieves almost the same uncoded BER as NM2,
