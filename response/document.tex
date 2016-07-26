@@ -61,21 +61,33 @@ as it seems the method can only be applied when two RRHs cooperate. }
 
 \noindent \textbf{Authors' response:} 
 Thank you for the comment. Indeed we assume that the two RRHs are fully
-cooperative. More precisely, our coordinated multipoint (CoMP) model arises
-naturally from a novel mobile network architecture named Cloud Radio Access
-Network (C-RAN)~\citep[R][]{6897914}\citep[R][]{6923535} which have
-become more and more popular in recent years. In this architecture, a
-centralized baseband unit (BBU) pool is connected to multiple remote radio heads
-(RRHs) covering neighboring areas via low latency, high bandwidth optical fiber
-links. All the baseband processing is carried out in the BBU while RRHs are
-mostly ``numb'' RF units. Such a network structure has the potential to enable
-joint transmission, the most advanced form of CoMP. Other network architecture
-for which CoMP has been proposed and studied include heterogeneous networks,
-which has also attracted great research interest
-recently~\citep[R][]{6928420}\citep[R][]{6146489}. Consequently, in our opinion
-cooperative RRHs is a simple yet practical and meaningful assumption, and
-to the best of our knowledge MoDiv design has not been studied under this
-scenario previously.
+cooperative. Nevertheless, cooperative transmission has both attacted great
+research interest [10][11] and been incorporated into the latest wireless
+communication systems such as LTE-advanced~\citep[R][]{TR36.819}. The simplicity
+of this model allows it to be adopted to many scenarios, such as joint
+transmission between different sectors/cells from a same macro base station
+(BS), between homogeneous cells covered by a macro BS and its high-power RRHs,
+or between heterogeneous cells covered by a macro BS and its low-power RRHs, etc. Recent sudies on Cloud Radio Access Network
+(C-RAN)~\citep[R][]{6897914}\citep[R][]{6923535} have also promoted new network architectures where CoMP could find its application.
+Consequently, in our opinion cooperative RRHs is a simple yet practical and
+meaningful assumption, and to the best of our knowledge MoDiv design has not
+been studied under this scenario previously.
+
+If there are $N>2$ RRHs cooperating with one another, it is possible to
+scale our MoDiv design approach into a quadratic $(N+1)$-dimensional
+assignment problem at the cost of fast-growing complexity. However, in reality,
+the cluster size of CoMP is limited by backhaul constraints or in order to
+simplify scheduler operation~\citep[R][]{6146494}. It is often
+practical to investigate only two or three transmitters cooperating
+with each other to serve a user equipment (UE) on cell/sector
+edges~\citep[R][]{4385782, 5463229, 5456455} or in a overlaid heterogeneous
+network~\citep[R][]{6879305, 6362916}. Moreover, even in the cases of $N>2$, it
+is possible to group the $N$ RRHs into two groups to form two virtual RRHs with
+multi-antennas and then our MoDiv design can be applied directly.
+
+In order to emphasize the generality of our system model, in the revised
+manuscript, we have used cooperative ``transmitters'' instead of ``RRHs'' to
+imply that our approach applies to a wider range of CoMP systems.
 
 \vspace{0.5cm}
 
@@ -103,7 +115,8 @@ of Eq.~(3).
 
 To prevent possible confusion from our readers, we rephrase the description of
 our signal model in the first paragraph of Section II, using similar
-terminology as [4]. Most notably, we have renamed $p$ as ``label'' instead of
+terminology as [4]. Most notably, we have renamed $p$ as ``label'', which is
+commonly used in related works [4]\citep[R][]{1388738, 7494668}, instead of
 ``index'' throughout the manuscript.
 
 \begin{table}[!t]
@@ -175,7 +188,176 @@ derivation of (9) is hard to understand.}
 \noindent \textbf{Authors' response:}
 Thank you for the comment. Due to the page limit of the IEEE Communications
 Letters, we cannot provide a thorough proof in the original manuscript and we
-had to list only the key steps. A rigorous proof of Proposition 1 is as follows.
+had to list only the key steps. A rigorous proof of Proposition 1 is attached
+in Appendix A in this response letter. If our manuscript is accepted and the
+reviewer feels it necessary, we will provide online access to this proof as
+supplementary material.
+
+ 
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{5. In Section III.B, the method has not been presented with sufficient
+detail. Why do you introduce $x$ variables? What is the role of ``flow'' and
+``distance'' matrices? How do you derive (13)?}
+
+\noindent \textbf{Authors' response:}
+Thank you for the question. The introduction of the variable $\mathbf{x}^{(m)}$
+is to facilitate a standard representation of Q3AP formulation
+[14]\citep[R][]{frieze1974bilinear}\citep[R][]{balas1991algorithm}\citep[R][]{burkard1999linear}\citep[R][]{5587019}.
+In our problem, there is a one-to-one mapping between the 3-D permutation matrix
+$\mathbf{x}^{(m)}\in\mathcal{S}$ (Eq.~(12)) and the vector mapping function
+$\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]$. 
+
+The ``flow'' and ``distance'' matrices are terminologies borrowed from the
+Koopmans-Beckmann form Quadratic Assignment Problem
+(QAP)~\citep[R][]{koopmans1957assignment}\citep[R][]{806935}:
+\begin{align}
+  & \min_{\mathbf{x}}
+  \sum_{p=1}^{n}\sum_{i=1}^{n}
+  \sum_{q=1}^{n}\sum_{j=1}^{n}
+  f_{pq}d_{ij}x_{pi}x_{qj},\notag\\
+  \mbox{s.t. } & \sum_{p=1}^{n}x_{pi} =
+  1,\sum_{i=1}^{n}x_{pi} = 1, x_{pi}\in\{0, 1\}
+\end{align}
+which is formulated from the following problem. Consider the problem of
+assigning $n$ industrial plants to $n$ locations. The distance between the $i$
+and $j$-th location is $d_{ij}$ and the transportation flow between the $p$ and
+$q$-th plant is $f_{pq}$. The plant-location assignment is so designed as to
+minimize the total transportation cost, defined as the sum-of-products of the
+distance and flow between each pair of plants. In our MoDiv design problem, the
+``flow'' and ``distance'' do not have a concrete meaning and does not affect
+the Q3AP formulation.
+
+Once again because of the page limit, we cannot include a step-by-step
+derivation from Eq.~(11) to Eq.~(13) into our original manuscript. A detailed
+deduction is provided in Appendix B. Again, if our manuscript is accepted we
+can either provide online access to it or refer to our earlier
+works which include a similar derivation.
+
+Nevertheless, in order to make the derivation of the Q3AP formulation more
+clear, we have made the following changes to the original manuscript:
+\begin{enumerate}
+  \item Corrected a typo in Eq.~(6): change ``$\leq$'' into ``=''.
+  \item In the first paragraph of Section III.A present the recursive definition
+  of $\tilde{P}_{PEP}^{(m)}(q|p)$ using $E_m[p,q]$.
+  \item In the first paragraph of Section III.B, we explicitly state that
+  $\mathbf{x}^{(m)}$ is a 3-D permutation matrix which is an equivalent
+  representation of $\bm{\psi}^{(m)}$.
+  \item Remove the terminology of ``flow'' and ``distance'' matrices, which are
+  mostly meaningless in our context and could cause potential confusion.
+  Instead, we add a explicit statement to draw connections between Eq.~(14b)(15)
+  and Eq.~(7)(8). We have also re-written Eq.~(8) and Eq.~(14b) so that the
+  above equations are in a more similar form.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{6. The proposed solving method based on ILS has not been sufficiently
+explained. Among others, the method is apparently distributed but in (11) the
+authors have a global function.}
+
+\noindent \textbf{Authors' response:}
+Thank you for the comment. Throughout our original manuscript, we neither claim
+nor imply that the iterated local search (ILS) is necessarily a distributed
+algorithm, and in fact our implementation is not distributed.
+
+Let us emphasize that, in our work, the ILS algorithm is intended to provide a
+sub-optimal solution that locally minimizes the global objective function in
+Eq.~(11). As explained more clearly in the revised manuscript and our response
+to Comment 4, this problem is formulated into a Q3AP in Eq.~(13) which is a
+special case of [14, Eq.~(2)] and an extension from [20, Eq.~(1)]. Even though
+there are two RRHs in our system design, as it uses only the statistical CSI
+which just need to be collected once, the ILS algorithm is meant to be
+implemented in a centralized manner, for example, in the base transceiver
+station (BTS) which are connected to the two RRHs, which is in compliance with
+the Cloud Radio Access Network (C-RAN), a novel yet popular mobile network
+architecture~\citep[R][]{6897914}.
+
+We regret that in the original manuscript due to the page limit only a brief
+description on the ILS algorithm is provided and interested readers are referred
+to [20] for more details, which describes the ILS for quadratic assignment problem (QAP)
+thoroughly. More details on the ILS for QAP and the extended ILS for Q3AP can be
+found in [20][14, Sec. 5.5].
+
+In response to the reviewer's comment we have made the following changes to the
+original manuscript in the last paragraph of Sec.III.B:
+\begin{enumerate}
+  \item We direct the readers more specifically to Sec. 5.5 of [14] for more
+  details about ILS-Q3AP together with [20].
+  \item We highlight that our Q3AP is specified with a 4-D matrix and a
+  2-D matrix and draw a connection with the general Q3AP defined with a 6-D
+  matrix in [14].
+  \item To avoid possible misunderstanding, it is emphasized that the ILS is to
+  be implemented in a centralized manner.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{7. With respect to simulations, the results of Fig.6 are not coherent with
+the results form previous figures, as for high SNR all the methods exhibit the
+same performance.}
+
+\noindent \textbf{Authors' response:}
+Thank you for the comment. This question probably arises as we forgot to
+explicitly state that all 3 CoRe methods always uses Gray-mapping for the
+original transmission ($m=0$), which is a common setting for all CoRe schemes
+[3]-[9],[12],[13],[22]. As a result, in high SNR regime all 3 CoRe schemes
+result in 0 BER from the original transmission and no retransmission is needed,
+leading to exactly the same performance. In fact, in Fig.1a, Fig.2a, Fig.3a and
+Fig.4a, we have plotted the uncoded BER in black solid curve labeled ``TR0''
+which is the same for the 3 CoRe schemes.
+
+To see how Fig.6 is consistent with the waterfall curve for coded BER in Fig.5,
+we note that the throughput is evaluated as
+\begin{align}
+  r=\mbox{Avg}\left( \frac{\log_2Q \cdot\mbox{(coding rate)}}{\mbox{(total number
+  of transmissions)}} \right)
+\end{align}
+which is the same as [20]. For instance, for Q3AP, when
+$1/\sigma^2=6$dB, as shown in Fig.5a, 1 retransmission results in coded BER of
+$10^{-2}-10^{-1}$, which will almost certainly result in a packet error, while 2
+retransmissions (namely 3 transmissions including the original transmission) is
+usually enough for a successful retransmission, therefore the throughput is
+\begin{align}
+  r\approx \frac{\log_264\cdot 3/4}{3} = 1.5
+\end{align}
+in this way it is easy to verify that Fig.6 is consistent with Fig.5.
+
+In order to prevent similar confusion, in the revised manuscript we clarify the
+assumption of Gray mapping for $m=0$ in the first paragraph of Section II. We
+have also added references with regard to how throughput is evaluated in the
+last paragraph of Section IV.
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Once again, we thank the reviewer for the review and suggestions that helped to
+significantly improve our revised manuscript. 
+
+%\newpage
+\begin{center}
+{\LARGE \textbf{Authors' Response to Reviewer 2}}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{None. I suggest to accept the manuscript for publication in IEEE
+communications Letters.}
+
+\noindent \textbf{Authors' response:}
+Thank you for your recommendation.
+
+\vspace{0.5cm}
+
+\newpage
+\appendices
+\section{A Detailed Proof of Proposition 1}
 From Eq.~(2) with the index of (re)transmission $(n)$ dropped, we have
 \begin{align}
   \mathbf{A}\mathbf{e}[p,q] &= \sum_{a=1,2}\mathbf{H}_a\mathbf{p}_ae_a[p,q]
@@ -269,48 +451,10 @@ and according to Woodbury matrix identity,
 \end{align}
 therefore Eq.~(10) has been proved. As a result, Eq.~(7) is readily available by
 substituting $\bm{\mu}$ and $\mathbf{C}$ with the results in Eq.~(8),(9),
-respectively and $\lambda=1/(4\sigma^2)$. If our manuscript is accepted and the
-reviewer feels it necessary, we can post this proof in our lab's website as a
-supplementary material.
-\vspace{0.5cm}
+respectively and $\lambda=1/(4\sigma^2)$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\noindent
-\emph{5. In Section III.B, the method has not been presented with sufficient
-detail. Why do you introduce $x$ variables? What is the role of ``flow'' and
-``distance'' matrices? How do you derive (13)?}
-
-\noindent \textbf{Authors' response:}
-Thank you for the question. The introduction of the variable $\mathbf{x}^{(m)}$
-is to facilitate a standard representation of Q3AP formulation
-[14]\citep[R][]{frieze1974bilinear}\citep[R][]{balas1991algorithm}\citep[R][]{burkard1999linear}\citep[R][]{5587019}.
-In our problem, there is a one-to-one mapping between the 3-D permutation matrix
-$\mathbf{x}^{(m)}\in\mathcal{S}$ (Eq.~(12)) and the vector mapping function
-$\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]$. 
-
-The ``flow'' and ``distance'' matrices are terminologies borrowed from the
-Koopmans-Beckmann form Quadratic Assignment Problem
-(QAP)~\citep[R][]{koopmans1957assignment}\citep[R][]{806935}:
-\begin{align}
-  & \min_{\mathbf{x}}
-  \sum_{p=1}^{n}\sum_{i=1}^{n}
-  \sum_{q=1}^{n}\sum_{j=1}^{n}
-  f_{pq}d_{ij}x_{pi}x_{qj},\notag\\
-  \mbox{s.t. } & \sum_{p=1}^{n}x_{pi} =
-  1,\sum_{i=1}^{n}x_{pi} = 1, x_{pi}\in\{0, 1\}
-\end{align}
-which is formulated from the following problem. Consider the problem of
-assigning $n$ industrial plants to $n$ locations. The distance between the $i$
-and $j$-th location is $d_{ij}$ and the transportation flow between the $p$ and
-$q$-th plant is $f_{pq}$. The plant-location assignment is so designed as to
-minimize the total transportation cost, defined as the sum-of-products of the
-distance and flow between each pair of plants. In our MoDiv design problem, the
-``flow'' and ``distance'' do not have a concrete meaning and does not affect
-the Q3AP formulation.
-
-Once again because of the page limit, we cannot include a step-by-step
-derivation from Eq.~(11) to Eq.~(13) into our original manuscript. A detailed
-deduction is as follows. Given the a vector mapping function
+\section{A Detailed Derivation of the Q3AP Formulation}
+Given the a vector mapping function
 $\bm{\psi}^{(m)}[\cdot]$, assuming that $\bm{\psi}^{(m)}[p] = [\psi_0[i_p],
 \psi_0[j_p]]^T$ and $\bm{\psi}^{(m)}[q] = [\psi_0[k_q], \psi_0[l_q]]^T$,
 where $p\rightarrow i_p$ and $p\rightarrow j_p$ are one-to-one mappings, we
@@ -344,130 +488,6 @@ d_{{i_pk_qj_pl_q}}$, therefore
   \sum_{j=0}^{Q - 1} \sum_{k=0}^{Q - 1} \sum_{l=0}^{Q - 1}f_{pq}^{(m)}
   d_{ikjl} x_{pij}^{(m)}x_{qkl}^{(m)}
 \end{align}
-
-In order to make the derivation of the Q3AP formulation more clear, we have made
-the following changes to the original manuscript:
-\begin{enumerate}
-  \item Corrected a typo in Eq.~(6): change ``$\leq$'' into ``=''.
-  \item In the first paragraph of Section III.A present the recursive definition
-  of $\tilde{P}_{PEP}^{(m)}(q|p)$ using $E_m[p,q]$.
-  \item In the first paragraph of Section III.B, we explicitly state that
-  $\mathbf{x}^{(m)}$ is a 3-D permutation matrix which is an equivalent
-  representation of $\bm{\psi}^{(m)}$.
-  \item Remove the terminology of ``flow'' and ``distance'' matrices, which are
-  mostly meaningless in our context and could cause potential confusion.
-  Instead, we add a explicit statement to draw connections between Eq.~(14b)(15)
-  and Eq.~(7)(8). We have also re-written Eq.~(8) and Eq.~(14b) so that the
-  above equations are in a more similar form.
-\end{enumerate}
-
-\vspace{0.5cm}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\noindent
-\emph{6. The proposed solving method based on ILS has not been sufficiently
-explained. Among others, the method is apparently distributed but in (11) the
-authors have a global function.}
-
-\noindent \textbf{Authors' response:}
-Thank you for the comment. Throughout our original manuscript, we neither claim
-nor imply that the iterated local search (ILS) is necessarily a distributed
-algorithm, and in fact our implementation is not distributed. Also it is noted
-that an algorithm being distributed does not suggest that it is
-designed to solve a multi-objective optimization problem therefore does not
-contradict with a global objective function.
-
-More specifically, in our work, the ILS algorithm is intended to provide a
-sub-optimal solution that locally minimizes the global objective function in
-Eq.~(11). As explained more clearly in the revised manuscript and our response
-to Comment 4, this problem is formulated into a Q3AP in Eq.~(13) which is a
-special case of [14, Eq.~(2)] and an extension from [20, Eq.~(1)]. Even though
-there are two RRHs in our system design, as it uses only the statistical CSI
-which just need to be collected once, the ILS algorithm is meant to be
-implemented in a centralized manner in the base transceiver station (BTS) which
-are connected to the two RRHs, which is in compliance with the Cloud Radio
-Access Network (C-RAN), a novel yet popular mobile network
-architecture~\citep[R][]{6897914}.
-
-In the original manuscript, due to the page limit only a brief description on
-the ILS algorithm is provided and interested readers are referred to [20] for
-more details, which describes the ILS for quadratic assignment problem (QAP)
-thoroughly. More details on the ILS for QAP and the extended ILS for Q3AP can be
-found in [20][14, Sec. 5.5].
-
-In response to the reviewer's comment we have made the following changes to the
-original manuscript in the last paragraph of Sec.III.B:
-\begin{enumerate}
-  \item We direct the readers more specifically to Sec. 5.5 of [14] for more
-  details about ILS-Q3AP together with [20].
-  \item We highlight that our Q3AP is specified with a 4-D matrix and a
-  2-D matrix and draw a connection with the general Q3AP defined with a 6-D
-  matrix in [14].
-  \item To avoid possible misunderstanding, it is emphasized that the ILS is to
-  be implemented in a centralized manner.
-\end{enumerate}
-
-\vspace{0.5cm}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\noindent
-\emph{7. With respect to simulations, the results of Fig.6 are not coherent with
-the results form previous figures, as for high SNR all the methods exhibit the
-same performance.}
-
-\noindent \textbf{Authors' response:}
-Thank you for the comment. This question probably arises as we forgot to
-explicitly state that all 3 CoRe methods always uses Gray-mapping for the
-original transmission ($m=0$), which is a common setting for all CoRe schemes
-[3]-[9],[12],[13],[22]. As a result, in high SNR regime all 3 CoRe schemes
-result in 0 BER from the original transmission and no retransmission is needed,
-leading to exactly the same performance. In fact, in Fig.1a, Fig.2a, Fig.3a and
-Fig.4a, we have plotted the uncoded BER in black solid curve labeled ``TR0''
-which is the same for the 3 CoRe schemes.
-
-To see how Fig.6 is consistent with the waterfall curve for coded BER in Fig.5,
-we note that the throughput is evaluated as
-\begin{align}
-  r=\mbox{Avg}\left( \frac{\log_2Q \cdot\mbox{(coding rate)}}{\mbox{(total number
-  of transmissions)}} \right)
-\end{align}
-which is the same as [20]. For instance, for Q3AP, when
-$1/\sigma^2=6$dB, as shown in Fig.5a, 1 retransmission results in coded BER of
-$10^{-2}-10^{-1}$, which will almost certainly result in a packet error, while 2
-retransmissions (namely 3 transmissions including the original transmission) is
-usually enough for a successful retransmission, therefore the throughput is
-\begin{align}
-  r\approx \frac{\log_264\cdot 3/4}{3} = 1.5
-\end{align}
-in this way it is easy to verify that Fig.6 is consistent with Fig.5.
-
-In order to prevent similar confusion, in the revised manuscript we clarify the
-assumption of Gray mapping for $m=0$ in the first paragraph of Section II. We
-have also added references with regard to how throughput is evaluated in the
-last paragraph of Section IV.
-\vspace{0.5cm}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Once again, we thank the reviewer for the review and suggestions that helped to
-significantly improve our revised manuscript. 
-
-
-
-\newpage
-\begin{center}
-{\LARGE \textbf{Authors' Response to Reviewer 2}}
-\end{center}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\noindent
-\emph{None. I suggest to accept the manuscript for publication in IEEE
-communications Letters.}
-
-\noindent \textbf{Authors' response:}
-Thank you for your recommendation.
-
-\vspace{0.5cm}
 
  %\newpage
 \bibliographystyle{IEEEtranN}

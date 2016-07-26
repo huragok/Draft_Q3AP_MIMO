@@ -506,20 +506,20 @@ greatly improve the BER performance and throughput.
 Also, in recent years, coordinated multipoint (CoMP) transmission has become a
 promising technique which has been supported by
 LTE-Advanced~\cite{sawahashi2010coordinated}. By coordinating multiple base
-stations or sectors, CoMP can effectively improve cell edge user data rate and
-spectral efficiency~\cite{irmer2011coordinated}. When applied to CoMP, MoDiv
-faces great opportunities and challenges at the same time which has not been fully
-understood. On the one hand,
+stations/remote radio heads (RRHs) from different cells/sectors, CoMP can
+effectively improve cell edge user data rate and spectral
+efficiency~\cite{irmer2011coordinated}. When applied to CoMP, MoDiv faces great
+opportunities and challenges at the same time which has not been fully understood. On the one hand,
 it is possible to adopt different constellation remapping schemes at different
 transmitters, which could potentially provide larger diversity gain. On the
 other hand, the optimization of more than one constellation mapping for each
 round of retransmission is non-trivial, especially when perfect channel state
 information (CSI) is not available.
 In this work, we propose a MoDiv design scheme for a CoMP system composed of one
-user equipment (UE) and two remote radio heads (RRHs) connected to the same
-base station (BS). We assume independent Rician fading MIMO
-channel between the RRHs and the UE, which is more general and practical than
-existing works on MIMO-CoRe~\cite{bahadori2014performance, zhao2009harq}.
+user equipment (UE) and two cooperative transmitters connected to a centralized
+control unit. We assume independent Rician fading MIMO channel between the transmitters
+and the UE, which is more general and practical than existing works on
+MIMO-CoRe~\cite{bahadori2014performance, zhao2009harq}.
 The CoRe is designed to minimize the expected bit error rate (BER) under
 statistical CSI assumption after each (re)transmission. The resulting
 optimization problem has a Successive Quadratic 3 Dimensional Assignment Problem
@@ -546,20 +546,19 @@ in various simulation settings and performance measurements.
 \label{sec:model}
 % MoDiv as an enhancement of beamforming, 
 Consider the constellation rearrangement (CoRe) in a HARQ-enabled MIMO-CoMP
-downlink channel composed of two Remote Radio Head (RRHs) and one user
-equipment (UE). For the original transmission, bits are mapped to constellation
-symbols using conventional Gray mapping for both RRHs. However, in order to
+downlink channel composed of two transmitters and one UE. For the original
+transmission, bits are mapped to constellation symbols using conventional Gray mapping for both transmitters. However, in order to
 maximize the signal space diversity as an enhancement of beamforming, we allow
-different mappings of the same sequence of information bits at the two RRHs
-during the HARQ process. We assume a HARQ protocol based on Chase Combining (CC)
-and a maximum number of $M$ retransmissions.
+different mappings of the same sequence of information bits at the two
+transmitters during the HARQ process. We assume a HARQ protocol based on Chase
+Combining (CC) and a maximum number of $M$ retransmissions.
 For the $m$-th (re)transmission, $m=0,1,\ldots,M$ where $m=0$ represents the
 original transmission, every consecutive $\log_2Q$ bits are encoded into a label
 $p=0,\ldots, Q-1$ and then mapped to two constellation symbols via a vector
 mapping function $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$,
 where $\psi_a^{(m)}[p]\in \mathcal{C}$ and $\mathcal{C}$ is the set of
 constellation symbols (e.g. QAM, 16-QAM). The two symbols are then transmitted
-at the two RRHs, respectively. The received signal at the $m$-th
+at the two transmitters, respectively. The received signal at the $m$-th
 (re)transmission of the bit sequence corresponding to label $p$ is:
 \begin{align}
   \mathbf{y}^{(m)} & =  \mathbf{A}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
@@ -568,12 +567,12 @@ at the two RRHs, respectively. The received signal at the $m$-th
   \mathbf{H}_2^{(m)}\mathbf{p}_2 \psi_2^{(m)}[p] + \mathbf{n}^{(m)},
 \end{align}
 where $\mathbf{H}_a^{(m)}$ is a $N_R$-by-$N_{T,a}$ MIMO channel between the
-$a$-th RRH and the UE, $\mathbf{p}_a$ is a $N_{T,a}$-by-1 linear beamformer
-for the $a$-th RRH, $a=1, 2$, and the additive noise
+$a$-th transmitter and the UE, $\mathbf{p}_a$ is a $N_{T,a}$-by-1 linear beamformer
+for the $a$-th transmitter, $a=1, 2$, and the additive noise
 $\mathbf{n}^{(m)}\sim\mathcal{CN}(\mathbf{0}, \sigma^2\mathbf{I})$. We
 assume the elements of $\mathbf{H}_a^{(m)}$ follow correlated Rician
 distributed channel~\cite{taricco2007optimum} independent across retransmissions
-and between the two RRHs.
+and between the two transmitters.
 Specifically,
 \begin{align}
     \mathbf{H}_a^{(m)} = \sqrt{\frac{K_a}{K_a+1}}\bar{\mathbf{H}}_{a} +
@@ -586,7 +585,7 @@ respectively, while $\bar{\mathbf{H}}_{a}$ represents the line-of-sight
 component and $\mathbf{H}_{w,a}^{(m)}$ is a random matrix composed of
 independent entries of $\mathcal{CN}(0,1)$. Here we denote $\mathbf{A}^{(m)} =
 [\mathbf{H}_1^{(m)}\mathbf{p}_1, \mathbf{H}_2^{(m)}\mathbf{p}_2]$ as the
-equivalent MIMO channel from the two RRHs to the UE during the $m$-th
+equivalent MIMO channel from the two transmitters to the UE during the $m$-th
 retransmission.
 
 After the $m$-th retransmission, the receiver attempts to
@@ -749,20 +748,20 @@ solutions by exchanging the mappings of $k_p$ labels, where integer $k_p$ is
 adaptively adjusted within a range $[k_{p,min}, k_{p,max}]$. The perturbation is
 accepted with a probability defined as in simulated annealing, after which the
 local search is restarted from the new mappings until the stopping criterion is
-satisfied. The algorithm is meant to be executed in a centralized manner in the
-base transceiver station (BTS) connected to the two RRHs.
+satisfied. The algorithm is meant to be executed in the centrailzed control
+unit connected to the two transmitters.
 
 \section{Numerical Results}
 \label{sec:numerical}
 Unless otherwise noted, we adopt the following
 settings throughout our simulation. For the MIMO-CoMP channel, we have $N_R=1$
-and $N_{T, 1} = N_{T, 2} = 2$. The correlation matrices at both RRHs are
+and $N_{T, 1} = N_{T, 2} = 2$. The correlation matrices at both transmitters are
 $\mathbf{T}_1 = \mathbf{T}_2 =[1,0.7;0,7,1]$, while the line-of-sight (LOS)
 components of the Rician channel are set to $\bar{\mathbf{H}}_{1} = [0.2540;
 0.2457]$ and $\bar{\mathbf{H}}_{2} = [-0.1027; -0.2320]$, 
 The Rician coefficients are $K_1 = K_2 = 4$ by default. A simple maximum SNR
 beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel) under
-a total power constraint is used at the two RRHs. 
+a total power constraint is used at the two transmitters. 
 The maximum number of HARQ retransmissions is set
 to $M=4$. Three MoDiv schemes are compared, namely the simple retransmission with
 no MoDiv, a heuristic CoRe scheme proposed for
