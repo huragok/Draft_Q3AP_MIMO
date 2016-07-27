@@ -60,25 +60,25 @@ rules for citations and references:
 as it seems the method can only be applied when two RRHs cooperate. }
 
 \noindent \textbf{Authors' response:} 
-Thank you for the comment. Indeed we assume that the two RRHs are fully
-cooperative. Nevertheless, cooperative transmission has both attacted great
-research interest [10][11] and been incorporated into the latest wireless
-communication systems such as LTE-advanced~\citep[R][]{TR36.819}. The simplicity
-of this model allows it to be adopted to many scenarios, such as joint
-transmission between different sectors/cells from a same macro base station
-(BS), between homogeneous cells covered by a macro BS and its high-power RRHs,
-or between heterogeneous cells covered by a macro BS and its low-power RRHs, etc. Recent sudies on Cloud Radio Access Network
+Thank you for the comment. Indeed we assume for simplicity two RRHs in full
+cooperation. But the concept we proposd is applicable to a wide range of
+scenarios and is scalable. First of all, cooperative transmission has both
+attacted great research interest [10][11] and been incorporated into the latest
+wireless communication systems such as LTE-advanced~\citep[R][]{TR36.819}. The
+simplicity of this model allows it to be adopted to many scenarios, such as
+joint transmission between different sectors/cells from a same macro base
+station (BS), between homogeneous cells covered by a macro BS and its high-power RRHs, or between heterogeneous cells covered by a macro BS and its low-power RRHs, etc. Recent sudies on Cloud Radio Access Network
 (C-RAN)~\citep[R][]{6897914}\citep[R][]{6923535} have also promoted new network architectures where CoMP could find its application.
 Consequently, in our opinion cooperative RRHs is a simple yet practical and
 meaningful assumption, and to the best of our knowledge MoDiv design has not
 been studied under this scenario previously.
 
-If there are $N>2$ RRHs cooperating with one another, it is possible to
+If there are $N>2$ cooperative RRHs, it is possible to
 scale our MoDiv design approach into a quadratic $(N+1)$-dimensional
-assignment problem at the cost of fast-growing complexity. However, in reality,
+assignment problem at the cost of growing complexity. However, in reality,
 the cluster size of CoMP is limited by backhaul constraints or in order to
 simplify scheduler operation~\citep[R][]{6146494}. It is often
-practical to investigate only two or three transmitters cooperating
+practical to investigate two or three transmitters cooperating
 with each other to serve a user equipment (UE) on cell/sector
 edges~\citep[R][]{4385782, 5463229, 5456455} or in a overlaid heterogeneous
 network~\citep[R][]{6879305, 6362916}. Moreover, even in the cases of $N>2$, it
