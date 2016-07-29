@@ -60,30 +60,32 @@ rules for citations and references:
 as it seems the method can only be applied when two RRHs cooperate. }
 
 \noindent \textbf{Authors' response:} 
-Thank you for the comment. Indeed we assume for simplicity two RRHs in full
-cooperation. But the concept we proposd is applicable to a wide range of
+Indeed we assume for simplicity two RRHs in full
+cooperation. But the concept we propoesd is applicable to a wide range of
 scenarios and is scalable. First of all, cooperative transmission has both
-attacted great research interest [10][11] and been incorporated into the latest
+attracted great research interest [10][11] and been incorporated into the latest
 wireless communication systems such as LTE-advanced~\citep[R][]{TR36.819}. The
-simplicity of this model allows it to be adopted to many scenarios, such as
+simplicity of this model allows its adoption in many practical scenarios, such as
 joint transmission between different sectors/cells from a same macro base
-station (BS), between homogeneous cells covered by a macro BS and its high-power RRHs, or between heterogeneous cells covered by a macro BS and its low-power RRHs, etc. Recent sudies on Cloud Radio Access Network
+station (BS), between homogeneous cells covered by a macro BS and its high-power RRHs, 
+or between heterogeneous cells covered by a macro BS and its low-power RRHs, etc. Recent studies 
+on Cloud Radio Access Network
 (C-RAN)~\citep[R][]{6897914}\citep[R][]{6923535} have also promoted new network architectures where CoMP could find its application.
-Consequently, in our opinion cooperative RRHs is a simple yet practical and
-meaningful assumption, and to the best of our knowledge MoDiv design has not
+Consequently, we believe that cooperative RRHs is a simple yet practical and
+meaningful setup, and, to the best of our knowledge, MoDiv design for improved performance has not
 been studied under this scenario previously.
 
-If there are $N>2$ cooperative RRHs, it is possible to
+For cases involving $N>2$ cooperative RRHs, it is possible to
 scale our MoDiv design approach into a quadratic $(N+1)$-dimensional
 assignment problem at the cost of growing complexity. However, in reality,
-the cluster size of CoMP is limited by backhaul constraints or in order to
-simplify scheduler operation~\citep[R][]{6146494}. It is often
-practical to investigate two or three transmitters cooperating
-with each other to serve a user equipment (UE) on cell/sector
-edges~\citep[R][]{4385782, 5463229, 5456455} or in a overlaid heterogeneous
-network~\citep[R][]{6879305, 6362916}. Moreover, even in the cases of $N>2$, it
-is possible to group the $N$ RRHs into two groups to form two virtual RRHs with
-multi-antennas and then our MoDiv design can be applied directly.
+the cluster size of CoMP is limited by backhaul link constraints or by the need for 
+simple scheduler operation~\citep[R][]{6146494}. It is more
+practical to utilize no more than two or three transmitters in cooperation
+to serve one user equipment (UE) on cell/sector
+edges~\citep[R][]{4385782, 5463229, 5456455} or in an overlaid heterogeneous
+network~\citep[R][]{6879305, 6362916}. Furthermore, even in the cases of $N>2$, 
+we can also group the $N$ RRHs into two groups to form two virtual RRHs with
+multi-antennas to apply our MoDiv design directly for simplicity with little performance loss. 
 
 In order to emphasize the generality of our system model, in the revised
 manuscript, we have used cooperative ``transmitters'' instead of ``RRHs'' to
@@ -107,13 +109,13 @@ $\psi_1^{(m)}[p]$ and $\psi_2^{(m)}[p]$, respectively. For instance, for 16-QAM 
 one round of (re)transmission every 4 bits can be mapped to 2 constellation
 symbols as in TABLE~\ref{table:mapping} and FIGURE~\ref{fig:mapping}.
 
-To demodulate the information bits is equivalent to figuring out label $p$ from
-the received signal $\mathbf{y}^{n}$ where $n=0,\ldots,m$ denote different
-rounds of (re)transmissions. Since the noise is Gaussian distributed and we
-assume perfect CSI at the receiver, the maximum-likelihood rule is in the form
+Demodulation of the information bits is equivalent to determining label $p$ from
+received signal $\mathbf{y}^{n}$ where $n=0,\ldots,m$ denote different
+rounds of (re)transmissions. Since channel noise is Gaussian and we
+assume known CSI at the receiver, the maximum-likelihood rule is in the form
 of Eq.~(3).
 
-To prevent possible confusion from our readers, we rephrase the description of
+To prevent possible confusion by our readers, we rephrase the description of
 our signal model in the first paragraph of Section II, using similar
 terminology as [4]. Most notably, we have renamed $p$ as ``label'', which is
 commonly used in related works [4]\citep[R][]{1388738, 7494668}, instead of
@@ -187,12 +189,11 @@ derivation of (9) is hard to understand.}
 
 \noindent \textbf{Authors' response:}
 Thank you for the comment. Due to the page limit of the IEEE Communications
-Letters, we cannot provide a thorough proof in the original manuscript and we
-had to list only the key steps. A rigorous proof of Proposition 1 is attached
-in Appendix A in this response letter. If our manuscript is accepted and the
-reviewer feels it necessary, we will provide online access to this proof as
-supplementary material.
-
+Letters, we have no room to provide a full proof in the original manuscript. Thus, we
+outline only the key steps. A rigorous proof of Proposition 1 is attached
+in Appendix A in this response letter. We will provide online access to this proof as
+supplementary material once our manuscript is accepted (because of the doubly-blind
+journal policy). 
  
 \vspace{0.5cm}
 
@@ -232,9 +233,9 @@ the Q3AP formulation.
 
 Once again because of the page limit, we cannot include a step-by-step
 derivation from Eq.~(11) to Eq.~(13) into our original manuscript. A detailed
-deduction is provided in Appendix B. Again, if our manuscript is accepted we
-can either provide online access to it or refer to our earlier
-works which include a similar derivation.
+deduction is provided in Appendix B. Again, to give our readers sufficient
+details, we shall either provide online access to it or refer to our earlier
+works which include a similar derivation after our manuscript is accepted.
 
 Nevertheless, in order to make the derivation of the Q3AP formulation more
 clear, we have made the following changes to the original manuscript:
@@ -263,11 +264,12 @@ authors have a global function.}
 \noindent \textbf{Authors' response:}
 Thank you for the comment. Throughout our original manuscript, we neither claim
 nor imply that the iterated local search (ILS) is necessarily a distributed
-algorithm, and in fact our implementation is not distributed.
+algorithm, and in fact our implementation is not distributed. The word ``local search''
+is a standard term, merely implying that it 
+locally minimizes the global objective function in
+Eq.~(11) to obtain a sub-optimal solution quickly. 
 
-Let us emphasize that, in our work, the ILS algorithm is intended to provide a
-sub-optimal solution that locally minimizes the global objective function in
-Eq.~(11). As explained more clearly in the revised manuscript and our response
+As explained more clearly in the revised manuscript and our response
 to Comment 4, this problem is formulated into a Q3AP in Eq.~(13) which is a
 special case of [14, Eq.~(2)] and an extension from [20, Eq.~(1)]. Even though
 there are two RRHs in our system design, as it uses only the statistical CSI
@@ -340,7 +342,7 @@ last paragraph of Section IV.
 Once again, we thank the reviewer for the review and suggestions that helped to
 significantly improve our revised manuscript. 
 
-%\newpage
+\newpage
 \begin{center}
 {\LARGE \textbf{Authors' Response to Reviewer 2}}
 \end{center}
@@ -351,7 +353,7 @@ significantly improve our revised manuscript.
 communications Letters.}
 
 \noindent \textbf{Authors' response:}
-Thank you for your recommendation.
+Thank you for your recommendation and for affirming the contribution of this work. 
 
 \vspace{0.5cm}
 
