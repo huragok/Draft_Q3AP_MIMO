@@ -556,7 +556,7 @@ For the $m$-th (re)transmission, $m=0,1,\ldots,M$ where $m=0$ represents the
 original transmission, every consecutive $\log_2Q$ bits are encoded into a label
 $p=0,\ldots, Q-1$ and then mapped to two constellation symbols via a vector
 mapping function $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$,
-where $\psi_a^{(m)}[p]\in \mathcal{C}$ and $\mathcal{C}$ is the set of
+where $\psi_a^{(m)}[\cdot]\in \mathcal{C}$ and $\mathcal{C}$ is the set of
 constellation symbols (e.g. QAM, 16-QAM). The two symbols are then transmitted
 at the two transmitters, respectively. The received signal at the $m$-th
 (re)transmission of the bit sequence corresponding to label $p$ is:
@@ -650,7 +650,7 @@ $E_n[p,q]$ can be evaluated as follows:
   \label{prop:en}
 \end{proposition}
 \begin{proof}
-  We have $\mathbf{A}^{(n)}\mathbf{e}_n[p,q]
+  We have $\mathbf{A}^{(n)}\mathbf{e}^{(n)}[p,q]
   \sim\mathcal{CN}(\bm{\mu}_n[p,q], \mathbf{C}_n[p,q])$
   where 
   \begin{align}
@@ -666,7 +666,8 @@ $E_n[p,q]$ can be evaluated as follows:
     \mathbf{C})^{-1}\bm{\mu}\right)}{\det(\mathbf{I} +
     \lambda\mathbf{C})} \label{eq:elv2}
   \end{align}
-  which in turn leads to Proposition~\ref{prop:en}.
+  which in turn leads to Proposition~\ref{prop:en} as $\lambda=1/(4\lambda^2)$
+  and $\mathbf{v}=\mathbf{A}^{(n)}\mathbf{e}^{(n)}[p,q]$.
 \end{proof}
 
 \subsection{Successive Quadratic 3-D Assignment Problem (S-Q3AP)}
@@ -680,12 +681,13 @@ where $\tilde{P}_{BER}^{(m)}$ is the approximated version of
 $P_{BER}^{(m)}$ by substituting $P_{PEP}^{(m)}(q|p)$ with
 $\tilde{P}_{PEP}^{(m)}(q|p)$. Denote the 3-D permutation matrix
 $\mathbf{x}^{(m)} = \{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ as an equivalent
-representation of $\bm{\psi}^{(m)}$ by $x_{pij}^{(m)} =
-\delta(\bm{\psi}^{(m)}[p], [\psi_0[i], \psi_0[j]]^T)$ and $\delta(x,y)$ is the
-Kronecker delta function, $\psi_0$ represents Gray mapping, which must satisfy
+representation of $\bm{\psi}^{(m)}$ by $x_{pij}^{(m)} = 1$ if $
+\bm{\psi}^{(m)}[p] = [\psi_0[i], \psi_0[j]]^T$ and otherwise $x_{pij}^{(m)} =
+0$, where $\psi_0[\cdot]\in\mathcal{C}$ represents Gray mapping. We have
+$\mathbf{x}^{(m)}\in\mathcal{S}$ where
 \begin{align}
-  \mathcal{S} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij}=
-  \sum_{i=0}^{Q-1}x_{pij} =\sum_{j=0}^{Q-1}x_{pij} =1\right\}.
+  \mathcal{S} & =
+  \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij}= \sum_{i=0}^{Q-1}x_{pij} =\sum_{j=0}^{Q-1}x_{pij} =1\right\}.
   \label{eq:constraint}
 \end{align}
 Then Eq.~(\ref{eq:minber}) can be formulated into a S-Q3AP as follows:
@@ -696,7 +698,6 @@ Then Eq.~(\ref{eq:minber}) can be formulated into a S-Q3AP as follows:
   f_{pq}^{(m)}d_{ikjl}x_{pij}^{(m)}x_{qkl}^{(m)},
   \label{eq:SQ3AP}
 \end{align}
-where
 \begin{subequations}
   \begin{align}
     f_{pq}^{(m)} & = \frac{B[p,q]}{Q}\tilde{P}_{PEP}^{(m-1)}(q|p) \\
