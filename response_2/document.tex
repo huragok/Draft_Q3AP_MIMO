@@ -72,6 +72,88 @@ third component of x; also, in the expression of x, the meaning of indexes i and
 j is not revealed.}
 
 \noindent \textbf{Authors' response:} 
+Thank you for the comment. As we have stated in our response to comment 5 in our
+previous response letter as well as the revised manuscript, there is a
+one-to-one mapping between the 3-D permutation matrix
+$\mathbf{x}^{(m)}\in\mathcal{S}$ (Eq.~(12)) and the vector mapping function
+$\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]$. In other words, the
+original problem (11) and problem (13) are equivalent and neither one is more
+complex than the other. Rewritting our design objective (11) into (13) simply
+aims to reduce the MoDiv design problem into a Q3AP in its most typical form.
+
+By second and third component of $x$ we presume that the reviewers meant the
+second and third dimension of the 3-D permutation matrix $\mathbf{x}^{(m)}$. As
+$x_{pij}^{(m)}=1$ if $\psi_1^{(m)}[p] = \psi_0[i]$ and $\psi_2^{(m)}[p] =
+\psi_0[j]$ and otherwise $x_{pij}^{(m)}=0$, the second dimension of
+$\mathbf{x}^{(m)}$ (indexed by $i$) defines the modulation mapping function $\psi_1[\cdot]$ at the
+first transmitter with respect to the reference mapping function
+$\psi_0[\cdot]$ (Gray mapping), and the third dimension of $\mathbf{x}^{(m)}$
+(indexed by $j$) defines the modulation mapping function $\psi_2[\cdot]$ at the second
+transmitter. Consequently, $\mathbf{x}^{(m)}$ as a whole defines the 2-D vector
+mapping function $\bm{\psi}^{(m)}[\cdot]$ with respect to Gray mapping
+$\psi_0[\cdot]$. $i,j=0,\ldots,Q-1$ are simply indexing variables similar
+to $p$ whose meanings are implicitly defined with $\mathbf{x}^{(m)}$.
+$x_{pij}^{(m)}=1$ means that during the $m$-th retransmission, the first transmitter maps label $p$ to the same constellation
+symbols as Gray mapping maps label $i$ to, and the second transmitter maps label
+$p$ to the same constellation symbols as Gray mapping maps label $j$ to.
+
+Here we demonstrate a 3-D permutation matrix $\mathbf{x}^{(m)}$ and the
+equivalent $\bm{\psi}^{(m)}[\cdot]$ for QPSK ($Q=4$) in FIGURE~\ref{fig:mapping}
+and TABLE~\ref{table:x}.
+
+
+\begin{table}[!t]
+  \renewcommand{\arraystretch}{1.3}
+  \caption{The indices $(p,i,j)$ where $x_{pij}^{(m)}=1.$}
+  \label{table:x}
+  \centering
+  \begin{tabular}{c|c|c}
+    \hline
+    $p$ & $i$ & $j$  \\
+    \hline
+    0 &  0 & 0 \\
+    1 & 3 & 3 \\
+    2 & 2 & 1 \\
+    3 & 1 & 2 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}[h]
+  \begin{minipage}[b]{0.32\linewidth}
+    \centering
+    \centerline{\includegraphics[width=3.0cm]{./figs/gray.pdf}}
+    \centerline{(a) $\psi_0[p]$ (Gray mapping)}
+    \medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.32\linewidth}
+    \centering
+    \centerline{\includegraphics[width=3.0cm]{./figs/tx1.pdf}}
+    \centerline{(b) $\psi_1^{(m)}[p]$}
+    \medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.32\linewidth}
+    \centering
+    \centerline{\includegraphics[width=3.0cm]{./figs/tx2.pdf}}
+    \centerline{(c) $\psi_2^{(m)}[p]$}
+    \medskip
+  \end{minipage}
+  \caption{Constellation mapping for the Gray mapping. Label $p$
+  are marked next to each constellation symbol.}
+  \label{fig:mapping}
+\end{figure}
+
+We feel that $\mathbf{x}^{(m)}$ are already well defined by stating that
+it is a permutation matrix satisfying Eq.~(12). To make the one-to-one
+relationship between $\mathbf{x}^{(m)}$ and $\bm{\psi}^{(m)}$ more clear, we
+changed back to our original notation, i.e. $x_{pij}^{(m)}
+= 1$ if $ \bm{\psi}^{(m)}[p] = [\psi_0[i], \psi_0[j]]^T$ and otherwise $x_{pij}^{(m)} =
+0$ in the first paragraph of Sec. III B. Also in order to clarify the meaning of
+the second and third dimension of $\mathbf{x}^{(m)}$, in the revised manuscript
+we explicitly state that $\psi_1^{(m)}$ and $\psi_2^{(m)}$ are defined by the
+1st, 2nd and 1st, 3rd dimension of $\mathbf{x}^{(m)}$, respectively.
 
 \vspace{0.5cm}
 
@@ -81,8 +163,8 @@ j is not revealed.}
 }
 
 \noindent \textbf{Authors' response:}
-We have changed back to our original formulation of $\mathbf{x}$ in the first
-paragraph of Sec. II.
+As explained in our response to comment 1, we have changed back to our original
+formulation of $\mathbf{x}$ in the first paragraph of Sec. II.
 
 \vspace{0.5cm}
 
@@ -110,7 +192,7 @@ The Gray mapping assumption is simply based on the fact that most CoRe schemes
 uses Gray mapping for the original transmission.
 
 To clarify the meaning of $\psi_0$, we re-wrote it into a similar form as
-$\psi_a^{m}$ as in the first paragraph of Sec. II in the hope that our readers
+$\psi_a^{(m)}$ as in the first paragraph of Sec. II in the hope that our readers
 can see that $\psi_0$ is simply a specific mapping function as defined
 previously.
 Since the exact form of Gray mapping can be found at almost any classical

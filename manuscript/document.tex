@@ -683,7 +683,9 @@ $\tilde{P}_{PEP}^{(m)}(q|p)$. Denote the 3-D permutation matrix
 $\mathbf{x}^{(m)} = \{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ as an equivalent
 representation of $\bm{\psi}^{(m)}$ by $x_{pij}^{(m)} = 1$ if $
 \bm{\psi}^{(m)}[p] = [\psi_0[i], \psi_0[j]]^T$ and otherwise $x_{pij}^{(m)} =
-0$, where $\psi_0[\cdot]\in\mathcal{C}$ represents Gray mapping. We have
+0$, where $\psi_0[\cdot]\in\mathcal{C}$ represents Gray mapping. Apparently,
+$\psi_1^{(m)}$ and $\psi_2^{(m)}$ are defined by the 1st, 2nd and 1st, 3rd
+dimension of $\mathbf{x}^{(m)}$, respectively. We have
 $\mathbf{x}^{(m)}\in\mathcal{S}$ where
 \begin{align}
   \mathcal{S} & =
@@ -728,7 +730,7 @@ it only needs to be evaluated once. Consequently, the main computational
 complexity lies in solving the Q3AP problems instead of evaluating their
 coefficients.
 
-For typical constellations used in modern wireless communication systems such as
+For typical constellations such as
 16-QAM and 64-QAM, it is impractical to apply the exact branch-and-bound
 algorithm~\cite{hahn2008quadratic}. Also, our tests show that they do not have
 enough symmetry to exploit for faster solution as does the 16-PSK
@@ -749,7 +751,7 @@ solutions by exchanging the mappings of $k_p$ labels, where integer $k_p$ is
 adaptively adjusted within a range $[k_{p,min}, k_{p,max}]$. The perturbation is
 accepted with a probability defined as in simulated annealing, after which the
 local search is restarted from the new mappings until the stopping criterion is
-satisfied. The algorithm is meant to be executed in the centralized control
+satisfied. The algorithm is implemented in the centralized control
 unit connected to the two transmitters.
 
 \section{Numerical Results}
