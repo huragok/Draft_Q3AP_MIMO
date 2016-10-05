@@ -556,10 +556,11 @@ For the $m$-th (re)transmission, $m=0,1,\ldots,M$ where $m=0$ represents the
 original transmission, every consecutive $\log_2Q$ bits are encoded into a label
 $p=0,\ldots, Q-1$ and then mapped to two constellation symbols via a vector
 mapping function $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$,
-where $\psi_a^{(m)}[\cdot]\in \mathcal{C}$ and $\mathcal{C}$ is the set of
-constellation symbols (e.g. QAM, 16-QAM). The two symbols are then transmitted
-at the two transmitters, respectively. The received signal at the $m$-th
-(re)transmission of the bit sequence corresponding to label $p$ is:
+where $\psi_a^{(m)}[\cdot]\in \mathcal{C}$,
+$\psi_a^{(m)}[p]\not=\psi_a^{(m)}[q]$ if $p\not=q$ is a permutation of the set
+of constellation symbols $\mathcal{C}$ (e.g. QAM, 16-QAM), $a=1, 2$. The two
+symbols are then transmitted at the two transmitters, respectively. The received signal at
+the $m$-th (re)transmission of the bit sequence corresponding to label $p$ is:
 \begin{align}
   \mathbf{y}^{(m)} & =  \mathbf{A}^{(m)}\bm{\psi}^{(m)}[p] +　\mathbf{n}^{(m)}
   \notag \\
@@ -672,26 +673,31 @@ $E_n[p,q]$ can be evaluated as follows:
 
 \subsection{Successive Quadratic 3-D Assignment Problem (S-Q3AP)}
 \label{ssec:q3ap}
-Our MoDiv design aims to solve
+We adopt a successive optimization scheme as in~\cite{samra2005symbol,
+wu2016modulation}, in which $\bm{\psi}^{(m)}$ is sequentially optimized given
+$\bm{\psi}^{(n)}, n=0,\ldots,m-1$, for $m=1,\ldots,M$:
 \begin{align}
-  \min_{\bm{\psi}^{(m)}|\bm{\psi}^{(n)},
-  n=0,\ldots,m-1}\tilde{P}_{BER}^{(m)},m=1,\ldots,M,\label{eq:minber}
+  \min_{\bm{\psi}^{(m)}|\bm{\psi}^{(n)},n=0,\ldots,m-1}\tilde{P}_{BER}^{(m)},m=1,\ldots,M,\label{eq:minber}
 \end{align}
 where $\tilde{P}_{BER}^{(m)}$ is the approximated version of
 $P_{BER}^{(m)}$ by substituting $P_{PEP}^{(m)}(q|p)$ with
-$\tilde{P}_{PEP}^{(m)}(q|p)$. Denote the 3-D permutation matrix
-$\mathbf{x}^{(m)} = \{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ as an equivalent
+$\tilde{P}_{PEP}^{(m)}(q|p)$. Similar to~\cite{wu2016modulation}, denote the 3-D
+permutation matrix $\mathbf{x}^{(m)} = \{x_{pij}^{(m)}|p,i,j=0,\ldots,Q-1\}$ as an equivalent
 representation of $\bm{\psi}^{(m)}$ by $x_{pij}^{(m)} = 1$ if $
-\bm{\psi}^{(m)}[p] = [\psi_0[i], \psi_0[j]]^T$ and otherwise $x_{pij}^{(m)} =
-0$, where $\psi_0[\cdot]\in\mathcal{C}$ represents Gray mapping. Apparently,
-$\psi_1^{(m)}$ and $\psi_2^{(m)}$ are defined by the 1st, 2nd and 1st, 3rd
-dimension of $\mathbf{x}^{(m)}$, respectively. We have
+\psi_1^{(m)} = \psi_0[i], \psi_2^{(m)} = \psi_0[j]$ and otherwise $x_{pij}^{(m)} =
+0$, where $\psi_0[\cdot]\in\mathcal{C}$ represents Gray mapping. We have
 $\mathbf{x}^{(m)}\in\mathcal{S}$ where
 \begin{align}
   \mathcal{S} & =
-  \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij}= \sum_{i=0}^{Q-1}x_{pij} =\sum_{j=0}^{Q-1}x_{pij} =1\right\}.
+  \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij}= \sum_{i=0}^{Q-1}x_{pij}
+  =\sum_{j=0}^{Q-1}x_{pij} =1\right\}.
   \label{eq:constraint}
 \end{align}
+In other words, given $\mathbf{x}^{(m)}\in \mathcal{S}$, $x_{pij}^{(m)} = 1$
+means that in the $m$-th retransmission, $\psi_1^{(m)}$ maps label
+$p$ to the same symbol as Gray mapping maps label $i$ to, and $\psi_2^{(m)}$
+maps label $p$ to the same symbols as Gray mapping maps label $j$ to.
+
 Then Eq.~(\ref{eq:minber}) can be formulated into a S-Q3AP as follows:
 \begin{align}
   \min_{\mathbf{x}^{(m)}\in \mathcal{S}}
@@ -730,9 +736,10 @@ it only needs to be evaluated once. Consequently, the main computational
 complexity lies in solving the Q3AP problems instead of evaluating their
 coefficients.
 
-For typical constellations such as
-16-QAM and 64-QAM, it is impractical to apply the exact branch-and-bound
-algorithm~\cite{hahn2008quadratic}. Also, our tests show that they do not have
+The size of the search space for Eq.~\eqref{eq:minber}\eqref{eq:SQ3AP} is
+$(Q!)^2$.
+For typical constellations such as 16-QAM and
+64-QAM, it is impractical to apply the exact branch-and-bound algorithm~\cite{hahn2008quadratic}. Also, our tests show that they do not have
 enough symmetry to exploit for faster solution as does the 16-PSK
 constellation~\cite{mittelmann2015solving}.
 Consequently, the MoDiv problem is solved with the ILS
@@ -758,13 +765,12 @@ unit connected to the two transmitters.
 \label{sec:numerical}
 Unless otherwise noted, we adopt the following
 settings throughout our simulation. For the MIMO-CoMP channel, we have $N_R=1$
-and $N_{T, 1} = N_{T, 2} = 2$. The correlation matrices at both transmitters are
-$\mathbf{T}_1 = \mathbf{T}_2 =[1,0.7;0,7,1]$, while the line-of-sight (LOS)
-components of the Rician channel are set to $\bar{\mathbf{H}}_{1} = [0.2540;
-0.2457]$ and $\bar{\mathbf{H}}_{2} = [-0.1027; -0.2320]$, 
+and $N_{T, 1} = N_{T, 2} = 2$. For the correlated Rician fading channels, we
+have $\mathbf{T}_1 =
+\mathbf{T}_2 =[1,0.7;0,7,1]$, $\bar{\mathbf{H}}_{1} = [0.2540;
+0.2457]$ and $\bar{\mathbf{H}}_{2} = [-0.1027; -0.2320]$.
 The Rician coefficients are $K_1 = K_2 = 4$ by default. A simple maximum SNR
-beamformer (MSNRB)~\cite{barriac2006space} (generalized for MIMO channel) under
-a total power constraint is used at the two transmitters. 
+beamformer (MSNRB)~\cite{barriac2006space} generalized for MIMO channel is used at the two transmitters. 
 The maximum number of HARQ retransmissions is set
 to $M=4$. Three MoDiv schemes are compared, namely the simple retransmission with
 no MoDiv, a heuristic CoRe scheme proposed for

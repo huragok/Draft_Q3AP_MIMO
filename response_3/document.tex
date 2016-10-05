@@ -1,0 +1,177 @@
+\documentclass[onecolumn, 11pt, draftclsnofoot]{IEEEtran}
+
+\usepackage{epsfig,graphics,epsf,amsfonts,color,mathrsfs,amssymb,bm,caption,algorithm,algorithmic}
+\usepackage{url}
+
+\usepackage{amsmath}
+\newcommand{\bsb}{\boldsymbol}
+\newcommand{\mb}{\mathbf}
+\newcommand{\mc}{\mathcal}
+\newcommand{\mexpc}{\mathrm{E}}
+\newcommand{\ve}{\mathrm{vec}}
+\newcommand{\toep}{\mathcal{T}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\tred}{\color{red}}
+\textheight=9.2in
+\DeclareCaptionLabelFormat{lc}{\MakeLowercase{#1}~#2}
+\captionsetup{labelfont=sc,labelformat=lc}
+\renewcommand{\figurename}{Figure}
+\renewcommand{\theequation}{R\arabic{equation}}
+\usepackage[numbers]{natbib}
+
+\setcounter{equation}{14}
+\setcounter{figure}{1}
+\setcounter{table}{1}
+
+
+%\hyphenation{op-tical net-works semi-conduc-tor}
+\begin{document}
+The authors once again appreciate the helpful comments from the editor and both
+reviewers.
+Throughout this response letter, we will follow the same notational
+conventions as our last response letter
+
+\begin{center}
+  {\LARGE \textbf{Authors' Response to Reviewer 1}}
+\end{center}
+
+% ~\citep[R][]{cheng2013thermal}
+% \begin{align}
+%   sfsdf
+%   \label{eq:test}
+% \end{align}
+% \eqref{eq:test}
+% \begin{figure}[!t]
+%   \centering
+%   \includegraphics[width=0.75\columnwidth]{./figs/test.eps}
+%   \caption{Average throughput.}
+%   \label{fig:test}
+% \end{figure}
+% Fig.~\ref{fig:test}
+
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{1. In their response letter, the authors have successfully addressed most
+of my comments. However, they have not included in the paper the explanation
+corresponding to the relationship between x variables and psi variables. Without
+this explanation, I consider the paper is incomplete.}
+
+\noindent \textbf{Authors' response:} 
+Thank you for the comment. In addition to the definition of $\mathbf{x}^{(m)}$
+from $\bm{\psi}^{(m)}$ in the first paragraph of Section III.B, in our revised
+manuscript we have included immediately after Eq. (12) the explanation about
+what is the mapping vector function $\bm{\psi}^{(m)}$ corresponding to a given
+$\mathbf{x}^{(m)}\in\mathcal{S}$ from our last response letter. These two
+sentences together should be sufficient to explain the the equivalence between
+$\bm{\psi}^{(m)}$ and $\mathbf{x}^{(m)}$. We have also added a reference to [9]
+where a similar technique of representing mapping function $\psi^{(m)}$ with a
+2-D permutation matrix $\mathbf{x}^{(m)}$ is used, in order to further clarify
+the relationship between $\mathbf{x}^{(m)}$ and $\bm{\psi}^{(m)}$.
+
+We regret that in the revised manuscript due to the page limit we cannot provide
+an example to demonstrate the relationship between $\mathbf{x}^{(m)}$
+from $\bm{\psi}^{(m)}$ as the one included in our previous response letter.
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{2. On the other hand, in their response the authors claim that ``the
+original problem (11) and (13) are equivalent and neither one is more complex
+than the other''. The fact that two problems are equivalent does not mean they
+have same complexity; e.g. there are many papers where a non-convex problem
+becomes an equivalent convex problem, which is typically less complex.  Also,
+you should at least provide any insight showing why (13) is as complex as (11),
+given that it seems you have $Q^3$ variables for (13) and $2\times Q^2$ for
+(11).}
+
+\noindent \textbf{Authors' response:}
+From our understanding, we presume that the reviewer is primarily concerned
+about two types of complexity.
+
+In terms of \textbf{algorithmic complexity}, the reviewer is definitely correct
+in that two problems are equivalent does not mean they have the same
+complexity~\citep[R][Sec. 4.1.3]{boyd2004convex}. For instance, the convex
+equivalences of many non-convex problems can be efficiently solved using
+standard convex optimization tools. In our case, there is no
+evidence that either Eq.(11) or Eq.(13) leads to a solving algorithm with less
+algorithmic complexity than the other.
+
+The other aspect of complexity is the \textbf{notational complexity}, which is
+what we believed the reviewer meant by claiming ``the authors transform the
+original problem (11) into a more complex problem (13)'' in the second review.
+Indeed Eq. (13) appears to have more variables than (11). In Eq. (11) we are
+optimizing the mapping vector function for the $m$-th retransmission given all the mapping
+vector functions for the previous retransmissions to maximize the approximated
+BER, of which the variable space is $\{\psi_1^{(m)}[0], \ldots,
+\psi_1^{(m)}[Q-1], \psi_2^{(m)}[0], \ldots, \psi_2^{(m)}[Q-1]\}$ whose
+\textbf{dimensionality} is $2Q$. On the other hand, the dimensionality of the
+variable space for Eq. (13) is indeed $Q^3$. However, an equivalent problem with
+more varialbes does not necessarily leads to a more algorithmically complex
+solution. For instance, in both Dantzig's simplex method for linear
+programming with inequality constraints~\citep[R][]{gass1958linear} and Vapnik's
+support vector machine in its hinge-loss function form~\citep[R][Eq.
+(12.25)]{friedman2001elements}, additional slack variables are introduced to
+facilitate easier solution.
+  
+More specifically, in our formulation, there is a
+one-to-one mapping between $\bm{\psi}^{(m)}$ and $\mathbf{x}^{(m)}$, which
+means the \textbf{cardinalities} of the feasible set for $\bm{\psi}^{(m)}$ in
+Eq. (11) and $\mathbf{x}^{(m)}$ in Eq. (13) are the same. In fact, the
+cardinalities of both $\Psi = \{\bm{\psi}^{(m)}| \psi_a^{(m)}[p]\in
+\mathcal{C},\, \psi_a^{(m)}[p] \not= \psi_a^{(q)}; a=1,2; p,q =
+0,\ldots,Q-1\}$ and $\mathcal{S}$ are $(Q!)^2$. As we adopt an iterative local
+search (ILS) solution, searching in both $\Psi$ and $\mathcal{S}$ will result
+in exactly the same algorithmic complexity.
+
+In order to avoid the misconception of the variable space of Eq. (11), we have
+added more context and references pointing to similar formulations in related
+works in the first paragraph of Section III.B. We have also included the
+constraints on $\bm{\psi}^{(m)}$ which define its feasible set in the first
+paragraph of Section II. Moreover, as per the reviewer's suggestion, we have
+explicitly stated in the last paragraph of Section III.B that both Eq. (11) and
+Eq. (13) have a equally large search space of size $(Q!)^2$.
+
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{3. I also thinks the use of the word "apparently" on page 2, line 13
+should be avoided in that context.}
+
+\noindent \textbf{Authors' response:}
+Of course. We have removed this sentence in our revised manuscript. As explained
+in our response to comment 1, we include a clearer explanation on the
+relationship between $\mathbf{x}^{(m)}$ and $\bm{\psi}^{(m)}$ therefore it is
+of little necessity to reiterate the meaning of the 2nd and 3rd dimension of
+the 3-D matrix $\mathbf{x}^{(m)}$.
+
+
+\vspace{0.5cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Once again, we greatly appreciate the reviewer's comments and suggestions
+that helped to further improve the completeness of our manuscript.
+
+\newpage
+\begin{center}
+{\LARGE \textbf{Authors' Response to Reviewer 2}}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\emph{I confirm my previous review and I suggest to accept the manuscript for
+publication in IEEE communications Letters unaltered.}
+
+\noindent \textbf{Authors' response:}
+Once again we would like to extend our gratitude and appreciation for the
+reviewer's recommendation and for affirming the contribution of this work.
+
+\vspace{0.5cm}
+
+ %\newpage
+\bibliographystyle{IEEEtranN}
+\bibliography{IEEEabrv,refs.bib}
+\end{document} 
