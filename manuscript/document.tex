@@ -382,14 +382,16 @@
 %
 
 \author{
-  Author 1,
-  Author 2,
-  Author 3,
-  %\thanks{
-  %  This work was supported in part by the National Science Foundation
-  %  under Grants CNS-1443870, ECCS-1307820, and CCF-1321143. The work of the
-  %  second author was supported in part by AFOSR under grant FA 9550-15-1-0351.
-  %}% <-this % stops a space
+  Wenhao Wu,~\IEEEmembership{Student Member,~IEEE,}
+  Hans Mittelmann,
+  Zhi Ding,~\IEEEmembership{Fellow,~IEEE}
+  \vspace{-1.5em} % !!! Changing the appearance of a journal template is
+  % discouraged.
+  \thanks{
+    This work was supported in part by the National Science Foundation
+    under Grants CNS-1443870, ECCS-1307820, and CCF-1321143. The work of the
+    second author was supported in part by AFOSR under grant FA 9550-15-1-0351.
+  }% <-this % stops a space
 }
 
 % note the % following the last \IEEEmembership and also \thanks - 
@@ -556,9 +558,9 @@ For the $m$-th (re)transmission, $m=0,1,\ldots,M$ where $m=0$ represents the
 original transmission, every consecutive $\log_2Q$ bits are encoded into a label
 $p=0,\ldots, Q-1$ and then mapped to two constellation symbols via a vector
 mapping function $\bm{\psi}^{(m)}[p] = [\psi_1^{(m)}[p], \psi_2^{(m)}[p]]^T$,
-where $\psi_a^{(m)}[\cdot]\in \mathcal{C}$,
-$\psi_a^{(m)}[p]\not=\psi_a^{(m)}[q]$ if $p\not=q$ is a permutation of the set
-of constellation symbols $\mathcal{C}$ (e.g. QAM, 16-QAM), $a=1, 2$. The two
+where $\psi_a^{(m)}[p]\in \mathcal{C}$,
+$\psi_a^{(m)}[p]\not=\psi_a^{(m)}[q]$ if $p\not=q$ represents a permutation of
+the set of constellation symbols $\mathcal{C}$ (e.g. QAM, 16-QAM), $a=1, 2$. The two
 symbols are then transmitted at the two transmitters, respectively. The received signal at
 the $m$-th (re)transmission of the bit sequence corresponding to label $p$ is:
 \begin{align}
@@ -736,7 +738,7 @@ it only needs to be evaluated once. Consequently, the main computational
 complexity lies in solving the Q3AP problems instead of evaluating their
 coefficients.
 
-The size of the search space for Eq.~\eqref{eq:minber}\eqref{eq:SQ3AP} is
+The size of the search space for Eq.~\eqref{eq:minber} or \eqref{eq:SQ3AP} is
 $(Q!)^2$.
 For typical constellations such as 16-QAM and
 64-QAM, it is impractical to apply the exact branch-and-bound algorithm~\cite{hahn2008quadratic}. Also, our tests show that they do not have
